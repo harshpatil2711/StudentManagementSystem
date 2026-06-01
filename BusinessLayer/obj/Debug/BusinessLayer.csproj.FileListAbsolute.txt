@@ -1,0 +1,9 @@
+D:\C#Practice\WebApplication5\BusinessLayer\bin\Debug\BusinessLayer.dll
+D:\C#Practice\WebApplication5\BusinessLayer\bin\Debug\BusinessLayer.pdb
+D:\C#Practice\WebApplication5\BusinessLayer\bin\Debug\Microsoft.Practices.EnterpriseLibrary.Common.dll
+D:\C#Practice\WebApplication5\BusinessLayer\bin\Debug\Microsoft.Practices.EnterpriseLibrary.Data.dll
+D:\C#Practice\WebApplication5\BusinessLayer\bin\Debug\Microsoft.Practices.EnterpriseLibrary.Data.SqlCe.dll
+D:\C#Practice\WebApplication5\BusinessLayer\bin\Debug\Microsoft.Practices.ObjectBuilder2.dll
+D:\C#Practice\WebApplication5\BusinessLayer\obj\Debug\BusinessLayer.csprojResolveAssemblyReference.cache
+D:\C#Practice\WebApplication5\BusinessLayer\obj\Debug\BusinessLayer.dll
+D:\C#Practice\WebApplication5\BusinessLayer\obj\Debug\BusinessLayer.pdb

@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 14 for Web
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentmanagementSystem", "WebApplication5\StudentmanagementSystem.csproj", "{918E41B6-B6D0-48BD-8607-1BFEA2269CAE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessLayer1", "BusinessLayer\BusinessLayer1.csproj", "{CE7DD4A4-DD10-4415-AE8E-30C5EE501951}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{918E41B6-B6D0-48BD-8607-1BFEA2269CAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{918E41B6-B6D0-48BD-8607-1BFEA2269CAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{918E41B6-B6D0-48BD-8607-1BFEA2269CAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{918E41B6-B6D0-48BD-8607-1BFEA2269CAE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE7DD4A4-DD10-4415-AE8E-30C5EE501951}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE7DD4A4-DD10-4415-AE8E-30C5EE501951}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE7DD4A4-DD10-4415-AE8E-30C5EE501951}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE7DD4A4-DD10-4415-AE8E-30C5EE501951}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

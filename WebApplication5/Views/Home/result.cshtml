@@ -1,0 +1,34 @@
+﻿@model List<BusinessLayer1.Models.Enrollment>
+
+@{
+    ViewBag.Title = "Enrollment List";
+}
+<a href="home/Index">Back to Home</a>
+<table border="1">
+    <tr>
+        <th>Enrollment ID</th>
+        <th>Student Name</th>
+        <th>Course Name</th>
+        <th>Enrollment Date</th>
+        <th>Status</th>
+       <!-- <th>Created At</th>
+        <th>Created By</th>
+        <th>Modified At</th>
+        <th>Modified By</th>-->
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.EnrollmentID</td>
+            <td>@item.StudentName</td>
+            <td>@item.CourseName</td>
+            <td>@item.EnrollmentDate.ToString("yyyy-MM-dd")</td>
+            <td>@item.EnrollmentStatus</td>
+            <!--<td>@item.DateCreated.ToString("yyyy-MM-dd")</td>
+            <td>@item.CreatedBy</td>
+            <td>@item.DateLastModified.ToString("yyyy-MM-dd")</td>
+            <td>@item.LastModifiedBy</td>-->
+        </tr>
+    }
+</table>

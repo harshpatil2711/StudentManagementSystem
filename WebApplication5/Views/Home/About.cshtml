@@ -1,0 +1,120 @@
+@{
+    ViewBag.Title = "About Portal";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .about-card {
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.6);
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(79, 70, 229, 0.08);
+        padding: 3rem 2.5rem;
+        margin-top: 2rem;
+    }
+
+    .about-title {
+        font-size: 2.25rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #1e1b4b, #4f46e5);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        letter-spacing: -0.5px;
+    }
+
+    .feature-card {
+        background: white;
+        border: 1px solid #eef2f6;
+        border-radius: 12px;
+        padding: 1.75rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.01);
+        transition: all 0.25s ease;
+        height: 100%;
+    }
+
+    .feature-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 25px rgba(79, 70, 229, 0.06);
+        border-color: #cbd5e1;
+    }
+
+    .feature-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 10px;
+        background: rgba(79, 70, 229, 0.08);
+        color: #4f46e5;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        margin-bottom: 1.25rem;
+    }
+</style>
+
+<div class="row justify-content-center">
+    <div class="col-lg-10 col-12">
+        <div class="about-card">
+            
+            <!-- Intro -->
+            <div class="text-center mb-5 max-width-md mx-auto">
+                <h1 class="about-title mb-2">About SMS Portal</h1>
+                <p class="fs-5 text-secondary fw-semibold mb-4">Empowering academic administrators with dynamic data control.</p>
+                <div class="border-top pt-4">
+                    <p class="text-muted" style="line-height: 1.7;">
+                        The Student Management System (SMS) Portal is a state-of-the-art administrative platform designed to manage, track, and optimize the lifecycle of student registrations and course offerings. Built with clean, modern design tokens and optimized database routing, SMS is crafted for high reliability and speed.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Features Grid -->
+            <h3 class="fw-extrabold text-dark mb-4 text-center text-md-start" style="letter-spacing: -0.2px;">Core Capabilities</h3>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="bi bi-people-fill"></i>
+                        </div>
+                        <h5 class="fw-bold text-dark mb-2">Student Registry</h5>
+                        <p class="text-muted m-0" style="font-size: 0.95rem; line-height: 1.6;">
+                            Easily manage comprehensive student databases, birth records, admissions, and personal details in a high-security container.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="bi bi-journals"></i>
+                        </div>
+                        <h5 class="fw-bold text-dark mb-2">Course Management</h5>
+                        <p class="text-muted m-0" style="font-size: 0.95rem; line-height: 1.6;">
+                            Map student entries to specialized course sections, adjust semesters, and control active course offerings in real-time.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="bi bi-bar-chart-fill"></i>
+                        </div>
+                        <h5 class="fw-bold text-dark mb-2">Responsive Control</h5>
+                        <p class="text-muted m-0" style="font-size: 0.95rem; line-height: 1.6;">
+                            Access the dashboard on the go. Seamlessly view advanced tabular stats on desktops or clean mobile layout grid cards on smartphones.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Back to Dashboard -->
+            <div class="text-center mt-5">
+                <a href="/Home/Index" class="btn btn-premium-primary px-5 py-2.5">
+                    <i class="bi bi-grid-1x2-fill me-2"></i>Go to Dashboard
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>

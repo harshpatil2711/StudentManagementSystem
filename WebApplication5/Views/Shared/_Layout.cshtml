@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Student Management System</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    
+    <!-- Google Fonts - Plus Jakarta Sans (Premium Modern Typography) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap CSS & Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+    <style>
+        html {
+            font-size: 17.5px !important;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1rem;
+            background: radial-gradient(at 0% 0%, rgba(243, 244, 246, 0.4) 0, transparent 50%), 
+                        radial-gradient(at 50% 0%, rgba(99, 102, 241, 0.06) 0, transparent 50%), 
+                        #f8fafc;
+            color: #1e293b;
+        }
+
+        /* Glassmorphism Header */
+        .navbar-premium {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+            padding: 0.85rem 1.5rem;
+        }
+
+        .navbar-brand-premium {
+            font-weight: 800;
+            font-size: 1.4rem;
+            letter-spacing: -0.8px;
+            background: linear-gradient(135deg, #4f46e5, #6366f1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-link-premium {
+            font-weight: 700;
+            font-size: 0.98rem;
+            color: #1e293b !important;
+            padding: 0.6rem 1.2rem !important;
+            border-radius: 10px;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .nav-link-premium:hover {
+            color: #4f46e5 !important;
+            background: rgba(79, 70, 229, 0.08);
+        }
+
+        .nav-item.active .nav-link-premium {
+            color: white !important;
+            background: linear-gradient(135deg, #4f46e5, #6366f1) !important;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
+        }
+
+        /* Footer */
+        .footer-premium {
+            background-color: transparent;
+            border-top: 1px solid #e2e8f0;
+            color: #64748b;
+            font-size: 0.9rem;
+            font-weight: 500;
+            padding: 1.5rem 0;
+            margin-top: 4rem;
+        }
+    </style>
+</head>
+<body class="min-vh-100 d-flex flex-column">
+
+    <!-- Premium Glassmorphism Navbar -->
+    <nav class="navbar navbar-expand-md navbar-light navbar-premium sticky-top">
+        <div class="container-fluid max-width-lg">
+            <a class="navbar-brand-premium" href="/Home/Index">
+                <i class="bi bi-mortarboard-fill fs-3 text-primary"></i>
+                <span>SMS Portal</span>
+            </a>
+            
+            <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav gap-1 mt-2 mt-md-0">
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-premium" href="/Home/Index">
+                            <i class="bi bi-grid-1x2-fill me-1.5 opacity-75"></i>Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-premium" href="/Student/StudentInsert">
+                            <i class="bi bi-person-plus-fill me-1.5 opacity-75"></i>Add Student
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-premium" href="/Home/InsertEnrollment">
+                            <i class="bi bi-journal-plus me-1.5 opacity-75"></i>Add Enrollment
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-premium" href="/Home/GetList">
+                            <i class="bi bi-list-columns-reverse me-1.5 opacity-75"></i>Dynamic List
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Container -->
+    <main class="flex-grow-1">
+        <div class="container body-content">
+            @RenderBody()
+        </div>
+    </main>
+
+    <!-- Premium Footer -->
+    <footer class="footer-premium text-center">
+        <div class="container">
+            <p class="m-0">&copy; @DateTime.Now.Year - Student Management Portal. Crafted for Excellence.</p>
+        </div>
+    </footer>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+    
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Auto-highlight the active nav link based on current path
+        $(document).ready(function () {
+            let currentPath = window.location.pathname.toLowerCase();
+            if (currentPath === "/" || currentPath === "") {
+                currentPath = "/home/index";
+            }
+            $(".nav-link-premium").each(function () {
+                let href = $(this).attr("href").toLowerCase();
+                if (currentPath.startsWith(href)) {
+                    $(this).closest(".nav-item").addClass("active");
+                }
+            });
+        });
+    </script>
+</body>
+</html>

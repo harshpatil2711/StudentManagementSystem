@@ -1,0 +1,135 @@
+@model BusinessLayer.ViewModels.EnrollmentViewModel
+<input type="hidden" id="enrollcount" value="@Model.Enrollmentcount" />
+
+@if (Model != null)
+{
+    <!-- 1. TABLE VIEW: Visible only on large screens (Desktops & Large Tablets) -->
+    <div class="d-none d-lg-block">
+        <div class="table-responsive">
+            <table class="table table-custom align-middle">
+                <thead>
+                    <tr>
+                        <th scope="col" class="text-dark fw-bold" style="color: #0f172a !important; font-weight: 800 !important; font-size: 0.95rem; letter-spacing: 0.5px;">Enrollment ID</th>
+                        <th scope="col" class="text-dark fw-bold" style="color: #0f172a !important; font-weight: 800 !important; font-size: 0.95rem; letter-spacing: 0.5px;">Student Name</th>
+                        <th scope="col" class="text-dark fw-bold" style="color: #0f172a !important; font-weight: 800 !important; font-size: 0.95rem; letter-spacing: 0.5px;">Course Offered</th>
+                        <th scope="col" class="text-dark fw-bold" style="color: #0f172a !important; font-weight: 800 !important; font-size: 0.95rem; letter-spacing: 0.5px;">Enrollment Date</th>
+                        <th scope="col" class="text-dark fw-bold" style="color: #0f172a !important; font-weight: 800 !important; font-size: 0.95rem; letter-spacing: 0.5px;">Status</th>
+                        <th scope="col" class="text-dark fw-bold text-center" style="color: #0f172a !important; font-weight: 800 !important; font-size: 0.95rem; letter-spacing: 0.5px; width: 140px;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Enrollments)
+                    {
+                        var statusClass = "badge-status-pending";
+                        var statusLower = item.EnrollmentStatus?.ToLower() ?? "";
+                        if (statusLower.Contains("active") || statusLower.Contains("approved"))
+                        {
+                            statusClass = "badge-status-active";
+                        }
+                        else if (statusLower.Contains("complete") || statusLower.Contains("success"))
+                        {
+                            statusClass = "badge-status-completed";
+                        }
+                        else if (statusLower.Contains("cancel") || statusLower.Contains("drop") || statusLower.Contains("reject"))
+                        {
+                            statusClass = "badge-status-cancelled";
+                        }
+
+                        <tr class="table-row-hover">
+                            <td class="fw-bold text-dark" style="color: #0f172a !important; font-size: 1.05rem;">#@item.EnrollmentID</td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="avatar-circle me-2">
+                                        @(string.IsNullOrEmpty(item.StudentName) ? "S" : item.StudentName.Substring(0, 1).ToUpper())
+                                    </div>
+                                    <span class="fw-bold text-dark" style="color: #0f172a !important; font-size: 1.05rem;">@item.StudentName</span>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="badge bg-secondary-subtle text-dark border border-secondary-subtle px-3 py-2 fw-bold" style="font-size: 0.9rem; color: #0f172a !important;">@item.CourseName</span>
+                            </td>
+                            <td class="text-dark fw-bold" style="color: #1e293b !important; font-size: 1.02rem;">
+                                <i class="bi bi-calendar3 me-2 text-primary" style="font-size: 1.1rem;"></i>
+                                @item.EnrollmentDate.ToString("yyyy-MM-dd")
+                            </td>
+                            <td>
+                                <span class="badge-status @statusClass" style="font-size: 0.92rem; font-weight: 700; padding: 0.5rem 1rem;">
+                                    @item.EnrollmentStatus
+                                </span>
+                            </td>
+                            <td class="text-center">
+                                <a href="/Home/InsertEnrollment/@item.EnrollmentID" class="btn btn-sm btn-premium-outline px-3 py-2 fw-bold" style="font-size: 0.85rem; border-radius: 8px;">
+                                    <i class="bi bi-pencil-square me-1"></i>Edit
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- 2. CARD VIEW: Visible on small & medium screens (Mobile & Tablets) -->
+    <div class="d-block d-lg-none">
+        <div class="row g-3">
+            @foreach (var item in Model.Enrollments)
+            {
+                var statusClass = "badge-status-pending";
+                var statusLower = item.EnrollmentStatus?.ToLower() ?? "";
+                if (statusLower.Contains("active") || statusLower.Contains("approved"))
+                {
+                    statusClass = "badge-status-active";
+                }
+                else if (statusLower.Contains("complete") || statusLower.Contains("success"))
+                {
+                    statusClass = "badge-status-completed";
+                }
+                else if (statusLower.Contains("cancel") || statusLower.Contains("drop") || statusLower.Contains("reject"))
+                {
+                    statusClass = "badge-status-cancelled";
+                }
+
+                <div class="col-12 col-md-6">
+                    <div class="mobile-enrollment-card">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span class="fw-bold text-primary" style="font-size: 1.05rem; opacity: 0.9;">#@item.EnrollmentID</span>
+                            <span class="badge-status @statusClass" style="font-size: 0.92rem; font-weight: 700; padding: 0.5rem 1rem;">
+                                @item.EnrollmentStatus
+                            </span>
+                        </div>
+                        
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="avatar-circle me-3" style="width: 44px; height: 44px; font-size: 1.2rem; border-radius: 12px; background: linear-gradient(135deg, #6366f1, #4f46e5);">
+                                @(string.IsNullOrEmpty(item.StudentName) ? "S" : item.StudentName.Substring(0, 1).ToUpper())
+                            </div>
+                            <div>
+                                <h6 class="fw-bold text-dark m-0" style="font-size: 1.1rem; letter-spacing: -0.2px; color: #0f172a !important;">@item.StudentName</h6>
+                                <small class="text-secondary fw-semibold">Student</small>
+                            </div>
+                        </div>
+
+                        <div class="border-top pt-3 d-flex flex-column gap-2">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="text-dark fw-bold" style="font-size: 0.92rem; color: #1e293b !important;">Course:</span>
+                                <span class="badge bg-secondary-subtle text-dark border border-secondary-subtle px-3 py-2 fw-bold" style="font-size: 0.9rem; color: #0f172a !important;">@item.CourseName</span>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="text-dark fw-bold" style="font-size: 0.92rem; color: #1e293b !important;">Enrolled:</span>
+                                <span class="text-dark fw-bold" style="font-size: 0.95rem; color: #1e293b !important;">
+                                    <i class="bi bi-calendar3 me-2 text-primary"></i>
+                                    @item.EnrollmentDate.ToString("yyyy-MM-dd")
+                                </span>
+                            </div>
+                            
+                            <div class="mt-2.5 pt-2.5 border-top">
+                                <a href="/Home/InsertEnrollment/@item.EnrollmentID" class="btn btn-sm btn-premium-outline w-100 fw-bold py-2" style="font-size: 0.85rem; border-radius: 8px;">
+                                    <i class="bi bi-pencil-square me-1.5"></i>Edit Enrollment
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}

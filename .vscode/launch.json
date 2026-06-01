@@ -1,0 +1,21 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch Website in Chrome",
+            "type": "chrome",
+            "request": "launch",
+            "url": "http://localhost:52127/",
+            "webRoot": "${workspaceFolder}/WebApplication5",
+            "preLaunchTask": "Run IIS Express"
+        },
+        {
+            "name": "Launch Website in Edge",
+            "type": "pwa-msedge",
+            "request": "launch",
+            "url": "http://localhost:52127/",
+            "webRoot": "${workspaceFolder}/WebApplication5",
+            "preLaunchTask": "Run IIS Express"
+        }
+    ]
+}

@@ -1,0 +1,191 @@
+@model BusinessLayer.Models.Student
+@{
+    ViewBag.Title = "Add New Student";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .form-card {
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.7);
+        border-radius: 16px;
+        box-shadow: 0 10px 35px rgba(79, 70, 229, 0.05);
+        padding: 2.5rem;
+        margin-top: 2rem;
+        transition: transform 0.2s ease;
+    }
+
+    .form-title {
+        font-size: 1.75rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #1e1b4b, #4f46e5);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        letter-spacing: -0.5px;
+    }
+
+    .form-label-custom {
+        font-weight: 700;
+        color: #475569;
+        margin-bottom: 0.5rem;
+        font-size: 0.92rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .form-control-custom {
+        height: 52px;
+        border: 1px solid #cbd5e1;
+        border-radius: 12px;
+        padding: 0.625rem 1rem;
+        font-size: 1.05rem;
+        transition: all 0.2s ease;
+        background-color: #f8fafc;
+    }
+
+    .form-control-custom:focus {
+        border-color: #6366f1;
+        background-color: #ffffff;
+        box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
+    }
+
+    /* Message Alerts */
+    #message .alert {
+        border-radius: 12px;
+        font-weight: 600;
+        padding: 1rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+    }
+</style>
+
+<div class="row justify-content-center">
+    <div class="col-lg-8 col-md-10 col-12">
+        <div class="form-card">
+            
+            <!-- Header -->
+            <div class="text-center mb-4">
+                <i class="bi bi-person-badge-fill text-primary" style="font-size: 3rem; background: linear-gradient(135deg, #6366f1, #4f46e5); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i>
+                <h2 class="form-title mt-2">Register Student</h2>
+                <p class="text-muted">Enter student personal and academic details</p>
+            </div>
+
+            <!-- Form -->
+            <div class="row">
+                <!-- Student Name -->
+                <div class="col-md-6 mb-3.5">
+                    <label class="form-label-custom">Student Name</label>
+                    <input type="text" id="StudentName" class="form-control form-control-custom" placeholder="e.g. John Doe" />
+                </div>
+
+                <!-- Date Of Birth -->
+                <div class="col-md-6 mb-3.5">
+                    <label class="form-label-custom">Date Of Birth</label>
+                    <input type="date" id="DateOfBirth" class="form-control form-control-custom" />
+                </div>
+
+                <!-- Email -->
+                <div class="col-md-6 mb-3.5 mt-3">
+                    <label class="form-label-custom">Email Address</label>
+                    <input type="email" id="Email" class="form-control form-control-custom" placeholder="e.g. john@example.com" />
+                </div>
+
+                <!-- Phone -->
+                <div class="col-md-6 mb-3.5 mt-3">
+                    <label class="form-label-custom">Phone Number</label>
+                    <input type="tel" id="Phone" class="form-control form-control-custom" placeholder="e.g. +1 555-0199" />
+                </div>
+
+                <!-- Gender -->
+                <div class="col-md-6 mb-3.5 mt-3">
+                    <label class="form-label-custom">Gender</label>
+                    <select id="Gender" class="form-select form-control-custom">
+                        <option value="">Select Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <!-- Admission Year -->
+                <div class="col-md-6 mb-3.5 mt-3">
+                    <label class="form-label-custom">Admission Year</label>
+                    <select id="AdmissionYear" class="form-select form-control-custom">
+                        <option value="">Select Year</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="d-flex flex-wrap gap-2.5 mt-4 pt-2 justify-content-end">
+                <a href="/Home/Index" class="btn btn-premium-secondary px-4">
+                    <i class="bi bi-arrow-left me-1.5"></i>Cancel
+                </a>
+                <button type="button" id="btnSave" class="btn btn-premium-primary px-5">
+                    <i class="bi bi-check-lg me-1.5"></i>Save Student
+                </button>
+            </div>
+
+            <!-- Message Notification -->
+            <div id="message" class="mt-4"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        // Dynamic admission year generation
+        let startYear = 2000;
+        let currentYear = new Date().getFullYear();
+        for (let year = currentYear; year >= startYear; year--) {
+            $("#AdmissionYear").append(
+                `<option value="${year}">${year}</option>`
+            );
+        }
+
+        $("#btnSave").click(function () {
+            // Check for basic client-side check
+            let studentName = $("#StudentName").val().trim();
+            if (!studentName) {
+                $("#message").html(
+                    `<div class="alert alert-danger"><i class="bi bi-exclamation-triangle-fill me-2"></i>Please enter a student name.</div>`
+                );
+                return;
+            }
+
+            $("#btnSave").prop("disabled", true).html('<span class="spinner-border spinner-border-sm me-1.5" role="status" aria-hidden="true"></span>Saving...');
+
+            $.ajax({
+                url: '/Student/InsertStudent',
+                type: 'POST',
+                data: {
+                    StudentName: studentName,
+                    DateOfBirth: $("#DateOfBirth").val(),
+                    Email: $("#Email").val(),
+                    Phone: $("#Phone").val(),
+                    Gender: $("#Gender").val(),
+                    AdmissionYear: $("#AdmissionYear").val()
+                },
+                success: function (response) {
+                    $("#btnSave").prop("disabled", false).html('<i class="bi bi-check-lg me-1.5"></i>Save Student');
+                    $("#message").html(
+                        `<div class="alert alert-success"><i class="bi bi-check-circle-fill me-2"></i>${response}</div>`
+                    );
+                    // Clear inputs on success
+                    $("#StudentName").val("");
+                    $("#DateOfBirth").val("");
+                    $("#Email").val("");
+                    $("#Phone").val("");
+                    $("#Gender").val("");
+                    $("#AdmissionYear").val("");
+                },
+                error: function () {
+                    $("#btnSave").prop("disabled", false).html('<i class="bi bi-check-lg me-1.5"></i>Save Student');
+                    $("#message").html(
+                        `<div class="alert alert-danger"><i class="bi bi-exclamation-octagon-fill me-2"></i>Error saving student details. Please try again.</div>`
+                    );
+                }
+            });
+        });
+    });
+</script>

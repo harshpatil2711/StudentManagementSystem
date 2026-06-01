@@ -1,0 +1,135 @@
+@{
+    ViewBag.Title = "Contact Support";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .contact-card {
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.6);
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(79, 70, 229, 0.08);
+        padding: 3rem 2.5rem;
+        margin-top: 2rem;
+    }
+
+    .contact-title {
+        font-size: 2.25rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #1e1b4b, #4f46e5);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        letter-spacing: -0.5px;
+    }
+
+    .info-box {
+        display: flex;
+        align-items: flex-start;
+        gap: 1rem;
+        background: white;
+        border: 1px solid #eef2f6;
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin-bottom: 1.25rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.01);
+        transition: all 0.2s ease;
+    }
+
+    .info-box:hover {
+        transform: translateY(-2px);
+        border-color: #cbd5e1;
+        box-shadow: 0 6px 15px rgba(79, 70, 229, 0.04);
+    }
+
+    .info-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        background: rgba(79, 70, 229, 0.08);
+        color: #4f46e5;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.25rem;
+        flex-shrink: 0;
+    }
+
+    .support-badge {
+        background-color: #e0e7ff;
+        color: #4338ca;
+        padding: 0.35rem 0.75rem;
+        border-radius: 50rem;
+        font-size: 0.8rem;
+        font-weight: 700;
+    }
+</style>
+
+<div class="row justify-content-center">
+    <div class="col-lg-10 col-12">
+        <div class="contact-card">
+            
+            <div class="row g-5">
+                
+                <!-- Contact Info Column -->
+                <div class="col-md-6">
+                    <h1 class="contact-title mb-2">Get in Touch</h1>
+                    <p class="text-secondary fw-semibold mb-4">Have questions? We are here to support your administration needs.</p>
+                    <hr class="mb-4" />
+
+                    <!-- Box 1 -->
+                    <div class="info-box">
+                        <div class="info-icon">
+                            <i class="bi bi-geo-alt-fill"></i>
+                        </div>
+                        <div>
+                            <h6 class="fw-bold text-dark mb-1">Office Location</h6>
+                            <p class="text-muted m-0" style="font-size: 0.95rem;">One Microsoft Way, Redmond, WA 98052-6399</p>
+                        </div>
+                    </div>
+
+                    <!-- Box 2 -->
+                    <div class="info-box">
+                        <div class="info-icon">
+                            <i class="bi bi-telephone-fill"></i>
+                        </div>
+                        <div>
+                            <h6 class="fw-bold text-dark mb-1">Telephone Support</h6>
+                            <p class="text-muted m-0" style="font-size: 0.95rem;">+1 (425) 555-0100 <span class="support-badge ms-2">Mon-Fri</span></p>
+                        </div>
+                    </div>
+
+                    <!-- Box 3 -->
+                    <div class="info-box">
+                        <div class="info-icon">
+                            <i class="bi bi-envelope-open-fill"></i>
+                        </div>
+                        <div>
+                            <h6 class="fw-bold text-dark mb-1">Email Channels</h6>
+                            <p class="text-muted m-0" style="font-size: 0.95rem; line-height: 1.6;">
+                                Support: <a href="mailto:Support@example.com" class="text-decoration-none fw-semibold">Support@example.com</a><br />
+                                Marketing: <a href="mailto:Marketing@example.com" class="text-decoration-none fw-semibold">Marketing@example.com</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Simple Map/Faq Column -->
+                <div class="col-md-6 d-flex flex-column justify-content-center">
+                    <div class="p-4 border rounded-4 bg-light text-center">
+                        <i class="bi bi-patch-question-fill text-primary" style="font-size: 2.5rem;"></i>
+                        <h4 class="fw-bold text-dark mt-3">Portal FAQ & Support</h4>
+                        <p class="text-muted mt-2" style="font-size: 0.95rem; line-height: 1.6;">
+                            Need help with mapping databases, active ports, binding errors, or configuring the web layouts? Check our central administrative documentation first.
+                        </p>
+                        <a href="/Home/About" class="btn btn-premium-outline w-100 mt-3">
+                            <i class="bi bi-info-circle me-1.5"></i>Read Documentation
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
