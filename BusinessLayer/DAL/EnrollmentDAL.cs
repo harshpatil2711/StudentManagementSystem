@@ -150,13 +150,35 @@ namespace BusinessLayer1.DAL
             return vm;
         }
 
-        public string InsertEnrollment(EnrollmentInsertViewModel vm)
+        public string DeleteEnrollmentById(int id)
+        {
+            string message= "";
+
+            DbCommand cmd = db.GetStoredProcCommand("sp_DeleteEnrollment");
+            db.AddInParameter(cmd, "@EnrollmentID", DbType.Int32, id);
+
+            db.AddOutParameter(cmd, "@Message", DbType.String, 100);
+
+            db.ExecuteNonQuery(cmd);
+
+            message = db.GetParameterValue(cmd, "@Message").ToString();
+
+
+            return message;
+        }
+
+        public string SaveEnrollment(EnrollmentInsertViewModel vm)
         {
             string message = "";
 
             DbCommand cmd = db.GetStoredProcCommand("sp_SaveEnrollment");
 
-            db.AddInParameter(cmd, "@EnrollmentID", DbType.Int32, DBNull.Value);
+            db.AddInParameter(
+    cmd,
+    "@EnrollmentID",
+    DbType.Int32,
+    vm.EnrollmentID ?? (object)DBNull.Value
+);
             db.AddInParameter(cmd, "@StudentID", DbType.Int32, vm.StudentID);
             db.AddInParameter(cmd, "@CourseOfferingID", DbType.Int32, vm.CourseOfferingID);
             db.AddInParameter(cmd, "@EnrollmentDate", DbType.Date, vm.EnrollmentDate);
@@ -173,27 +195,6 @@ namespace BusinessLayer1.DAL
             return message;
         }
 
-        public string UpdateEnrollment(EnrollmentInsertViewModel vm)
-        {
-            string message = "";
-
-            DbCommand cmd = db.GetStoredProcCommand("sp_SaveEnrollment");
-
-            db.AddInParameter(cmd, "@EnrollmentID", DbType.Int32, vm.EnrollmentID);
-            db.AddInParameter(cmd, "@StudentID", DbType.Int32, vm.StudentID);
-            db.AddInParameter(cmd, "@CourseOfferingID", DbType.Int32, vm.CourseOfferingID);
-            db.AddInParameter(cmd, "@EnrollmentDate", DbType.Date, vm.EnrollmentDate);
-            db.AddInParameter(cmd, "@Status", DbType.Int32, Convert.ToInt32(vm.Status));
-            db.AddInParameter(cmd, "@CreatedBy", DbType.String, DBNull.Value);
-            db.AddInParameter(cmd, "@LastModifiedBy", DbType.String, "admin");
-
-            db.AddOutParameter(cmd, "@Message", DbType.String, 100);
-
-            db.ExecuteNonQuery(cmd);
-
-            message = db.GetParameterValue(cmd, "@Message").ToString();
-
-            return message;
-        }
+       
     }
 }

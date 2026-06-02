@@ -11,6 +11,9 @@ namespace WebApplication5.Controllers
         public ActionResult Index()
         {
             EnrollmentViewModel ev = new EnrollmentViewModel();
+            // Set default pagination values to ensure AJAX POST receives valid parameters
+            ev.page = 1;
+            ev.size = 5;
             EnrollmentDAL da = new EnrollmentDAL();
 
             ev.Enrollments = da.GetList(ev);
@@ -75,18 +78,12 @@ namespace WebApplication5.Controllers
 
             string result;
 
-            if (vm.EnrollmentID.HasValue && vm.EnrollmentID.Value > 0)
-            {
-                result = da.UpdateEnrollment(vm);
-            }
-            else
-            {
-                result = da.InsertEnrollment(vm);
-            }
+                result = da.SaveEnrollment(vm);
+            
 
             return Content(result);
         }
-
+ 
         public ActionResult About()
         {
             return View();
@@ -95,6 +92,15 @@ namespace WebApplication5.Controllers
         public ActionResult Contact()
         {
             return View();
+        }
+        [HttpPost]
+        public ActionResult DeleteEnrollment(int id)
+        {
+            EnrollmentDAL da = new EnrollmentDAL();
+
+            string result = da.DeleteEnrollmentById(id);
+
+            return Content(result);
         }
     }
 }
