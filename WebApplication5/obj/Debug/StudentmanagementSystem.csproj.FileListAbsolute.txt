@@ -55,7 +55,6 @@ D:\C#Practice\StudentManagementSystem\WebApplication5\bin\roslyn\System.Reflecti
 D:\C#Practice\StudentManagementSystem\WebApplication5\bin\roslyn\vbc.exe
 D:\C#Practice\StudentManagementSystem\WebApplication5\bin\roslyn\VBCSCompiler.exe
 D:\C#Practice\StudentManagementSystem\WebApplication5\bin\roslyn\VBCSCompiler.exe.config
-D:\C#Practice\StudentManagementSystem\WebApplication5\bin\WebApplication5.dll.config
 D:\C#Practice\StudentManagementSystem\WebApplication5\bin\WebApplication5.dll
 D:\C#Practice\StudentManagementSystem\WebApplication5\bin\WebApplication5.pdb
 D:\C#Practice\StudentManagementSystem\WebApplication5\bin\Antlr3.Runtime.dll
@@ -85,6 +84,8 @@ D:\C#Practice\StudentManagementSystem\WebApplication5\bin\System.Web.WebPages.De
 D:\C#Practice\StudentManagementSystem\WebApplication5\bin\System.Web.WebPages.Razor.xml
 D:\C#Practice\StudentManagementSystem\WebApplication5\bin\Antlr3.Runtime.pdb
 D:\C#Practice\StudentManagementSystem\WebApplication5\bin\Newtonsoft.Json.xml
-D:\C#Practice\StudentManagementSystem\WebApplication5\obj\Debug\StudentmanagementSystem.csprojResolveAssemblyReference.cache
 D:\C#Practice\StudentManagementSystem\WebApplication5\obj\Debug\WebApplication5.dll
 D:\C#Practice\StudentManagementSystem\WebApplication5\obj\Debug\WebApplication5.pdb
+d:\C#Practice\StudentManagementSystem\WebApplication5\obj\Debug\StudentmanagementSystem.csproj.AssemblyReference.cache
+d:\C#Practice\StudentManagementSystem\WebApplication5\obj\Debug\StudentmanagementSystem.csproj.CoreCompileInputs.cache
+d:\C#Practice\StudentManagementSystem\WebApplication5\obj\Debug\Studentm.DE7F483C.Up2Date

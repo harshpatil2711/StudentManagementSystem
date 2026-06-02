@@ -137,15 +137,4 @@
         </div>
     </div>
 }
-<script>
-$(function(){
-    $(document).on('click', '.delete-btn', function(){
-        var id = $(this).data('id');
-        if(!confirm('Are you sure you want to delete this enrollment?')) return;
-        $.post('@Url.Action("DeleteEnrollment", "Home")', { id: id }, function(result){
-            alert(result);
-            location.reload();
-        }).fail(function(){ alert('Error deleting enrollment.'); });
-    });
-});
-</script>
+

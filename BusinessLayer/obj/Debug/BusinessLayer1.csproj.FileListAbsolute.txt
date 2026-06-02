@@ -13,6 +13,8 @@ D:\C#Practice\StudentManagementSystem\BusinessLayer\bin\Debug\Microsoft.Practice
 D:\C#Practice\StudentManagementSystem\BusinessLayer\bin\Debug\Microsoft.Practices.EnterpriseLibrary.Data.dll
 D:\C#Practice\StudentManagementSystem\BusinessLayer\bin\Debug\Microsoft.Practices.EnterpriseLibrary.Data.SqlCe.dll
 D:\C#Practice\StudentManagementSystem\BusinessLayer\bin\Debug\Microsoft.Practices.ObjectBuilder2.dll
-D:\C#Practice\StudentManagementSystem\BusinessLayer\obj\Debug\BusinessLayer1.csprojResolveAssemblyReference.cache
 D:\C#Practice\StudentManagementSystem\BusinessLayer\obj\Debug\BusinessLayer.dll
 D:\C#Practice\StudentManagementSystem\BusinessLayer\obj\Debug\BusinessLayer.pdb
+d:\C#Practice\StudentManagementSystem\BusinessLayer\obj\Debug\BusinessLayer1.csproj.AssemblyReference.cache
+d:\C#Practice\StudentManagementSystem\BusinessLayer\obj\Debug\BusinessLayer1.csproj.CoreCompileInputs.cache
+d:\C#Practice\StudentManagementSystem\BusinessLayer\obj\Debug\Business.72A82929.Up2Date

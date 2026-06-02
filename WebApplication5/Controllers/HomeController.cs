@@ -94,13 +94,11 @@ namespace WebApplication5.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult DeleteEnrollment(int id)
+        public JsonResult DeleteEnrollment(int id)
         {
             EnrollmentDAL da = new EnrollmentDAL();
-
             string result = da.DeleteEnrollmentById(id);
-
-            return Content(result);
+            return Json(new { message = result });
         }
     }
 }

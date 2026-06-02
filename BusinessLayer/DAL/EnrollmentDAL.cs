@@ -152,18 +152,13 @@ namespace BusinessLayer1.DAL
 
         public string DeleteEnrollmentById(int id)
         {
-            string message= "";
-
+            string message = "";
             DbCommand cmd = db.GetStoredProcCommand("sp_DeleteEnrollment");
             db.AddInParameter(cmd, "@EnrollmentID", DbType.Int32, id);
-
+            db.AddInParameter(cmd, "@LastModifiedBy", DbType.String, "admin");
             db.AddOutParameter(cmd, "@Message", DbType.String, 100);
-
             db.ExecuteNonQuery(cmd);
-
             message = db.GetParameterValue(cmd, "@Message").ToString();
-
-
             return message;
         }
 
