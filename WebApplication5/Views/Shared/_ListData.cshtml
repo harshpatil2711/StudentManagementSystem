@@ -58,12 +58,22 @@
                                 </span>
                             </td>
                             <td class="text-center">
-    <a href="/Home/InsertEnrollment/@item.EnrollmentID" class="btn btn-sm btn-premium-outline px-3 py-2 fw-bold me-2" style="font-size: 0.85rem; border-radius: 8px;">
-        <i class="bi bi-pencil-square me-1"></i>Edit
-    </a>
-    <button type="button" class="btn btn-sm btn-danger-outline px-3 py-2 fw-bold delete-btn" data-id="@item.EnrollmentID" style="font-size: 0.85rem; border-radius: 8px;">
-        <i class="bi bi-trash me-1"></i>Delete
-    </button>
+                                
+                                    <div class="d-flex flex-row gap-2 w-100">
+                                        <a href="/Home/InsertEnrollment/@item.EnrollmentID"
+                                           class="btn btn-sm btn-premium-outline fw-bold py-2"
+                                           style="flex:1;">
+                                            <i class="bi bi-pencil-square me-1"></i>Edit
+                                        </a>
+
+                                        <button type="button"
+                                                class="btn btn-sm btn-danger-outline fw-bold py-2 delete-btn"
+                                                data-id="@item.EnrollmentID"
+                                                style="flex:1;">
+                                            <i class="bi bi-trash me-1"></i>Delete
+                                        </button>
+                                    </div>
+                                
 </td>
                         </tr>
                     }
@@ -124,12 +134,31 @@
                                 </span>
                             </div>
                             
-                            <div class="mt-2.5 pt-2.5 border-top">
+                            <div class="mt-2 pt-2 border-top">
+                                <div class="d-flex flex-row gap-2 w-100">
+                                    <a href="/Home/InsertEnrollment/@item.EnrollmentID"
+                                       class="btn btn-sm btn-premium-outline fw-bold py-2"
+                                       style="flex:1;">
+                                        <i class="bi bi-pencil-square me-1"></i>Edit
+                                    </a>
+
+                                    <button type="button"
+                                            class="btn btn-sm btn-danger-outline fw-bold py-2 delete-btn"
+                                            data-id="@item.EnrollmentID"
+                                            style="flex:1;">
+                                        <i class="bi bi-trash me-1"></i>Delete
+                                    </button>
+                                </div>
+                            </div>
+                            @*<div class="mt-2.5 pt-2.5 border-top">
                                 <a href="/Home/InsertEnrollment/@item.EnrollmentID" class="btn btn-sm btn-premium-outline w-100 fw-bold py-2" style="font-size: 0.85rem; border-radius: 8px;">
                                    
                                     <i class="bi bi-pencil-square me-1.5"></i>Edit Enrollment
                                 </a>
-                            </div>
+                                <button type="button" class="btn btn-sm btn-premium-outline w-100 fw-bold py-2" data-id="@item.EnrollmentID" style="font-size: 0.85rem; border-radius: 8px;">
+                                    <i class="bi bi-trash me-1"></i>Delete
+                                </button>
+                            </div>*@
                         </div>
                     </div>
                 </div>

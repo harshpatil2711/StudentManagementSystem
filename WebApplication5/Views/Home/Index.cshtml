@@ -427,73 +427,77 @@
 
 <script>
     $(document).ready(function () {
-        // Restore previous search state
-        var storedStatus = sessionStorage.getItem("enrollment_status");
-        var storedStudentName = sessionStorage.getItem("enrollment_studentname");
-        var storedSize = sessionStorage.getItem("enrollment_size");
-        var storedPage = sessionStorage.getItem("enrollment_page");
+
+        var storedModel = JSON.parse(
+            sessionStorage.getItem("enrollmentViewModel")
+        );
 
         var hasStoredState = false;
 
-        if (storedStatus !== null) {
-            $("#status").val(storedStatus);
+        if (storedModel) {
+
+            $("#status").val(
+                storedModel.status || ""
+            );
+
+            $("#studentname").val(
+                storedModel.studentname || ""
+            );
+
+            $("#size").val(
+                storedModel.size || 5
+            );
+
+            $("#page").val(
+                storedModel.page || 1
+            );
+
             hasStoredState = true;
         }
 
-        if (storedStudentName !== null) {
-            $("#studentname").val(storedStudentName);
-            hasStoredState = true;
-        }
-
-        if (storedSize !== null) {
-            $("#size").val(storedSize);
-            hasStoredState = true;
-        }
-
-        if (storedPage !== null) {
-            $("#page").val(storedPage);
-            hasStoredState = true;
-        }
         FetchData();
 
-        $('#status, input[name="studentname"], input[name="size"]').change(function () {
+        $('#status, #studentname, #size').change(function () {
             $('#page').val(1);
         });
 
-        //$('#searchForm').on('reset', function () {
-        //    setTimeout(function () {
-        //        $("#page").val(1);
-        //        $("#status").val("");
-        //        $("#studentname").val("");
-        //        FetchData();
-        //    }, 0);
-        //});
         $('#searchForm').on('reset', function () {
 
-            sessionStorage.removeItem("enrollment_status");
-            sessionStorage.removeItem("enrollment_studentname");
-            sessionStorage.removeItem("enrollment_size");
-            sessionStorage.removeItem("enrollment_page");
+            sessionStorage.removeItem("enrollmentViewModel");
 
             setTimeout(function () {
 
                 $("#page").val(1);
                 $("#status").val("");
                 $("#studentname").val("");
+                $("#size").val(5);
 
                 FetchData();
 
             }, 0);
         });
+
         let totalcount = 1;
         let pagestart = 1;
         let windowsize = 5;
 
         function FetchData() {
-            sessionStorage.setItem("enrollment_status", $("#status").val() || "");
-            sessionStorage.setItem("enrollment_studentname", $("#studentname").val() || "");
-            sessionStorage.setItem("enrollment_size", $("#size").val() || "5");
-            sessionStorage.setItem("enrollment_page", $("#page").val() || "1");
+
+            var enrollmentModel = {
+
+                status: $("#status").val() || "",
+
+                studentname: $("#studentname").val() || "",
+
+                size: $("#size").val() || 5,
+
+                page: $("#page").val() || 1
+            };
+
+            sessionStorage.setItem(
+                "enrollmentViewModel",
+                JSON.stringify(enrollmentModel)
+            );
 
             $('#tableLoader').removeClass('d-none');
             $.ajax({
@@ -616,10 +620,13 @@
             );
         });
         // Delete enrollment handler (single registration)
-        $(document).off('click', '.delete-btn')
+        $(document).on('click', '.delete-btn', function () {
+            alert('clicked');
+        });
+        @*$(document)
             .on('click', '.delete-btn', function () {
                 var id = $(this).data('id');
-                if (!confirm('Are you sure you want to delete this enrollment?')) return;
+                if (!confirm('Are you sure you want to delete enrollmentId no. '+id+ ' ?')) return;
                 $.post('@Url.Action("DeleteEnrollment", "Home")', { id: id })
                     .done(function (result) {
                         alert(result.message);
@@ -629,7 +636,7 @@
                     .fail(function () {
                         alert('Error deleting enrollment.');
                     });
-            });
+            });*@
         });
     </script>
     

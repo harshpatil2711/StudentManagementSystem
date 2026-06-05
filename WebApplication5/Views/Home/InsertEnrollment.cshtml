@@ -222,9 +222,19 @@
                 type: 'POST',
                 data: data,
                 success: function (result) {
+
                     if (result && result.toLowerCase().indexOf("success") !== -1) {
+
                         showMessage(result, "success");
+
+                        setTimeout(function () {
+
+                            window.location.href = '@Url.Action("Index", "Home")';
+
+                        }, 1500); 
+
                     } else {
+
                         showMessage(result, "info");
                     }
                 },
