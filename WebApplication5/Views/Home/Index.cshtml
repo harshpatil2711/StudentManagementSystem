@@ -26,7 +26,14 @@
         margin-top: 1.5rem;
         transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
+    .modal {
+    z-index: 999999 !important;
+}
 
+.modal-dialog {
+    z-index: 1000000 !important;
+    margin-top: 100px !important;
+}
     .dashboard-title {
         font-size: 2rem;
         font-weight: 800;
@@ -310,6 +317,55 @@
             font-size: 0.95rem !important;
         }
     }
+.iziToast {
+    background: #ffffff !important;
+    border: 2px solid #4f46e5 !important;
+    border-radius: 16px !important;
+    box-shadow: 0 20px 40px rgba(79, 70, 229, 0.15) !important;
+    overflow: hidden;
+    min-height: 120px !important;
+}
+
+.iziToast-overlay {
+    backdrop-filter: blur(4px);
+}
+
+.iziToast-body {
+    padding: 20px !important;
+}
+
+.iziToast-title {
+    font-size: 20px !important;
+    font-weight: 700 !important;
+    color: #1e293b !important;
+    margin-bottom: 8px !important;
+}
+
+.iziToast-message {
+    font-size: 15px !important;
+    color: #475569 !important;
+    line-height: 1.6 !important;
+}
+
+.iziToast-icon {
+    color: #4f46e5 !important;
+    font-size: 28px !important;
+    margin-right: 18px !important;
+    margin-top: 2px !important;
+}
+
+.iziToast-buttons {
+    margin-top: 18px !important;
+}
+
+.iziToast-buttons button {
+    border-radius: 10px !important;
+    padding: 10px 24px !important;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+    min-width: 110px;
+}
+  
 </style>
 
 <div class="container-fluid py-4">
@@ -424,6 +480,7 @@
         </div>
     </div>
 </div>
+
 
 <script>
     $(document).ready(function () {
@@ -621,22 +678,60 @@
         });
         // Delete enrollment handler (single registration)
         $(document).on('click', '.delete-btn', function () {
-            alert('clicked');
+
+            var id = $(this).data('id');
+
+            iziToast.question({
+                timeout: false,
+                close: false,
+                overlay: true,
+                displayMode: 'once',
+                id: 'delete-confirm',
+                title: 'Confirm',
+                message: 'Delete Enrollment ID ' + id + '?',
+                position: 'center',
+                
+
+                maxWidth: 700,
+                layout: 2,
+                buttons: [
+
+                    ['<button style="background:#4f46e5;color:white;border:none;">Delete</button>', function (instance, toast) {
+
+                        $.post('@Url.Action("DeleteEnrollment", "Home")',
+                            { id: id })
+                            .done(function (result) {
+
+                                instance.hide({ transitionOut: 'fadeOut' }, toast);
+
+                                iziToast.success({
+                                    title: 'Success',
+                                    message: result.message,
+                                    position: 'topRight'
+                                });
+
+                                FetchData();
+                            })
+                            .fail(function () {
+
+                                instance.hide({ transitionOut: 'fadeOut' }, toast);
+                                iziToast.error({
+                                    title: 'Error',
+                                    message: 'Error deleting enrollment.',
+                                    position: 'topRight'
+                                });
+                            });
+
+                    }, true],
+
+                    ['<button style="background:white;color:#64748b;border:1px solid #cbd5e1;">Cancel</button>', function (instance, toast) {
+
+                        instance.hide({ transitionOut: 'fadeOut' }, toast);
+
+                    }]
+                ]
+            });
         });
-        @*$(document)
-            .on('click', '.delete-btn', function () {
-                var id = $(this).data('id');
-                if (!confirm('Are you sure you want to delete enrollmentId no. '+id+ ' ?')) return;
-                $.post('@Url.Action("DeleteEnrollment", "Home")', { id: id })
-                    .done(function (result) {
-                        alert(result.message);
-                        // Refresh the list after deletion
-                        FetchData();
-                    })
-                    .fail(function () {
-                        alert('Error deleting enrollment.');
-                    });
-            });*@
         });
     </script>
     
