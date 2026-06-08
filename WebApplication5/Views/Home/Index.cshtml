@@ -117,6 +117,28 @@
 </div>
 
 
+<!-- Enrollment Modal -->
+<div class="modal" id="enrollmentModal" tabindex="-1"
+     aria-labelledby="enrollmentModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable enrollment-modal-dialog">
+        <div class="modal-content enrollment-modal-content">
+            <div class="modal-header enrollment-modal-header">
+                <div class="enrollment-modal-title-wrap">
+                    <div class="enrollment-modal-icon">
+                        <i class="bi bi-journal-plus"></i>
+                    </div>
+                    <h5 class="modal-title" id="enrollmentModalTitle">Enrollment</h5>
+                </div>
+                <button type="button" class="btn-close btn-close-enrollment"
+                        data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body enrollment-modal-body" id="enrollmentModalBody">
+                <!-- Form content injected here by AJAX -->
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- URL variables for external JS (server-side Url.Action cannot run in .js files) -->
 <script>
     var indexActionUrl = '@Url.Action("Index", "Home")';

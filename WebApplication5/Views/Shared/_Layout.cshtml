@@ -4,26 +4,22 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Student Management System</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
 
-    <!-- iziToas-->
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/izitoast/dist/css/iziToast.min.css" />
-
-    <script src="https://cdn.jsdelivr.net/npm/izitoast/dist/js/iziToast.min.js"></script>
-    
-    <!-- Google Fonts - Plus Jakarta Sans (Premium Modern Typography) -->
+    <!-- Google Fonts - Plus Jakarta Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- Bootstrap CSS & Icons -->
+    <!-- Bootstrap 5 CSS & Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    
+
+    <!-- iziToast -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/izitoast/dist/css/iziToast.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/izitoast/dist/js/iziToast.min.js"></script>
+
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="~/Content/custom.css" />
+    @Styles.Render("~/Content/css")
     
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
@@ -83,41 +79,12 @@
         </div>
     </footer>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
-    
-    <!-- Bootstrap JS Bundle -->
+
+    <!-- Bootstrap 5 JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
     
     <!-- Layout JS -->
     <script src="~/Scripts/layout.js"></script>
-
-    <!-- =====================================================
-         Enrollment Modal — direct child of <body> so that
-         position:fixed is always relative to the viewport,
-         unaffected by any stacking contexts (backdrop-filter,
-         sticky nav, container overflow, etc.)
-    ====================================================== -->
-    <div class="modal" id="enrollmentModal" tabindex="-1"
-         aria-labelledby="enrollmentModalTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable enrollment-modal-dialog">
-            <div class="modal-content enrollment-modal-content">
-                <div class="modal-header enrollment-modal-header">
-                    <div class="enrollment-modal-title-wrap">
-                        <div class="enrollment-modal-icon">
-                            <i class="bi bi-journal-plus"></i>
-                        </div>
-                        <h5 class="modal-title" id="enrollmentModalTitle">Enrollment</h5>
-                    </div>
-                    <button type="button" class="btn-close btn-close-enrollment"
-                            data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body enrollment-modal-body" id="enrollmentModalBody">
-                    <!-- Form content injected here by AJAX -->
-                </div>
-            </div>
-        </div>
-    </div>
 </body>
 </html>

@@ -105,15 +105,9 @@ body {
    ENROLLMENT MODAL STYLES
    ======================== */
 
-/* Backdrop fix for glassmorphism stacking context */
-/* position: fixed must be forced because sticky navbar with backdrop-filter
-   creates a new stacking context that would otherwise trap the modal */
+/* Z-index fix for glassmorphism stacking context */
 .modal {
     z-index: 999999 !important;
-    position: fixed !important;
-    inset: 0 !important;          /* top:0; right:0; bottom:0; left:0 */
-    width: 100% !important;
-    height: 100% !important;
 }
 
 .modal-backdrop {
@@ -121,12 +115,8 @@ body {
 }
 
 /* Modal dialog — responsive width */
-/* margin: auto (not 0 auto) lets Bootstrap's modal-dialog-centered
-   flex container center the dialog both horizontally AND vertically */
 .enrollment-modal-dialog {
-    width: 92%;
     max-width: 560px;
-    margin: auto;
 }
 
 @media (min-width: 576px) {
@@ -330,12 +320,14 @@ body {
 }
 
 .btn-danger-outline {
+    display: inline-flex;
+    white-space: nowrap;
     background: transparent;
     color: #ef4444 !important;
     border: 2px solid #ef4444;
     border-radius: var(--border-radius-md);
     font-weight: 600;
-    padding: 0.625rem 1.5rem;
+    padding: 0.5rem 0.75rem;
     transition: all 0.2s ease;
 }
 .btn-danger-outline:hover {
@@ -544,11 +536,13 @@ body {
 .btn-premium-primary, 
 .btn-premium-secondary, 
 .btn-premium-outline, 
+.btn-danger-outline,
 .form-control-premium {
     height: 48px !important;
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
+    white-space: nowrap !important;
 }
 
 /* Extra Responsive Overrides for Small Mobile Screens */
