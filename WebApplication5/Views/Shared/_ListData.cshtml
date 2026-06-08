@@ -60,11 +60,17 @@
                             <td class="text-center">
                                 
                                     <div class="d-flex flex-row gap-2 w-100">
-                                        <a href="/Home/InsertEnrollment/@item.EnrollmentID"
-                                           class="btn btn-sm btn-premium-outline fw-bold py-2"
-                                           style="flex:1;">
+                                      @*  <a href="/Home/InsertEnrollment/@item.EnrollmentID"
+       class="btn btn-sm btn-premium-outline fw-bold py-2"
+       style="flex:1;">
+        <i class="bi bi-pencil-square me-1"></i>Edit
+    </a>*@
+                                        <button class="btn btn-sm btn-premium-outline fw-bold py-2 edit-btn"
+                                                data-id="@item.EnrollmentID"
+                                                style="flex:1;">
                                             <i class="bi bi-pencil-square me-1"></i>Edit
-                                        </a>
+                                        </button>
+
 
                                         <button type="button"
                                                 class="btn btn-sm btn-danger-outline fw-bold py-2 delete-btn"
@@ -136,11 +142,12 @@
                             
                             <div class="mt-2 pt-2 border-top">
                                 <div class="d-flex flex-row gap-2 w-100">
-                                    <a href="/Home/InsertEnrollment/@item.EnrollmentID"
-                                       class="btn btn-sm btn-premium-outline fw-bold py-2"
-                                       style="flex:1;">
+                                    <button type="button"
+                                            class="btn btn-sm btn-premium-outline fw-bold py-2 edit-btn"
+                                            data-id="@item.EnrollmentID"
+                                            style="flex:1;">
                                         <i class="bi bi-pencil-square me-1"></i>Edit
-                                    </a>
+                                    </button>
 
                                     <button type="button"
                                             class="btn btn-sm btn-danger-outline fw-bold py-2 delete-btn"

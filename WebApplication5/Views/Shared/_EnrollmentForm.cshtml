@@ -1,0 +1,74 @@
+@model BusinessLayer.ViewModels.EnrollmentInsertViewModel
+
+@Html.HiddenFor(m => m.EnrollmentID,
+    new { id = "EnrollmentID" })
+
+<div id="message" class="mb-3"></div>
+
+
+    <div class="row">
+        <div class="col-12 mb-3">
+            <label class="form-label-custom">Student</label>
+            @Html.DropDownListFor(
+                    m => m.StudentID,
+                    new SelectList(Model.StudentDict,
+                        "Key",
+                        "Value",
+                        Model.StudentID),
+                    "Select Student",
+                    new
+                    {
+                        @class = "form-select form-control-custom",
+                        @id = "StudentID"
+                    }
+                )
+        </div>
+        <div class="col-12 mb-3">
+            <label class="form-label-custom">Course Offering</label>
+            @Html.DropDownListFor(
+                    m => m.CourseOfferingID,
+                    new SelectList(Model.CourseDict,
+                        "Key",
+                        "Value",
+                        Model.CourseOfferingID),
+                    "Select Course",
+                    new
+                    {
+                        @class = "form-select form-control-custom",
+                        @id = "CourseOfferingID"
+                    }
+                )
+        </div>
+        <div class="col-12 mb-3">
+            <label class="form-label-custom">Enrollment Date</label>
+            <input type="date"
+                   id="EnrollmentDate"
+                   class="form-control form-control-custom"
+                   value="@(Model.EnrollmentDate.HasValue ? Model.EnrollmentDate.Value.ToString("yyyy-MM-dd") : "")" />
+        </div>
+        <div class="col-12 mb-3">
+            <label class="form-label-custom">Status</label>
+            @Html.DropDownListFor(
+                    m => m.Status,
+                    new SelectList(Model.StatusDict,
+                        "Key",
+                        "Value",
+                        Model.Status),
+                    "Select Status",
+                    new
+                    {
+                        @class = "form-select form-control-custom",
+                        @id = "Status"
+                    }
+                )
+        </div>
+    </div>
+
+
+<div class="d-flex gap-3 mt-4">
+    <button type="button"
+            id="btnSubmit"
+            class="btn btn-submit-premium">
+        @(Model.EnrollmentID > 0 ? "Update Enrollment" : "Save Enrollment")
+    </button>
+</div>

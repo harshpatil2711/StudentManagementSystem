@@ -67,7 +67,9 @@ namespace WebApplication5.Controllers
             vm.CourseDict = da.GetCourseOfferings();
             vm.StatusDict = da.getStatusList();
 
-            return View(vm);
+            //return View(vm);
+
+            return PartialView("_EnrollmentForm", vm);
         }
 
         // POST: /Home/InsertEnrollment
@@ -100,5 +102,7 @@ namespace WebApplication5.Controllers
             string result = da.DeleteEnrollmentById(id);
             return Json(new { message = result });
         }
+
+       
     }
 }
