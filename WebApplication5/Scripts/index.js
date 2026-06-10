@@ -17,6 +17,10 @@ $(document).ready(function () {
             storedModel.studentname || ""
         );
 
+        $("#courseID").val(
+           storedModel.studentname || ""
+       );
+
         $("#size").val(
             storedModel.size || 5
         );
@@ -30,7 +34,7 @@ $(document).ready(function () {
 
     FetchData();
 
-    $('#status, #studentname, #size').change(function () {
+    $('#status, #studentname, #size, #courseID').change(function () {
         $('#page').val(1);
     });
 
@@ -44,7 +48,7 @@ $(document).ready(function () {
             $("#status").val("");
             $("#studentname").val("");
             $("#size").val(5);
-
+            $("#courseID").val("");
             FetchData();
 
         }, 0);
@@ -59,6 +63,8 @@ $(document).ready(function () {
         var enrollmentModel = {
 
             status: $("#status").val() || "",
+
+            couresID: $("#courseID").val() || "",
 
             studentname: $("#studentname").val() || "",
 
@@ -82,7 +88,7 @@ $(document).ready(function () {
                 $('#tableLoader').addClass('d-none');
                 totalcount = parseInt($("#enrollcount").val()) || 0;
                 buttonlist();
-                
+
                 let datashown = $("#datashown");
                 datashown.empty();
                 let page = parseInt($("#page").val()) || 1;
@@ -158,7 +164,7 @@ $(document).ready(function () {
 
     $("#toggleFilter").click(function () {
         $(this).toggleClass("active");
-        
+
         // Modern smooth jQuery slide animation instead of simple toggleClass
         $("#filterSection").slideToggle(300);
 
@@ -318,16 +324,16 @@ $(document).ready(function () {
             data: data,
             success: function (result) {
                 if (result && result.toLowerCase().indexOf("success") !== -1) {
-                    showMessage(result, "success");
-                    setTimeout(function () {
-                        var modalInstance = bootstrap.Modal.getInstance(document.getElementById('enrollmentModal'));
-                        if (modalInstance) {
-                            modalInstance.hide();
-                        }
-                        FetchData();
-                    }, 1500); 
+                    iziToast.success({
+                        title: 'Success',
+                        message: result,
+                        position: 'topRight'
+                    });
+
+                    $('#enrollmentModal').modal('hide');
+                    FetchData();
                 } else {
-                    showMessage(result, "info");
+                    showMessage(result, "danger");
                 }
             },
             error: function () {
@@ -338,21 +344,21 @@ $(document).ready(function () {
 
     function showMessage(msg, type) {
         var icon = type === "success" ? "bi-check-circle-fill"
-                 : type === "danger" ? "bi-exclamation-triangle-fill"
-                 : "bi-info-circle-fill";
+            : type === "danger" ? "bi-exclamation-triangle-fill"
+                : "bi-info-circle-fill";
 
         $("#message").html(
             '<div class="alert alert-' + type + ' d-flex align-items-center" role="alert">' +
-                '<i class="bi ' + icon + ' me-2 fs-5"></i>' +
-                '<div>' + msg + '</div>' +
+            '<i class="bi ' + icon + ' me-2 fs-5"></i>' +
+            '<div>' + msg + '</div>' +
             '</div>'
         );
 
+        // Auto-hide after 5 seconds
         setTimeout(function () {
             $("#message").fadeOut(400, function () {
                 $(this).html("").show();
             });
         }, 5000);
     }
-
 });

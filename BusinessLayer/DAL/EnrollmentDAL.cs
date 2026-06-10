@@ -27,7 +27,7 @@ namespace BusinessLayer1.DAL
             db.AddInParameter(cmd, "@SIZE", DbType.Int32, enroll.size);
             db.AddInParameter(cmd, "@Status", DbType.Int32, enroll.status);
             db.AddInParameter(cmd, "@StudentName", DbType.String, enroll.studentname);
-
+            db.AddInParameter(cmd, "@CourseID", DbType.Int32, enroll.courseID);
             db.AddOutParameter(cmd, "@EnrollmentCount", DbType.Int32, sizeof(Int32));
 
             using (IDataReader reader = db.ExecuteReader(cmd))
@@ -79,6 +79,27 @@ namespace BusinessLayer1.DAL
             }
 
             return statusDict;
+        }
+
+        public Dictionary<int, string> getCoursesList()
+        {
+            Dictionary<int, string> CourseDict = new Dictionary<int, string>();
+
+            DbCommand cmd = db.GetStoredProcCommand("GetDistinctCourses");
+
+            using (IDataReader reader = db.ExecuteReader(cmd))
+            {
+                while (reader.Read())
+                {
+                    int id = Convert.ToInt32(reader["COURSEID"]);
+                    string name = reader["COURSENAME"].ToString();
+                    CourseDict.Add(id, name);
+                }
+
+                reader.Close();
+            }
+
+            return CourseDict;
         }
 
         public Dictionary<int, string> GetStudents()

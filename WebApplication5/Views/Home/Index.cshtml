@@ -77,6 +77,15 @@
                             }
                         )
                     </div>
+                    <div class="col-md-4">
+                        <label class="form-label-premium">Courses</label>
+                        @Html.DropDownListFor(
+                            m => m.courseID,
+                            new SelectList(Model.CourseDict, "Key", "Value", Model.courseID),
+                            "-- All Courses --",
+                            new { @class = "form-select form-control-premium", @id = "courseID" }
+                        )
+                    </div>
                 </div>
             </div>
         </form>

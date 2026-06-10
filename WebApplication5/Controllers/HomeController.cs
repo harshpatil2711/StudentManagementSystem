@@ -18,7 +18,7 @@ namespace WebApplication5.Controllers
 
             ev.Enrollments = da.GetList(ev);
             ev.statusDict = da.getStatusList();
-
+            ev.CourseDict = da.getCoursesList();
             return View(ev);
         }
 
@@ -35,7 +35,7 @@ namespace WebApplication5.Controllers
             EnrollmentDAL da = new EnrollmentDAL();
 
             ev.Enrollments = da.GetList(ev);
-            ev.statusDict = da.getStatusList();
+            //ev.statusDict = da.getStatusList();
 
             return PartialView("_ListData", ev);
         }
@@ -66,7 +66,7 @@ namespace WebApplication5.Controllers
             vm.StudentDict = da.GetStudents();
             vm.CourseDict = da.GetCourseOfferings();
             vm.StatusDict = da.getStatusList();
-
+            
             //return View(vm);
 
             return PartialView("_EnrollmentForm", vm);

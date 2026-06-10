@@ -17,6 +17,9 @@ namespace BusinessLayer.ViewModels
         public string studentname { get; set; } = "";
         public List<Enrollment> Enrollments { get; set; }
         public int Enrollmentcount { get; set; } = 1;
+        public int? courseID { get; set; }
+        public Dictionary<int,string> CourseDict { get; set; }
+
         
     }
 }
