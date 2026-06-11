@@ -17,8 +17,8 @@ $(document).ready(function () {
             storedModel.studentname || ""
         );
 
-        $("#courseID").val(
-           storedModel.studentname || ""
+        $("#courseIDs").val(
+           storedModel.CourseIDs ? storedModel.CourseIDs.split(",") : []
        );
 
         $("#size").val(
@@ -32,9 +32,15 @@ $(document).ready(function () {
         hasStoredState = true;
     }
 
+    $(document).on('mousedown', '#courseIDs option', function (e) {
+        e.preventDefault();
+        $(this).prop('selected', !$(this).prop('selected'));
+        $('#courseIDs').change();
+    });
+
     FetchData();
 
-    $('#status, #studentname, #size, #courseID').change(function () {
+    $('#status, #studentname, #size, #courseIDs').change(function () {
         $('#page').val(1);
     });
 
@@ -48,7 +54,7 @@ $(document).ready(function () {
             $("#status").val("");
             $("#studentname").val("");
             $("#size").val(5);
-            $("#courseID").val("");
+            $("#courseIDs").val([]);
             FetchData();
 
         }, 0);
@@ -64,7 +70,7 @@ $(document).ready(function () {
 
             status: $("#status").val() || "",
 
-            couresID: $("#courseID").val() || "",
+            CourseIDs: ($("#courseIDs").val() || []).join(","),
 
             studentname: $("#studentname").val() || "",
 
@@ -82,7 +88,7 @@ $(document).ready(function () {
         $.ajax({
             url: indexActionUrl,
             type: 'POST',
-            data: $("#searchForm").serialize(),
+            data: enrollmentModel,
             success: function (result) {
                 $('#resultContainer').html(result);
                 $('#tableLoader').addClass('d-none');
@@ -281,8 +287,8 @@ $(document).ready(function () {
                 var modal = bootstrap.Modal.getOrCreateInstance(
                     document.getElementById('enrollmentModal')
                 );
-
                 modal.show();
+                //$("#enrollmentModal").modal('show');
             });
     });
 
@@ -330,7 +336,8 @@ $(document).ready(function () {
                         position: 'topRight'
                     });
 
-                    $('#enrollmentModal').modal('hide');
+                    var modal = bootstrap.Modal.getInstance(document.getElementById('enrollmentModal'));
+                    if (modal) modal.hide();
                     FetchData();
                 } else {
                     showMessage(result, "danger");

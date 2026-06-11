@@ -27,7 +27,7 @@ namespace BusinessLayer1.DAL
             db.AddInParameter(cmd, "@SIZE", DbType.Int32, enroll.size);
             db.AddInParameter(cmd, "@Status", DbType.Int32, enroll.status);
             db.AddInParameter(cmd, "@StudentName", DbType.String, enroll.studentname);
-            db.AddInParameter(cmd, "@CourseID", DbType.Int32, enroll.courseID);
+            db.AddInParameter(cmd, "@CourseIDs", DbType.String, enroll.courseIDs);
             db.AddOutParameter(cmd, "@EnrollmentCount", DbType.Int32, sizeof(Int32));
 
             using (IDataReader reader = db.ExecuteReader(cmd))
