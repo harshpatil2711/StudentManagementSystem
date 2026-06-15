@@ -1,5 +1,7 @@
 @model BusinessLayer.ViewModels.EnrollmentViewModel
-<input type="hidden" id="enrollcount" value="@Model.Enrollmentcount" />
+<input type="hidden" id="enrollcount"     value="@Model.Enrollmentcount" />
+<input type="hidden" id="sortColumn"      value="@Model.SortColumn" />
+<input type="hidden" id="sortDirection"   value="@Model.SortDirection" />
 
 @if (Model != null)
 {
@@ -9,12 +11,25 @@
             <table class="table table-custom align-middle">
                 <thead>
                     <tr>
-                        <th scope="col" class="text-dark fw-bold" style="color: #0f172a !important; font-weight: 800 !important; font-size: 0.95rem; letter-spacing: 0.5px;">Enrollment ID</th>
-                        <th scope="col" class="text-dark fw-bold" style="color: #0f172a !important; font-weight: 800 !important; font-size: 0.95rem; letter-spacing: 0.5px;">Student Name</th>
-                        <th scope="col" class="text-dark fw-bold" style="color: #0f172a !important; font-weight: 800 !important; font-size: 0.95rem; letter-spacing: 0.5px;">Course Offered</th>
-                        <th scope="col" class="text-dark fw-bold" style="color: #0f172a !important; font-weight: 800 !important; font-size: 0.95rem; letter-spacing: 0.5px;">Enrollment Date</th>
-                        <th scope="col" class="text-dark fw-bold" style="color: #0f172a !important; font-weight: 800 !important; font-size: 0.95rem; letter-spacing: 0.5px;">Status</th>
-                        <th scope="col" class="text-dark fw-bold text-center" style="color: #0f172a !important; font-weight: 800 !important; font-size: 0.95rem; letter-spacing: 0.5px; width: 140px;">Actions</th>
+                        <th scope="col" class="sortable-th" data-sort="EnrollmentId">
+                            Enrollment ID <span class="sort-icon ms-1">&#8597;</span>
+                        </th>
+                        <th scope="col" class="sortable-th" data-sort="StudentName">
+                            Student Name <span class="sort-icon ms-1">&#8597;</span>
+                        </th>
+                        <th scope="col" class="sortable-th" data-sort="CourseName">
+                            Course Offered <span class="sort-icon ms-1">&#8597;</span>
+                        </th>
+                        <th scope="col" class="sortable-th" data-sort="EnrollmentDate">
+                            Enrollment Date <span class="sort-icon ms-1">&#8597;</span>
+                        </th>
+                        <th scope="col" class="sortable-th" data-sort="EnrollmentStatus">
+                            Status <span class="sort-icon ms-1">&#8597;</span>
+                        </th>
+                        <th scope="col" class="text-dark fw-bold text-center"
+                            style="color:#0f172a !important;font-weight:800 !important;font-size:0.95rem;letter-spacing:0.5px;width:140px;">
+                            Actions
+                        </th>
                     </tr>
                 </thead>
                 <tbody>

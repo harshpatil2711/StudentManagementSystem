@@ -379,10 +379,29 @@ body {
 .table-custom thead th {
     background-color: transparent;
     border: none;
-    padding: 1rem 1.25rem;
+    padding: 0.8rem 1rem;
     font-size: 0.92rem;
     text-transform: uppercase;
     letter-spacing: 1px;
+    color: #0f172a;
+    font-weight: 800;
+}
+
+/* Sortable column headers */
+.sortable-th {
+    cursor: pointer;
+    user-select: none;
+    white-space: nowrap;
+    transition: color 0.15s ease;
+}
+.sortable-th:hover {
+    color: #4f46e5 !important;
+}
+.sort-icon {
+    display: inline-block;
+    font-size: 0.85rem;
+    opacity: 0.35;
+    transition: opacity 0.15s ease;
 }
 
 .table-custom tbody tr {
@@ -399,7 +418,7 @@ body {
 }
 
 .table-custom tbody td {
-    padding: 1.25rem;
+    padding: 0.8rem 1rem;
     border-top: 1px solid #f1f5f9;
     border-bottom: 1px solid #f1f5f9;
 }
@@ -412,6 +431,14 @@ body {
 .table-custom tbody tr td:last-child {
     border-right: 1px solid #f1f5f9;
     border-radius: 0 var(--border-radius-sm) var(--border-radius-sm) 0;
+}
+
+/* Compact Table Action Buttons */
+.table-custom .btn {
+    padding: 0.5rem 0.75rem !important;
+    font-size: 0.85rem !important;
+    border-radius: var(--border-radius-sm) !important;
+    white-space: nowrap !important;
 }
 
 /* Avatars */
@@ -722,6 +749,75 @@ body {
     border-radius: 50rem;
     font-size: 0.8rem;
     font-weight: 700;
+}
+
+/* ========================
+   SELECT2 OVERRIDES
+   ======================== */
+.select2-container--bootstrap-5 .select2-selection--multiple {
+    min-height: 48px !important;
+    max-height: 48px !important;
+    height: 48px !important;
+    overflow: hidden !important;
+    position: relative !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+.select2-container--bootstrap-5 .select2-selection--multiple .select2-selection__rendered {
+    overflow: hidden !important;
+    flex-wrap: nowrap !important;
+    width: 100% !important;
+    padding: 9px 8px 0 8px !important;
+    margin: 0 !important;
+    list-style: none !important;
+    white-space: nowrap !important;
+}
+.select2-container--bootstrap-5 .select2-selection--multiple .select2-selection__choice {
+    display: inline-flex !important;
+    align-items: center !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    max-width: 100px !important;
+    flex-shrink: 0 !important;
+    height: 30px !important;
+    margin: 0 4px 0 0 !important;
+    padding: 0 8px !important;
+    line-height: 30px !important;
+    vertical-align: middle !important;
+}
+.select2-container--bootstrap-5 .select2-selection--multiple .select2-search--inline {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    margin: 0 !important;
+    height: 30px !important;
+}
+.select2-container--bootstrap-5 .select2-selection--multiple .select2-search--inline .select2-search__field {
+    margin: 0 !important;
+    height: 30px !important;
+    line-height: 30px !important;
+    padding: 0 !important;
+    vertical-align: middle !important;
+}
+.select2-container--bootstrap-5 .select2-selection--multiple .select2-selection__clear {
+    position: absolute !important;
+    top: 50% !important;
+    right: 12px !important;
+    transform: translateY(-50%) !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+.select2-selection__count-badge {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    margin-left: 4px !important;
+    font-size: 0.78rem !important;
+    padding: 0.15em 0.5em !important;
+    background: #e2e8f0 !important;
+    color: #475569 !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 10px !important;
+    line-height: 1.4 !important;
 }
 
 /* ========================

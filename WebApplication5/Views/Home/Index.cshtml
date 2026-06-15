@@ -79,7 +79,8 @@
                     </div>
                     <div class="col-md-4">
                         <label class="form-label-premium">Courses</label>
-                        <select id="courseIDs" name="courseIDs" multiple="multiple" size="4" class="form-select form-control-premium">
+                        <select multiple id="courseIDs" name="courseIDs" class="form-select form-control-premium">
+                            <option value="__all__">Select All</option>
                             @foreach (var item in Model.CourseDict)
                             {
                                 <option value="@item.Key">@item.Value</option>

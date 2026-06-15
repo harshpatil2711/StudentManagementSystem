@@ -28,6 +28,8 @@ namespace BusinessLayer1.DAL
             db.AddInParameter(cmd, "@Status", DbType.Int32, enroll.status);
             db.AddInParameter(cmd, "@StudentName", DbType.String, enroll.studentname);
             db.AddInParameter(cmd, "@CourseIDs", DbType.String, enroll.courseIDs);
+            db.AddInParameter(cmd, "@SortColumn", DbType.String, enroll.SortColumn ?? "EnrollmentId");
+            db.AddInParameter(cmd, "@SortDirection", DbType.String, enroll.SortDirection ?? "ASC");
             db.AddOutParameter(cmd, "@EnrollmentCount", DbType.Int32, sizeof(Int32));
 
             using (IDataReader reader = db.ExecuteReader(cmd))

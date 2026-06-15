@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -17,6 +17,10 @@
     <!-- iziToast -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/izitoast/dist/css/iziToast.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/izitoast/dist/js/iziToast.min.js"></script>
+
+    <!-- Select2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" rel="stylesheet" />
 
     <!-- Custom CSS -->
     @Styles.Render("~/Content/css")
@@ -67,7 +71,7 @@
 
     <!-- Main Content Container -->
     <main class="flex-grow-1">
-        <div class="container body-content">
+        <div class="container-fluid px-4 px-md-5 mx-auto body-content" style="max-width: 1500px;">
             @RenderBody()
         </div>
     </main>
@@ -82,8 +86,24 @@
     @Scripts.Render("~/bundles/jquery")
     @RenderSection("scripts", required: false)
 
+    <!-- Select2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
      @*Bootstrap 5 JS Bundle*@ 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+    $.fn.modal = function (action) {
+        var el = this[0];
+        if (!el) return this;
+        var modal = bootstrap.Modal.getInstance(el);
+        if (!modal) modal = new bootstrap.Modal(el);
+        if (action === 'show') modal.show();
+        else if (action === 'hide') modal.hide();
+        else if (action === 'toggle') modal.toggle();
+        return this;
+    };
+    </script>
     
     <!-- Layout JS -->
     <script src="~/Scripts/layout.js"></script>
