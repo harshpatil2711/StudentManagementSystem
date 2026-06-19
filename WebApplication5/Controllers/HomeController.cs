@@ -1,6 +1,8 @@
 using BusinessLayer.ViewModels;
 using BusinessLayer1.DAL;
+using Serilog;
 using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 
 namespace WebApplication5.Controllers
@@ -11,14 +13,21 @@ namespace WebApplication5.Controllers
         public ActionResult Index()
         {
             EnrollmentViewModel ev = new EnrollmentViewModel();
-            // Set default pagination values to ensure AJAX POST receives valid parameters
             ev.page = 1;
             ev.size = 5;
-            EnrollmentDAL da = new EnrollmentDAL();
-
-            ev.Enrollments = da.GetList(ev);
-            ev.statusDict = da.getStatusList();
-            ev.CourseDict = da.getCoursesList();
+            try
+            {
+                Log.Error(new Exception("Test error"), "Manual test from {Controller}", "HomeController");
+                EnrollmentDAL da = new EnrollmentDAL();
+                ev.Enrollments = da.GetList(ev);
+                ev.statusDict = da.getStatusList();
+                ev.CourseDict = da.getCoursesList();
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Error loading Index page");
+                ViewBag.Error = "An error occurred: " + ex.Message;
+            }
             return View(ev);
         }
 
@@ -32,10 +41,17 @@ namespace WebApplication5.Controllers
                 return View("Error");
             }
 
-            EnrollmentDAL da = new EnrollmentDAL();
-
-            ev.Enrollments = da.GetList(ev);
-            //ev.statusDict = da.getStatusList();
+            try
+            {
+                EnrollmentDAL da = new EnrollmentDAL();
+                ev.Enrollments = da.GetList(ev);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Error in POST Index with page {Page}, size {Size}", ev.page, ev.size);
+                ViewBag.Error = "An error occurred: " + ex.Message;
+                return View("Error");
+            }
 
             return PartialView("_ListData", ev);
         }
@@ -43,31 +59,37 @@ namespace WebApplication5.Controllers
         // GET: /Home/InsertEnrollment or /Home/InsertEnrollment/5
         public ActionResult InsertEnrollment(int? id)
         {
-            EnrollmentDAL da = new EnrollmentDAL();
-
             EnrollmentInsertViewModel vm;
 
-            // EDIT MODE
-            if (id.HasValue && id.Value > 0)
+            try
             {
-                vm = da.GetEnrollmentById(id.Value);
+                EnrollmentDAL da = new EnrollmentDAL();
 
-                if (vm == null)
+                if (id.HasValue && id.Value > 0)
                 {
-                    return HttpNotFound();
+                    vm = da.GetEnrollmentById(id.Value);
+                    if (vm == null)
+                    {
+                        return HttpNotFound();
+                    }
                 }
-            }
-            else
-            {
-                // INSERT MODE
-                vm = new EnrollmentInsertViewModel();
-            }
+                else
+                {
+                    vm = new EnrollmentInsertViewModel();
+                }
 
-            vm.StudentDict = da.GetStudents();
-            vm.CourseDict = da.GetCourseOfferings();
-            vm.StatusDict = da.getStatusList();
-            
-            //return View(vm);
+                vm.StudentDict = da.GetStudents();
+                vm.CourseDict = da.GetCourseOfferings();
+                vm.StatusDict = da.getStatusList();
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Error loading enrollment form for ID {Id}", id);
+                vm = new EnrollmentInsertViewModel();
+                vm.StudentDict = new Dictionary<int, string>();
+                vm.CourseDict = new Dictionary<int, string>();
+                vm.StatusDict = new Dictionary<int, string>();
+            }
 
             return PartialView("_EnrollmentForm", vm);
         }
@@ -76,16 +98,19 @@ namespace WebApplication5.Controllers
         [HttpPost]
         public ActionResult InsertEnrollment(EnrollmentInsertViewModel vm)
         {
-            EnrollmentDAL da = new EnrollmentDAL();
-
-            string result;
-
-                result = da.SaveEnrollment(vm);
-            
-
-            return Content(result);
+            try
+            {
+                EnrollmentDAL da = new EnrollmentDAL();
+                string result = da.SaveEnrollment(vm);
+                return Content(result);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Error in InsertEnrollment POST for StudentID {StudentId}", vm.StudentID);
+                return Content("Error: " + ex.Message);
+            }
         }
- 
+  
         public ActionResult About()
         {
             return View();
@@ -98,11 +123,17 @@ namespace WebApplication5.Controllers
         [HttpPost]
         public JsonResult DeleteEnrollment(int id)
         {
-            EnrollmentDAL da = new EnrollmentDAL();
-            string result = da.DeleteEnrollmentById(id);
-            return Json(new { message = result });
-        }
-
-       
+            try
+            {
+                EnrollmentDAL da = new EnrollmentDAL();
+                string result = da.DeleteEnrollmentById(id);
+                return Json(new { message = result });
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Error deleting enrollment {Id} via POST", id);
+                return Json(new { message = "Error: " + ex.Message });
+            }
+    }
     }
 }

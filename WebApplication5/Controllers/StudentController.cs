@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.DAL;
 using BusinessLayer.Models;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,12 +21,20 @@ namespace WebApplication5.Controllers
         [HttpPost]
         public ContentResult InsertStudent(Student student)
         {
-            student.CreatedBy = "admin";
-            student.LastModifiedBy = "admin";
+            try
+            {
+                student.CreatedBy = "admin";
+                student.LastModifiedBy = "admin";
 
-            string msg = dal.InsertStudent(student);
+                string msg = dal.InsertStudent(student);
 
-            return Content(msg);
+                return Content(msg);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Error inserting student {StudentName}", student.StudentName);
+                return Content("Error: " + ex.Message);
+            }
         }
     }
 }

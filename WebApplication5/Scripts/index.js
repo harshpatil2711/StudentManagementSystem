@@ -5,9 +5,13 @@ $(document).ready(function () {
     var currentSortColumn    = "EnrollmentId";
     var currentSortDirection = "ASC";
 
-    var storedModel = JSON.parse(
-        sessionStorage.getItem("enrollmentViewModel")
-    );
+    var storedModel = null;
+    try {
+        var raw = sessionStorage.getItem("enrollmentViewModel");
+        if (raw) storedModel = JSON.parse(raw);
+    } catch (e) {
+        storedModel = null;
+    }
 
     if (storedModel) {
 
@@ -38,16 +42,28 @@ $(document).ready(function () {
 
     // ── Select2 Setup ─────────────────────────────────────────────────
     function updateSelectionDisplay() {
-        var select2El = document.querySelector('#courseIDs + .select2 .select2-selection--multiple');
-        if (!select2El) return;
-        var $rendered = $(select2El).find('.select2-selection__rendered');
-        var selected = ($('#courseIDs').val() || []).filter(function (v) { return v !== '__all__'; });
+        var select2Container = document.querySelector('#courseIDs + .select2');
+        if (!select2Container) return;
+        var $rendered = $(select2Container).find('.select2-selection__rendered');
         $rendered.find('.select2-selection__count-badge').remove();
-        $rendered.find('.select2-selection__choice').removeAttr('style');
-        if (selected.length > 2) {
-            $rendered.find('.select2-selection__choice:gt(1)').hide();
+        $rendered.find('.select2-selection__choice').css('display', '');
+        var allValues = $('#courseIDs').val() || [];
+        var courseValues = allValues.filter(function (v) { return v !== '__all__'; });
+        // Hide the __all__ choice tag
+        $rendered.find('.select2-selection__choice').each(function () {
+            if (($(this).attr('title') || '') === 'Select All') {
+                this.style.display = 'none';
+            }
+        });
+        if (courseValues.length > 1) {
+            var shown = 0;
+            $rendered.find('.select2-selection__choice').each(function () {
+                if (($(this).attr('title') || '') === 'Select All') return;
+                shown++;
+                if (shown > 1) this.style.display = 'none';
+            });
             $rendered.append(
-                '<span class="select2-selection__count-badge">+' + (selected.length - 2) + '</span>'
+                '<span class="select2-selection__count-badge">+' + (courseValues.length - 1) + '</span>'
             );
         }
     }
@@ -72,7 +88,6 @@ $(document).ready(function () {
             $('#courseIDs').val(allValues).trigger('change');
             updatingSelectAll = false;
         }
-        updateSelectionDisplay();
     });
     $('#courseIDs').on('select2:unselect', function (e) {
         if (e.params.data.id === '__all__' && !updatingSelectAll) {
@@ -80,7 +95,15 @@ $(document).ready(function () {
             $('#courseIDs').val([]).trigger('change');
             updatingSelectAll = false;
         }
-        updateSelectionDisplay();
+    });
+    $('#courseIDs').on('select2:select select2:unselect select2:close', function () {
+        setTimeout(updateSelectionDisplay, 0);
+    });
+
+    // ── Mobile +N Card Toggle ─────────────────────────────────────────
+    $('#resultContainer').on('click', '#mobileMoreToggle', function () {
+        $(this).toggleClass('active');
+        $('#mobileMoreCards').toggleClass('d-none');
     });
 
     // ── Initial Load ──────────────────────────────────────────────────
@@ -146,7 +169,8 @@ $(document).ready(function () {
             success: function (result) {
                 $('#resultContainer').html(result);
                 $('#tableLoader').addClass('d-none');
-                totalcount = parseInt($("#enrollcount").val()) || 0;
+                var ec = $("#enrollcount").val();
+                totalcount = ec ? parseInt(ec) || 0 : 0;
 
                 // Sync sort state from hidden fields echoed by the partial view
                 var sc = $("#sortColumn").val();
@@ -329,7 +353,7 @@ $(document).ready(function () {
                 Status:           status
             },
             success: function (result) {
-                if (result && result.toLowerCase().indexOf("success") !== -1) {
+                if (typeof result === 'string' && result.toLowerCase().indexOf("success") !== -1) {
                     iziToast.success({ title: 'Success', message: result, position: 'topRight' });
                     $('#enrollmentModal').modal('hide');
                     FetchData();

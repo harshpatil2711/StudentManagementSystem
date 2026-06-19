@@ -23,7 +23,7 @@ namespace BusinessLayer.ViewModels
         {
             page = 1;
             size = 5;
-            pagesizelist = new List<int> { 3, 5, 10, 15, 20 };
+            pagesizelist = new List<int> { 1, 3, 5, 10, 15, 20 };
             status = null;
             studentname = "";
             Enrollmentcount = 1;

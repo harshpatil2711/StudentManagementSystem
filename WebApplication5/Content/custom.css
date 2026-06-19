@@ -559,6 +559,39 @@ body {
     border-color: #6366f1;
 }
 
+/* Mobile +N More Tile */
+.mobile-more-tile {
+    background: white;
+    border: 2px dashed #d1d5db;
+    border-radius: var(--border-radius-md);
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    font-size: 1rem;
+    color: #4f46e5;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none;
+}
+.mobile-more-tile:hover {
+    border-color: #6366f1;
+    background: rgba(79, 70, 229, 0.03);
+}
+.mobile-more-tile.active {
+    border-style: solid;
+    background: rgba(79, 70, 229, 0.05);
+}
+.mobile-more-arrow {
+    transition: transform 0.25s ease;
+    font-size: 0.9rem;
+    color: #94a3b8;
+}
+.mobile-more-tile.active .mobile-more-arrow {
+    transform: rotate(180deg);
+}
+
 /* Perfect Toolbar Vertical Alignment Height Matching */
 .btn-premium-primary, 
 .btn-premium-secondary, 
@@ -759,45 +792,54 @@ body {
     max-height: 48px !important;
     height: 48px !important;
     overflow: hidden !important;
-    position: relative !important;
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
+    display: flex !important;
+    align-items: center !important;
 }
 .select2-container--bootstrap-5 .select2-selection--multiple .select2-selection__rendered {
     overflow: hidden !important;
-    flex-wrap: nowrap !important;
     width: 100% !important;
-    padding: 9px 8px 0 8px !important;
+    padding: 4px 32px 4px 8px !important;
     margin: 0 !important;
     list-style: none !important;
-    white-space: nowrap !important;
+    display: flex !important;
+    align-items: center !important;
+    flex-wrap: nowrap !important;
+    gap: 4px !important;
 }
 .select2-container--bootstrap-5 .select2-selection--multiple .select2-selection__choice {
-    display: inline-flex !important;
     align-items: center !important;
     white-space: nowrap !important;
     overflow: hidden !important;
     text-overflow: ellipsis !important;
     max-width: 100px !important;
     flex-shrink: 0 !important;
-    height: 30px !important;
-    margin: 0 4px 0 0 !important;
+    height: 28px !important;
+    margin: 0 !important;
     padding: 0 8px !important;
-    line-height: 30px !important;
-    vertical-align: middle !important;
+    line-height: 28px !important;
+    font-size: 0.85rem !important;
 }
 .select2-container--bootstrap-5 .select2-selection--multiple .select2-search--inline {
-    display: inline-block !important;
-    vertical-align: middle !important;
+    display: inline-flex !important;
+    align-items: center !important;
     margin: 0 !important;
-    height: 30px !important;
+    height: 28px !important;
+    max-width: 4px !important;
+    overflow: hidden !important;
 }
 .select2-container--bootstrap-5 .select2-selection--multiple .select2-search--inline .select2-search__field {
     margin: 0 !important;
-    height: 30px !important;
-    line-height: 30px !important;
+    height: 28px !important;
+    line-height: 28px !important;
     padding: 0 !important;
-    vertical-align: middle !important;
+    width: 4px !important;
+    min-width: 4px !important;
+}
+.select2-container--bootstrap-5.select2-container--focus .select2-selection--multiple .select2-search--inline {
+    max-width: none !important;
+}
+.select2-container--bootstrap-5.select2-container--focus .select2-selection--multiple .select2-search--inline .select2-search__field {
+    width: auto !important;
 }
 .select2-container--bootstrap-5 .select2-selection--multiple .select2-selection__clear {
     position: absolute !important;
@@ -808,16 +850,19 @@ body {
     padding: 0 !important;
 }
 .select2-selection__count-badge {
-    display: inline-block !important;
-    vertical-align: middle !important;
-    margin-left: 4px !important;
-    font-size: 0.78rem !important;
-    padding: 0.15em 0.5em !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    height: 22px !important;
+    margin-left: 2px !important;
+    font-size: 0.75rem !important;
+    padding: 0 6px !important;
     background: #e2e8f0 !important;
     color: #475569 !important;
     border: 1px solid #cbd5e1 !important;
     border-radius: 10px !important;
-    line-height: 1.4 !important;
+    line-height: 1 !important;
+    flex-shrink: 0 !important;
+    font-weight: 600 !important;
 }
 
 /* ========================
