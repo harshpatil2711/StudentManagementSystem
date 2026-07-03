@@ -1,0 +1,129 @@
+@model BusinessLayer1.Models.EnrollmentDetailsModel
+
+@if (Model == null)
+{
+    <p class="text-muted">No details available.</p>
+    return;
+}
+
+<div class="p-3">
+    <div class="row g-3 mb-4">
+        <div class="col-md-6">
+            <div class="detail-label">Student Name</div>
+            <div class="detail-value">@Model.StudentName</div>
+        </div>
+        <div class="col-md-6">
+            <div class="detail-label">Course Name</div>
+            <div class="detail-value">@Model.CourseName</div>
+        </div>
+        <div class="col-md-6">
+            <div class="detail-label">Course Type</div>
+            <div class="detail-value">
+                <span class="badge bg-info text-dark">@Model.CourseType</span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="detail-label">Enrollment Date</div>
+            <div class="detail-value">@Model.EnrollmentDate.ToString("yyyy-MM-dd")</div>
+        </div>
+        <div class="col-md-6">
+            <div class="detail-label">Status</div>
+            <div class="detail-value">@Model.EnrollmentStatus</div>
+        </div>
+        <div class="col-md-6">
+            <div class="detail-label">Total Fees</div>
+            <div class="detail-value fw-bold text-success">
+                @(Model.TotalFees.HasValue ? "Rs. " + Model.TotalFees.Value.ToString("N2") : "N/A")
+            </div>
+        </div>
+        @if (Model.CourseDurationYears.HasValue && Model.CourseDurationYears > 0)
+        {
+            <div class="col-md-6">
+                <div class="detail-label">Duration</div>
+                <div class="detail-value">@Model.CourseDurationYears year(s)</div>
+            </div>
+        }
+    </div>
+
+    @if (Model.CourseType == "Skill" && Model.Skills != null && Model.Skills.Any())
+    {
+        <h6 class="fw-bold mb-3 border-bottom pb-2">Selected Skills</h6>
+        <div class="table-responsive">
+            <table class="table table-sm table-bordered">
+                <thead class="table-light">
+                    <tr>
+                        <th>#</th>
+                        <th>Skill Name</th>
+                        <th>Duration (Months)</th>
+                        <th>Fees</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var skill in Model.Skills)
+                    {
+                        <tr>
+                            <td>@skill.SkillID</td>
+                            <td>@skill.SkillName</td>
+                            <td>@skill.SkillDurationInMonths</td>
+                            <td>Rs. @skill.SkillFees.ToString("N2")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+
+    @if (Model.CourseType == "Academic" && Model.Subjects != null && Model.Subjects.Any())
+    {
+        <h6 class="fw-bold mb-3 border-bottom pb-2">Subjects</h6>
+        <div class="table-responsive">
+            <table class="table table-sm table-bordered">
+                <thead class="table-light">
+                    <tr>
+                        <th>#</th>
+                        <th>Subject Name</th>
+                        <th>Credits</th>
+                        <th>Semester</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var sub in Model.Subjects)
+                    {
+                        <tr>
+                            <td>@sub.SubjectID</td>
+                            <td>@sub.SubjectName</td>
+                            <td>@sub.Credits</td>
+                            <td>@sub.SemesterNumber</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+
+    @if (Model.CourseType == "Skill" && (Model.Skills == null || !Model.Skills.Any()))
+    {
+        <p class="text-muted">No skills selected for this enrollment.</p>
+    }
+
+    @if (Model.CourseType == "Academic" && (Model.Subjects == null || !Model.Subjects.Any()))
+    {
+        <p class="text-muted">No subjects found for this course.</p>
+    }
+</div>
+
+<style>
+    .detail-label {
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: #64748b;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 2px;
+    }
+    .detail-value {
+        font-size: 1rem;
+        font-weight: 600;
+        color: #0f172a;
+    }
+</style>

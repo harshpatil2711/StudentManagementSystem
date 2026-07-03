@@ -24,6 +24,4 @@ D:\C#Practice\StudentManagementSystem\BusinessLayer\bin\Debug\Serilog.Sinks.Asyn
 D:\C#Practice\StudentManagementSystem\BusinessLayer\bin\Debug\Serilog.Sinks.File.pdb
 D:\C#Practice\StudentManagementSystem\BusinessLayer\bin\Debug\Serilog.Sinks.File.xml
 D:\C#Practice\StudentManagementSystem\BusinessLayer\bin\Debug\Serilog.Sinks.MSSqlServer.xml
-D:\C#Practice\StudentManagementSystem\BusinessLayer\obj\Debug\BusinessLayer1.csproj.AssemblyReference.cache
-D:\C#Practice\StudentManagementSystem\BusinessLayer\obj\Debug\BusinessLayer1.csproj.CoreCompileInputs.cache
-D:\C#Practice\StudentManagementSystem\BusinessLayer\obj\Debug\Business.72A82929.Up2Date
+D:\C#Practice\StudentManagementSystem\BusinessLayer\obj\Debug\BusinessLayer1.csprojResolveAssemblyReference.cache

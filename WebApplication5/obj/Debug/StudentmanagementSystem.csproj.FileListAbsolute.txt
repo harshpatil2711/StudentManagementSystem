@@ -97,6 +97,4 @@ D:\C#Practice\StudentManagementSystem\WebApplication5\bin\Serilog.Sinks.File.xml
 D:\C#Practice\StudentManagementSystem\WebApplication5\bin\Serilog.Sinks.MSSqlServer.xml
 D:\C#Practice\StudentManagementSystem\WebApplication5\bin\Serilog.Sinks.PeriodicBatching.dll
 D:\C#Practice\StudentManagementSystem\WebApplication5\bin\Serilog.Sinks.PeriodicBatching.xml
-D:\C#Practice\StudentManagementSystem\WebApplication5\obj\Debug\StudentmanagementSystem.csproj.AssemblyReference.cache
-D:\C#Practice\StudentManagementSystem\WebApplication5\obj\Debug\StudentmanagementSystem.csproj.CoreCompileInputs.cache
-D:\C#Practice\StudentManagementSystem\WebApplication5\obj\Debug\Studentm.DE7F483C.Up2Date
+D:\C#Practice\StudentManagementSystem\WebApplication5\obj\Debug\StudentmanagementSystem.csprojResolveAssemblyReference.cache

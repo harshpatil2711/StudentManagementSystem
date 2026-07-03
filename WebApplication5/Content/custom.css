@@ -96,7 +96,7 @@ body {
     border: 1px solid rgba(255, 255, 255, 0.6);
     border-radius: var(--border-radius-lg);
     box-shadow: var(--glass-shadow);
-    padding: 2.5rem;
+    padding: 2rem;
     margin-top: 1.5rem;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -335,6 +335,38 @@ body {
     transform: translateY(-1px);
 }
 
+.btn-warning-outline {
+    display: inline-flex;
+    white-space: nowrap;
+    background: transparent;
+    color: #d97706 !important;
+    border: 2px solid #d97706;
+    border-radius: var(--border-radius-md);
+    font-weight: 600;
+    padding: 0.5rem 0.75rem;
+    transition: all 0.2s ease;
+}
+.btn-warning-outline:hover {
+    background: rgba(217, 119, 6, 0.05);
+    transform: translateY(-1px);
+}
+
+.btn-info-outline {
+    display: inline-flex;
+    white-space: nowrap;
+    background: transparent;
+    color: #0ea5e9 !important;
+    border: 2px solid #0ea5e9;
+    border-radius: var(--border-radius-md);
+    font-weight: 600;
+    padding: 0.5rem 0.75rem;
+    transition: all 0.2s ease;
+}
+.btn-info-outline:hover {
+    background: rgba(14, 165, 233, 0.05);
+    transform: translateY(-1px);
+}
+
 /* Input & Form Styling */
 .form-label-premium {
     font-weight: 600;
@@ -379,10 +411,10 @@ body {
 .table-custom thead th {
     background-color: transparent;
     border: none;
-    padding: 0.8rem 1rem;
-    font-size: 0.92rem;
+    padding: 0.6rem 0.6rem;
+    font-size: 0.82rem;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 0.8px;
     color: #0f172a;
     font-weight: 800;
 }
@@ -418,9 +450,10 @@ body {
 }
 
 .table-custom tbody td {
-    padding: 0.8rem 1rem;
+    padding: 0.6rem 0.6rem;
     border-top: 1px solid #f1f5f9;
     border-bottom: 1px solid #f1f5f9;
+    font-size: 0.88rem;
 }
 
 .table-custom tbody tr td:first-child {
@@ -435,8 +468,8 @@ body {
 
 /* Compact Table Action Buttons */
 .table-custom .btn {
-    padding: 0.5rem 0.75rem !important;
-    font-size: 0.85rem !important;
+    padding: 0.35rem 0.5rem !important;
+    font-size: 0.82rem !important;
     border-radius: var(--border-radius-sm) !important;
     white-space: nowrap !important;
 }
@@ -593,16 +626,116 @@ body {
 }
 
 /* Perfect Toolbar Vertical Alignment Height Matching */
-.btn-premium-primary, 
-.btn-premium-secondary, 
-.btn-premium-outline, 
-.btn-danger-outline,
+.btn-premium-primary:not(.btn-sm), 
+.btn-premium-secondary:not(.btn-sm), 
+.btn-premium-outline:not(.btn-sm), 
+.btn-danger-outline:not(.btn-sm),
 .form-control-premium {
     height: 48px !important;
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
     white-space: nowrap !important;
+}
+
+/* Mobile card layout — compact, no scroll, all data visible */
+@media (max-width: 991.98px) {
+    #mobileMoreCards { display: block !important; }
+    #mobileMoreToggle { display: none !important; }
+
+    .mobile-enrollment-card {
+        padding: 1.25rem !important;
+        margin-bottom: 0.75rem !important;
+    }
+    .mobile-enrollment-card .fw-bold.text-primary {
+        font-size: 0.95rem !important;
+    }
+    .mobile-enrollment-card .badge-status {
+        font-size: 0.8rem !important;
+        padding: 0.35rem 0.75rem !important;
+    }
+    .mobile-enrollment-card .avatar-circle {
+        width: 36px !important;
+        height: 36px !important;
+        font-size: 0.95rem !important;
+        min-width: 36px !important;
+    }
+    .mobile-enrollment-card h6 {
+        font-size: 1rem !important;
+    }
+    .mobile-enrollment-card small {
+        font-size: 0.8rem !important;
+    }
+    .mobile-enrollment-card .border-top {
+        padding-top: 0.75rem !important;
+        margin-top: 0.75rem !important;
+    }
+    .mobile-enrollment-card .mb-3 {
+        margin-bottom: 0.75rem !important;
+    }
+    .mobile-enrollment-card .d-flex.justify-content-between {
+        margin-bottom: 0.5rem !important;
+    }
+    .mobile-enrollment-card .d-flex.justify-content-between span,
+    .mobile-enrollment-card .badge.bg-secondary-subtle {
+        font-size: 0.85rem !important;
+        padding: 0.25rem 0.6rem !important;
+    }
+    .mobile-enrollment-card .gap-2 {
+        gap: 0.5rem !important;
+    }
+    .mobile-enrollment-card .d-flex.flex-row.gap-2 {
+        gap: 0.5rem !important;
+    }
+    .mobile-enrollment-card .btn {
+        padding: 0.4rem 0.6rem !important;
+        font-size: 0.8rem !important;
+    }
+}
+
+/* Extra compact for very small screens (< 576px) */
+@media (max-width: 575.98px) {
+    .mobile-enrollment-card {
+        padding: 1rem !important;
+    }
+    .mobile-enrollment-card .avatar-circle {
+        width: 32px !important;
+        height: 32px !important;
+        font-size: 0.85rem !important;
+        min-width: 32px !important;
+    }
+    .mobile-enrollment-card h6 {
+        font-size: 0.95rem !important;
+    }
+    .mobile-enrollment-card .badge-status {
+        font-size: 0.75rem !important;
+        padding: 0.3rem 0.6rem !important;
+    }
+    .mobile-enrollment-card .fw-bold.text-primary {
+        font-size: 0.9rem !important;
+    }
+    .mobile-enrollment-card .d-flex.justify-content-between span,
+    .mobile-enrollment-card .badge.bg-secondary-subtle {
+        font-size: 0.8rem !important;
+    }
+    .mobile-enrollment-card .btn {
+        padding: 0.35rem 0.5rem !important;
+        font-size: 0.75rem !important;
+    }
+}
+
+/* Compact Table Cells on smaller desktop viewports to prevent overflow scroll */
+@media (max-width: 1199.98px) {
+    .table-custom tbody td,
+    .table-custom thead th {
+        padding: 0.5rem 0.4rem !important;
+        font-size: 0.82rem !important;
+    }
+    .table-custom .avatar-circle {
+        width: 26px !important;
+        height: 26px !important;
+        font-size: 0.75rem !important;
+    }
 }
 
 /* Extra Responsive Overrides for Small Mobile Screens */
@@ -957,4 +1090,8 @@ body {
 .btn-back:hover {
     background: #e5e7eb;
     transform: translateY(-1px);
+}
+
+.modal-body .btn-back {
+    display: none !important;
 }

@@ -269,28 +269,13 @@ $(document).ready(function () {
 
     // ── Edit Button ───────────────────────────────────────────────────
     $(document).on("click", ".edit-btn", function () {
-        sessionStorage.setItem("enrollment_status",      $("#status").val() || "");
-        sessionStorage.setItem("enrollment_studentname", $("#studentname").val() || "");
-        sessionStorage.setItem("enrollment_size",        $("#size").val() || "5");
-        sessionStorage.setItem("enrollment_page",        $("#page").val() || "1");
-
         var id = $(this).data('id');
-        $.get('/Home/InsertEnrollment', { id: id }, function (html) {
-            $('#enrollmentModalBody').html(html);
-            bootstrap.Modal.getOrCreateInstance(
-                document.getElementById('enrollmentModal')
-            ).show();
-        });
+        window.location.href = '/Home/InsertEnrollment/' + id;
     });
 
     // ── Add New Enrollment ────────────────────────────────────────────
     $(document).on('click', '#btnAddEnrollment', function () {
-        $.get('/Home/InsertEnrollment', function (html) {
-            $('#enrollmentModalBody').html(html);
-            bootstrap.Modal.getOrCreateInstance(
-                document.getElementById('enrollmentModal')
-            ).show();
-        });
+        window.location.href = '/Home/InsertEnrollment';
     });
 
     // ── Delete Enrollment ─────────────────────────────────────────────
@@ -329,6 +314,51 @@ $(document).ready(function () {
         });
     });
 
+    // ── Fees Button ───────────────────────────────────────────────────
+    $(document).on('click', '.fees-btn', function () {
+        var id = $(this).data('id');
+        $.get('/Home/ManageFees', { id: id }, function (html) {
+            $('#feesModalBody').html(html);
+            bootstrap.Modal.getOrCreateInstance(
+                document.getElementById('feesModal')
+            ).show();
+        });
+    });
+
+    // ── Save Fee ──────────────────────────────────────────────────────
+    $(document).on('click', '#btnSaveFee', function () {
+        var enrollmentId = $('#feeEnrollmentId').val();
+        var totalFees = parseFloat($('#feeTotalFees').val()) || 0;
+        var feesPaid = parseFloat($('#feeFeesPaid').val()) || 0;
+
+        if (totalFees <= 0) { showMessage("Total Fees must be greater than 0.", "danger"); return; }
+
+        $.ajax({
+            url: '/Home/SaveFee',
+            type: 'POST',
+            data: { enrollmentId: parseInt(enrollmentId), totalFees: totalFees, feesPaid: feesPaid },
+            success: function (result) {
+                if (typeof result === 'string' && result.toLowerCase().indexOf("success") !== -1) {
+                    iziToast.success({ title: 'Success', message: result, position: 'topRight' });
+                    $('#feesModal').modal('hide');
+                } else {
+                    showMessage(result, "danger");
+                }
+            },
+            error: function () {
+                showMessage("An error occurred. Please try again.", "danger");
+            }
+        });
+    });
+
+    // ── Modal Shown: load skills for edit mode ────────────────────────
+    $('#enrollmentModal').on('shown.bs.modal', function () {
+        var offeringId = $('#CourseOfferingID').val();
+        if (offeringId) {
+            loadSkillsForOffering(offeringId);
+        }
+    });
+
     // ── Save Enrollment (modal form submit) ───────────────────────────
     $(document).on('click', '#btnSubmit', function () {
         var enrollmentId     = $("#EnrollmentID").val();
@@ -342,6 +372,10 @@ $(document).ready(function () {
         if (!enrollmentDate) { showMessage("Please select an Enrollment Date.", "danger"); return; }
         if (!status || status === "") { showMessage("Please select a Status.", "danger"); return; }
 
+        if ($('#skillsSection').is(':visible') && !$('#SelectedSkills').val()) {
+            showMessage("Please select at least one skill.", "danger"); return;
+        }
+
         $.ajax({
             url: '/Home/InsertEnrollment',
             type: 'POST',
@@ -350,7 +384,8 @@ $(document).ready(function () {
                 StudentID:        parseInt(studentId),
                 CourseOfferingID: parseInt(courseOfferingId),
                 EnrollmentDate:   enrollmentDate,
-                Status:           status
+                Status:           status,
+                SelectedSkills:   $('#SelectedSkills').val() || ''
             },
             success: function (result) {
                 if (typeof result === 'string' && result.toLowerCase().indexOf("success") !== -1) {

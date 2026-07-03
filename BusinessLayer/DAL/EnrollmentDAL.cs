@@ -39,18 +39,20 @@ namespace BusinessLayer1.DAL
                 {
                     while (reader.Read())
                     {
-                        Enrollment enrollment = new Enrollment()
-                        {
-                            EnrollmentID = Convert.ToInt32(reader["EnrollmentId"]),
-                            StudentName = reader["StudentName"].ToString(),
-                            CourseName = reader["CourseName"].ToString(),
-                            EnrollmentDate = Convert.ToDateTime(reader["EnrollmentDate"]),
-                            EnrollmentStatus = reader["EnrollmentStatus"].ToString(),
-                            DateCreated = Convert.ToDateTime(reader["DateCreated"]),
-                            CreatedBy = reader["CreatedBy"].ToString(),
-                            DateLastModified = Convert.ToDateTime(reader["DateLastModified"]),
-                            LastModifiedBy = reader["LastModifiedBy"].ToString()
-                        };
+                            Enrollment enrollment = new Enrollment()
+                            {
+                                EnrollmentID = Convert.ToInt32(reader["EnrollmentId"]),
+                                StudentName = reader["StudentName"].ToString(),
+                                CourseName = reader["CourseName"].ToString(),
+                                CourseType = reader["CourseType"].ToString(),
+                                EnrollmentDate = Convert.ToDateTime(reader["EnrollmentDate"]),
+                                EnrollmentStatus = reader["EnrollmentStatus"].ToString(),
+                                DateCreated = Convert.ToDateTime(reader["DateCreated"]),
+                                CreatedBy = reader["CreatedBy"].ToString(),
+                                DateLastModified = Convert.ToDateTime(reader["DateLastModified"]),
+                                LastModifiedBy = reader["LastModifiedBy"].ToString(),
+                                TotalFees = reader["TotalFees"] != DBNull.Value ? Convert.ToDecimal(reader["TotalFees"]) : (decimal?)null
+                            };
 
                         list.Add(enrollment);
                     }
@@ -226,9 +228,10 @@ namespace BusinessLayer1.DAL
             return message;
         }
 
-        public string SaveEnrollment(EnrollmentInsertViewModel vm)
+        public string SaveEnrollment(EnrollmentInsertViewModel vm, out int newEnrollmentId)
         {
             string message = "";
+            newEnrollmentId = 0;
             try
             {
                 DbCommand cmd = db.GetStoredProcCommand("sp_SaveEnrollment");
@@ -244,7 +247,12 @@ namespace BusinessLayer1.DAL
 
                 db.AddOutParameter(cmd, "@Message", DbType.String, 100);
 
-                db.ExecuteNonQuery(cmd);
+                using (IDataReader reader = db.ExecuteReader(cmd))
+                {
+                    if (reader.Read() && reader["NewEnrollmentID"] != DBNull.Value)
+                        newEnrollmentId = Convert.ToInt32(reader["NewEnrollmentID"]);
+                    reader.Close();
+                }
 
                 message = db.GetParameterValue(cmd, "@Message").ToString();
             }
@@ -255,5 +263,271 @@ namespace BusinessLayer1.DAL
             }
             return message;
         }
+
+        public string GetCourseTypeByOfferingId(int courseOfferingId)
+        {
+            string courseType = "Academic";
+            try
+            {
+                DbCommand cmd = db.GetStoredProcCommand("sp_GetCourseTypeByOfferingId");
+                db.AddInParameter(cmd, "@CourseOfferingID", DbType.Int32, courseOfferingId);
+                object result = db.ExecuteScalar(cmd);
+                if (result != null)
+                    courseType = result.ToString();
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Error getting course type for offering {Id}", courseOfferingId);
+            }
+            return courseType;
+        }
+
+        public List<Skill> GetSkillsByCourseOfferingId(int courseOfferingId)
+        {
+            List<Skill> skills = new List<Skill>();
+            try
+            {
+                DbCommand cmd = db.GetStoredProcCommand("sp_GetSkillsByCourseOfferingId");
+                db.AddInParameter(cmd, "@CourseOfferingID", DbType.Int32, courseOfferingId);
+
+                using (IDataReader reader = db.ExecuteReader(cmd))
+                {
+                    while (reader.Read())
+                    {
+                        skills.Add(new Skill
+                        {
+                            SkillID = Convert.ToInt32(reader["SkillID"]),
+                            SkillName = reader["SkillName"].ToString(),
+                            SkillDurationInMonths = Convert.ToInt32(reader["SkillDurationInMonths"]),
+                            SkillFees = Convert.ToDecimal(reader["SkillFees"])
+                        });
+                    }
+                    reader.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Error loading skills for offering {Id}", courseOfferingId);
+            }
+            return skills;
+        }
+
+        public string SaveEnrollmentWithSkills(EnrollmentInsertViewModel vm)
+        {
+            string message = "";
+            try
+            {
+                DbCommand cmd = db.GetStoredProcCommand("sp_SaveEnrollmentWithSkills");
+
+                db.AddInParameter(cmd, "@EnrollmentID", DbType.Int32, vm.EnrollmentID ?? (object)DBNull.Value);
+                db.AddInParameter(cmd, "@StudentID", DbType.Int32, vm.StudentID);
+                db.AddInParameter(cmd, "@CourseOfferingID", DbType.Int32, vm.CourseOfferingID);
+                db.AddInParameter(cmd, "@EnrollmentDate", DbType.Date, vm.EnrollmentDate);
+                db.AddInParameter(cmd, "@Status", DbType.Int32,
+                    !string.IsNullOrEmpty(vm.Status) ? Convert.ToInt32(vm.Status) : (object)DBNull.Value);
+                db.AddInParameter(cmd, "@SkillData", DbType.String, vm.SelectedSkills);
+                db.AddInParameter(cmd, "@CreatedBy", DbType.String, "admin");
+                db.AddInParameter(cmd, "@LastModifiedBy", DbType.String, "admin");
+
+                db.AddOutParameter(cmd, "@Message", DbType.String, 100);
+
+                db.ExecuteNonQuery(cmd);
+
+                message = db.GetParameterValue(cmd, "@Message").ToString();
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Error saving enrollment with skills for StudentID {StudentId}", vm.StudentID);
+                message = "Error: " + ex.Message;
+            }
+            return message;
+        }
+
+        public List<Skill> GetEnrollmentSkills(int enrollmentId)
+        {
+            List<Skill> skills = new List<Skill>();
+            try
+            {
+                DbCommand cmd = db.GetStoredProcCommand("sp_GetEnrollmentSkills");
+                db.AddInParameter(cmd, "@EnrollmentID", DbType.Int32, enrollmentId);
+
+                using (IDataReader reader = db.ExecuteReader(cmd))
+                {
+                    while (reader.Read())
+                    {
+                        skills.Add(new Skill
+                        {
+                            SkillID = Convert.ToInt32(reader["SkillID"]),
+                            SkillName = reader["SkillName"].ToString(),
+                            SkillFees = Convert.ToDecimal(reader["SkillFees"]),
+                            Months = reader["Months"] != DBNull.Value ? Convert.ToInt32(reader["Months"]) : 0
+                        });
+                    }
+                    reader.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Error loading enrollment skills for enrollment {Id}", enrollmentId);
+            }
+            return skills;
+        }
+
+        public EnrollmentDetailsModel GetEnrollmentDetails(int enrollmentId)
+        {
+            EnrollmentDetailsModel model = null;
+            try
+            {
+                DbCommand cmd = db.GetStoredProcCommand("sp_GetEnrollmentDetails");
+                db.AddInParameter(cmd, "@EnrollmentID", DbType.Int32, enrollmentId);
+                var coursetype = "";
+                using (IDataReader reader = db.ExecuteReader(cmd))
+                {
+                    // Result set 1: Basic info
+                    if (reader.Read())
+                    {
+                        model = new EnrollmentDetailsModel
+                        {
+                            EnrollmentID = Convert.ToInt32(reader["EnrollmentID"]),
+                            StudentName = reader["StudentName"].ToString(),
+                            CourseName = reader["CourseName"].ToString(),
+                            CourseType = reader["CourseType"].ToString(),
+                            CourseDurationYears = reader["CourseDurationYears"] != DBNull.Value ? Convert.ToInt32(reader["CourseDurationYears"]) : (int?)null,
+                            EnrollmentDate = Convert.ToDateTime(reader["EnrollmentDate"]),
+                            EnrollmentStatus = reader["EnrollmentStatus"].ToString(),
+                            TotalFees = reader["TotalFees"] != DBNull.Value ? Convert.ToDecimal(reader["TotalFees"]) : (decimal?)null,
+                            Skills = new List<Skill>(),
+                            Subjects = new List<SubjectInfo>()
+                        };
+                    }
+                    if (model.CourseType == "Skill")
+                    {
+                        // Result set 2: Skills
+                        if (reader.NextResult())
+                        {
+                            while (reader.Read())
+                            {
+                                if (model != null)
+                                {
+                                    model.Skills.Add(new Skill
+                                    {
+                                        SkillID = Convert.ToInt32(reader["SkillID"]),
+                                        SkillName = reader["SkillName"].ToString(),
+                                        SkillDurationInMonths = Convert.ToInt32(reader["SkillDurationInMonths"]),
+                                        SkillFees = Convert.ToDecimal(reader["SkillFees"])
+                                    });
+                                }
+                            }
+                        }
+                    }
+                    else {
+                        // Result set 3: Subjects
+                        if (reader.NextResult())
+                        {
+                            while (reader.Read())
+                            {
+                                if (model != null)
+                                {
+                                    model.Subjects.Add(new SubjectInfo
+                                    {
+                                        SubjectID = Convert.ToInt32(reader["SubjectID"]),
+                                        SubjectName = reader["SubjectName"].ToString(),
+                                        Credits = Convert.ToInt32(reader["Credits"]),
+                                        SemesterNumber = Convert.ToInt32(reader["SemesterNumber"])
+                                    });
+                                }
+                            }
+                        }
+                    }
+
+                   
+
+                 
+
+                    reader.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Error loading enrollment details for enrollment {Id}", enrollmentId);
+            }
+            return model;
+        }
+
+        public StudentFeeInfo GetStudentFeeByEnrollmentId(int enrollmentId)
+        {
+            StudentFeeInfo feeInfo = null;
+            try
+            {
+                DbCommand cmd = db.GetStoredProcCommand("sp_GetStudentFeeByEnrollmentId");
+                db.AddInParameter(cmd, "@EnrollmentID", DbType.Int32, enrollmentId);
+
+                using (IDataReader reader = db.ExecuteReader(cmd))
+                {
+                    if (reader.Read())
+                    {
+                        feeInfo = new StudentFeeInfo
+                        {
+                            StudentFeeID = Convert.ToInt32(reader["StudentFeeID"]),
+                            EnrollmentID = Convert.ToInt32(reader["EnrollmentID"]),
+                            TotalFees = Convert.ToDecimal(reader["TotalFees"]),
+                            FeesPaid = reader["FeesPaid"] != DBNull.Value ? Convert.ToDecimal(reader["FeesPaid"]) : (decimal?)null,
+                            CourseFees = reader["CourseFees"] != DBNull.Value ? Convert.ToDecimal(reader["CourseFees"]) : (decimal?)null,
+                            DurationYears = reader["DurationYears"] != DBNull.Value ? Convert.ToInt32(reader["DurationYears"]) : (int?)null,
+                            CourseType = reader["CourseType"].ToString()
+                        };
+                    }
+                    reader.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Error loading student fee for enrollment {Id}", enrollmentId);
+            }
+            return feeInfo;
+        }
+
+        public decimal GetCourseOfferingFee(int courseOfferingId)
+        {
+            decimal fee = 0;
+            try
+            {
+                DbCommand cmd = db.GetStoredProcCommand("sp_GetCourseOfferingFee");
+                db.AddInParameter(cmd, "@CourseOfferingID", DbType.Int32, courseOfferingId);
+                object result = db.ExecuteScalar(cmd);
+                if (result != null)
+                    fee = Convert.ToDecimal(result);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Error getting fee for offering {Id}", courseOfferingId);
+            }
+            return fee;
+        }
+
+        public string SaveStudentFee(int enrollmentId, decimal totalFees, decimal? feesPaid, string lastModifiedBy)
+        {
+            string message = "";
+            try
+            {
+                DbCommand cmd = db.GetStoredProcCommand("sp_SaveStudentFee");
+                db.AddInParameter(cmd, "@EnrollmentID", DbType.Int32, enrollmentId);
+                db.AddInParameter(cmd, "@TotalFees", DbType.Decimal, totalFees);
+                db.AddInParameter(cmd, "@FeesPaid", DbType.Decimal, feesPaid ?? (object)DBNull.Value);
+                db.AddInParameter(cmd, "@CreatedBy", DbType.String, lastModifiedBy);
+                db.AddInParameter(cmd, "@LastModifiedBy", DbType.String, lastModifiedBy);
+                db.AddOutParameter(cmd, "@Message", DbType.String, 100);
+
+                db.ExecuteNonQuery(cmd);
+                message = db.GetParameterValue(cmd, "@Message").ToString();
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Error saving fee for enrollment {Id}", enrollmentId);
+                message = "Error: " + ex.Message;
+            }
+            return message;
+        }
+
     }
 }

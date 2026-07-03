@@ -150,9 +150,60 @@
     </div>
 </div>
 
+<!-- Fees Modal -->
+<div class="modal" id="feesModal" tabindex="-1"
+     aria-labelledby="feesModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable enrollment-modal-dialog">
+        <div class="modal-content enrollment-modal-content">
+            <div class="modal-header enrollment-modal-header">
+                <div class="enrollment-modal-title-wrap">
+                    <div class="enrollment-modal-icon">
+                        <i class="bi bi-currency-rupee"></i>
+                    </div>
+                    <h5 class="modal-title" id="feesModalTitle">Manage Fees</h5>
+                </div>
+                <button type="button" class="btn-close btn-close-enrollment"
+                        data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body enrollment-modal-body" id="feesModalBody">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Details Modal -->
+<div class="modal" id="detailsModal" tabindex="-1"
+     aria-labelledby="detailsModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable enrollment-modal-dialog modal-lg">
+        <div class="modal-content enrollment-modal-content">
+            <div class="modal-header enrollment-modal-header">
+                <div class="enrollment-modal-title-wrap">
+                    <div class="enrollment-modal-icon">
+                        <i class="bi bi-info-circle"></i>
+                    </div>
+                    <h5 class="modal-title" id="detailsModalTitle">Enrollment Details</h5>
+                </div>
+                <button type="button" class="btn-close btn-close-enrollment"
+                        data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body enrollment-modal-body" id="detailsModalBody">
+                <!-- Details content injected here by AJAX -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    @@media (max-width: 991.98px) {
+        #mobileMoreCards { display: block !important; }
+        #mobileMoreToggle { display: none !important; }
+        .container-fluid.py-4 { padding-left: 0.5rem !important; padding-right: 0.5rem !important; }
+        .main-dashboard-card { padding: 1.25rem !important; border-radius: 12px !important; }
+    }
+</style>
 <!-- URL variables for external JS (server-side Url.Action cannot run in .js files) -->
 <script>
     var indexActionUrl = '@Url.Action("Index", "Home")';
     var deleteEnrollmentUrl = '@Url.Action("DeleteEnrollment", "Home")';
 </script>
-<script src="~/Scripts/index.js"></script>
+<script src="~/Scripts/index.js?v=@DateTime.Now.Ticks"></script>

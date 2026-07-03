@@ -1,8 +1,6 @@
+using BusinessLayer1.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BusinessLayer.ViewModels
 {
@@ -17,6 +15,12 @@ namespace BusinessLayer.ViewModels
         public DateTime? EnrollmentDate { get; set; }
 
         public string Status { get; set; }
+
+        public string CourseType { get; set; }
+
+        public string SelectedSkills { get; set; }
+
+        public List<Skill> SkillList { get; set; }
 
         public Dictionary<int, string> StudentDict
         {

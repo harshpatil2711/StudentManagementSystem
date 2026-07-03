@@ -71,6 +71,8 @@
     <Compile Include="DAL\EnrollmentDAL.cs" />
     <Compile Include="DAL\StudentDAL.cs" />
     <Compile Include="Models\Enrollment.cs" />
+    <Compile Include="Models\EnrollmentDetailsModel.cs" />
+    <Compile Include="Models\Skill.cs" />
     <Compile Include="Models\Student.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\EnrollmentInsertViewModel.cs" />
