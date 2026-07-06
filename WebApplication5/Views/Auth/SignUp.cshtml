@@ -1,0 +1,94 @@
+@model BusinessLayer1.Models.SignUpViewModel
+@{
+    ViewBag.Title = "Sign Up";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="main-dashboard-card p-4">
+                <div class="text-center mb-4">
+                    <i class="bi bi-person-plus-fill text-primary" style="font-size: 3rem;"></i>
+                    <h2 class="dashboard-title mt-2">Create Account</h2>
+                    <p class="text-muted">Register to get started</p>
+                </div>
+
+                @if (!string.IsNullOrEmpty(ViewBag.Error))
+                {
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>@ViewBag.Error
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                }
+
+                @using (Html.BeginForm("SignUp", "Auth", FormMethod.Post, new { @class = "needs-validation", novalidate = "" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            @Html.LabelFor(m => m.FirstName, new { @class = "form-label-premium" })
+                            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control premium-input", placeholder = "First name" })
+                            @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger small" })
+                        </div>
+
+                        <div class="col-md-6">
+                            @Html.LabelFor(m => m.LastName, new { @class = "form-label-premium" })
+                            @Html.TextBoxFor(m => m.LastName, new { @class = "form-control premium-input", placeholder = "Last name" })
+                            @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger small" })
+                        </div>
+
+                        <div class="col-md-6">
+                            @Html.LabelFor(m => m.Email, new { @class = "form-label-premium" })
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control premium-input", placeholder = "Email address", type = "email" })
+                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger small" })
+                        </div>
+
+                        <div class="col-md-6">
+                            @Html.LabelFor(m => m.PhoneNumber, new { @class = "form-label-premium" })
+                            @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control premium-input", placeholder = "Phone number" })
+                            @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger small" })
+                        </div>
+
+                        <div class="col-12">
+                            @Html.LabelFor(m => m.Username, new { @class = "form-label-premium" })
+                            @Html.TextBoxFor(m => m.Username, new { @class = "form-control premium-input", placeholder = "Choose a username" })
+                            @Html.ValidationMessageFor(m => m.Username, "", new { @class = "text-danger small" })
+                        </div>
+
+                        <div class="col-md-6">
+                            @Html.LabelFor(m => m.Password, new { @class = "form-label-premium" })
+                            @Html.PasswordFor(m => m.Password, new { @class = "form-control premium-input", placeholder = "Password (min 6 chars)" })
+                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger small" })
+                        </div>
+
+                        <div class="col-md-6">
+                            @Html.LabelFor(m => m.ConfirmPassword, new { @class = "form-label-premium" })
+                            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control premium-input", placeholder = "Confirm password" })
+                            @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger small" })
+                        </div>
+
+                        <div class="col-12">
+                            @Html.LabelFor(m => m.RoleId, new { @class = "form-label-premium" })
+                            @Html.DropDownListFor(m => m.RoleId, ViewBag.RoleList as SelectList, "-- Select Role --", new { @class = "form-select premium-input" })
+                            @Html.ValidationMessageFor(m => m.RoleId, "", new { @class = "text-danger small" })
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-premium-primary w-100 mt-4">
+                        <i class="bi bi-person-check me-2"></i>Create Account
+                    </button>
+                }
+
+                <div class="text-center mt-3">
+                    <p class="mb-0">Already have an account? <a href="@Url.Action("Login", "Auth")" class="text-primary fw-bold">Sign In</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

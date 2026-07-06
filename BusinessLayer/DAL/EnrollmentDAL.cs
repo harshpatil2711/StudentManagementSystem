@@ -380,7 +380,6 @@ namespace BusinessLayer1.DAL
             {
                 DbCommand cmd = db.GetStoredProcCommand("sp_GetEnrollmentDetails");
                 db.AddInParameter(cmd, "@EnrollmentID", DbType.Int32, enrollmentId);
-                var coursetype = "";
                 using (IDataReader reader = db.ExecuteReader(cmd))
                 {
                     // Result set 1: Basic info

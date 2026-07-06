@@ -64,6 +64,37 @@
                             <i class="bi bi-list-columns-reverse me-2 opacity-75"></i>Dynamic List
                         </a>
                     </li>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item dropdown">
+                            <a class="nav-link nav-link-premium dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                <i class="bi bi-person-circle me-1"></i>@User.Identity.Name
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><span class="dropdown-item-text text-muted small">
+                                    @{
+                                        var user = Session["UserSession"] as BusinessLayer1.Models.UserSession;
+                                    }
+                                    @(user?.FullName ?? User.Identity.Name)
+                                </span></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>@Html.ActionLink("Logout", "Logout", "Auth", null, new { @class = "dropdown-item" })</li>
+                            </ul>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link nav-link-premium" href="/Auth/Login">
+                                <i class="bi bi-box-arrow-in-right me-1"></i>Login
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav-link-premium" href="/Auth/SignUp">
+                                <i class="bi bi-person-plus me-1"></i>Sign Up
+                            </a>
+                        </li>
+                    }
                 </ul>
             </div>
         </div>
