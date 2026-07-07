@@ -528,5 +528,41 @@ namespace BusinessLayer1.DAL
             return message;
         }
 
+        public List<StudentEnrollmentFee> GetStudentEnrollmentsWithFees(int studentId)
+        {
+            List<StudentEnrollmentFee> list = new List<StudentEnrollmentFee>();
+            try
+            {
+                DbCommand cmd = db.GetStoredProcCommand("sp_GetStudentEnrollmentsWithFees");
+                db.AddInParameter(cmd, "@StudentID", DbType.Int32, studentId);
+
+                using (IDataReader reader = db.ExecuteReader(cmd))
+                {
+                    while (reader.Read())
+                    {
+                        list.Add(new StudentEnrollmentFee
+                        {
+                            EnrollmentID = Convert.ToInt32(reader["EnrollmentID"]),
+                            StudentID = Convert.ToInt32(reader["StudentID"]),
+                            StudentName = reader["StudentName"].ToString(),
+                            CourseName = reader["CourseName"].ToString(),
+                            CourseType = reader["CourseType"].ToString(),
+                            EnrollmentDate = Convert.ToDateTime(reader["EnrollmentDate"]),
+                            Status = reader["Status"].ToString(),
+                            TotalFees = reader["TotalFees"] != DBNull.Value ? Convert.ToDecimal(reader["TotalFees"]) : (decimal?)null,
+                            FeesPaid = reader["FeesPaid"] != DBNull.Value ? Convert.ToDecimal(reader["FeesPaid"]) : (decimal?)null,
+                            RemainingFees = Convert.ToDecimal(reader["RemainingFees"])
+                        });
+                    }
+                    reader.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Error loading enrollments with fees for student {Id}", studentId);
+            }
+            return list;
+        }
+
     }
 }

@@ -253,6 +253,37 @@ namespace WebApplication5.Controllers
             }
         }
 
+        // GET: /Home/FeesEdit
+        public ActionResult FeesEdit()
+        {
+            try
+            {
+                EnrollmentDAL da = new EnrollmentDAL();
+                ViewBag.StudentList = da.GetStudents();
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Error loading FeesEdit page");
+            }
+            return View();
+        }
+
+        // GET: /Home/GetStudentEnrollmentsWithFees?studentId=5
+        public JsonResult GetStudentEnrollmentsWithFees(int studentId)
+        {
+            try
+            {
+                EnrollmentDAL da = new EnrollmentDAL();
+                var list = da.GetStudentEnrollmentsWithFees(studentId);
+                return Json(list, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Error loading enrollments with fees for student {Id}", studentId);
+                return Json(new List<BusinessLayer1.Models.StudentEnrollmentFee>(), JsonRequestBehavior.AllowGet);
+            }
+        }
+
         public ActionResult About()
         {
             return View();

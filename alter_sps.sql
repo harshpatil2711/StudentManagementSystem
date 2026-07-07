@@ -107,3 +107,36 @@ BEGIN
     WHERE ES.EnrollmentID = @EnrollmentID
 END
 GO
+
+-- ============================================================
+-- sp_GetStudentEnrollmentsWithFees — returns enrollments with fee info for a student
+-- ============================================================
+IF EXISTS (SELECT 1 FROM sys.procedures WHERE name = 'sp_GetStudentEnrollmentsWithFees')
+    DROP PROCEDURE sp_GetStudentEnrollmentsWithFees;
+GO
+
+CREATE PROCEDURE sp_GetStudentEnrollmentsWithFees
+    @StudentID INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT
+        e.EnrollmentID,
+        e.StudentID,
+        s.StudentName,
+        co.CourseOfferingName AS CourseName,
+        co.CourseType,
+        e.EnrollmentDate,
+        e.Status,
+        sf.TotalFees,
+        sf.FeesPaid,
+        ISNULL(sf.TotalFees, 0) - ISNULL(sf.FeesPaid, 0) AS RemainingFees
+    FROM Enrollment e
+    INNER JOIN Student s ON s.StudentID = e.StudentID
+    INNER JOIN CourseOffering co ON co.CourseOfferingID = e.CourseOfferingID
+    LEFT JOIN StudentFees sf ON sf.EnrollmentID = e.EnrollmentID
+    WHERE e.StudentID = @StudentID AND e.IsActive = 1
+    ORDER BY e.EnrollmentDate DESC
+END
+GO

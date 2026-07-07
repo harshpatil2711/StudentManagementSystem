@@ -35,4 +35,18 @@ namespace BusinessLayer1.Models
         public int? DurationYears { get; set; }
         public string CourseType { get; set; }
     }
+
+    public class StudentEnrollmentFee
+    {
+        public int EnrollmentID { get; set; }
+        public int StudentID { get; set; }
+        public string StudentName { get; set; }
+        public string CourseName { get; set; }
+        public string CourseType { get; set; }
+        public DateTime EnrollmentDate { get; set; }
+        public string Status { get; set; }
+        public decimal? TotalFees { get; set; }
+        public decimal? FeesPaid { get; set; }
+        public decimal RemainingFees { get; set; }
+    }
 }
