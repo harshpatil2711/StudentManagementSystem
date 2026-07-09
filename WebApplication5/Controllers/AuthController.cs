@@ -5,13 +5,11 @@ using Serilog;
 using System;
 using System.Web.Mvc;
 using System.Web.Security;
-using System.Web.UI;
 
 namespace WebApplication5.Controllers
 {
     public class AuthController : Controller
     {
-        [OutputCache(NoStore = true, Location = OutputCacheLocation.None)]
         public ActionResult Login()
         {
             if (User.Identity.IsAuthenticated)
@@ -55,7 +53,6 @@ namespace WebApplication5.Controllers
             return View(model);
         }
 
-        [OutputCache(NoStore = true, Location = OutputCacheLocation.None)]
         public ActionResult SignUp()
         {
             if (User.Identity.IsAuthenticated)
