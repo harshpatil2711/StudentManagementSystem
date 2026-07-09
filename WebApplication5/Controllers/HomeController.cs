@@ -1,3 +1,4 @@
+using BusinessLayer.Helpers;
 using BusinessLayer.ViewModels;
 using BusinessLayer1.DAL;
 using Serilog;
@@ -5,9 +6,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using WebApplication5.Filters;
 
 namespace WebApplication5.Controllers
 {
+    [RoleAuthorize(UserRole.Admin, UserRole.AdmissionOfficer, UserRole.Clerk)]
     public class HomeController : Controller
     {
         // GET: /Home/Index
@@ -57,6 +60,7 @@ namespace WebApplication5.Controllers
         }
 
         // GET: /Home/InsertEnrollment or /Home/InsertEnrollment/5
+        [RoleAuthorize(UserRole.Admin, UserRole.AdmissionOfficer)]
         public ActionResult InsertEnrollment(int? id)
         {
             EnrollmentInsertViewModel vm;
@@ -159,6 +163,7 @@ namespace WebApplication5.Controllers
 
         // POST: /Home/InsertEnrollment
         [HttpPost]
+        [RoleAuthorize(UserRole.Admin, UserRole.AdmissionOfficer)]
         public ActionResult InsertEnrollment(EnrollmentInsertViewModel vm)
         {
             try
@@ -211,6 +216,7 @@ namespace WebApplication5.Controllers
         }
 
         // GET: /Home/ManageFees/5
+        [RoleAuthorize(UserRole.Admin, UserRole.Clerk)]
         public ActionResult ManageFees(int id)
         {
             try
@@ -238,6 +244,7 @@ namespace WebApplication5.Controllers
 
         // POST: /Home/SaveFee
         [HttpPost]
+        [RoleAuthorize(UserRole.Admin, UserRole.Clerk)]
         public ActionResult SaveFee(int enrollmentId, decimal totalFees, decimal? feesPaid)
         {
             try
@@ -254,6 +261,7 @@ namespace WebApplication5.Controllers
         }
 
         // GET: /Home/FeesEdit
+        [RoleAuthorize(UserRole.Admin, UserRole.Clerk)]
         public ActionResult FeesEdit()
         {
             try
@@ -294,6 +302,7 @@ namespace WebApplication5.Controllers
             return View();
         }
         [HttpPost]
+        [RoleAuthorize(UserRole.Admin)]
         public JsonResult DeleteEnrollment(int id)
         {
             try

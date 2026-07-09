@@ -77,6 +77,7 @@
     <Compile Include="DAL\EnrollmentDAL.cs" />
     <Compile Include="DAL\StudentDAL.cs" />
     <Compile Include="Helpers\PasswordHelper.cs" />
+    <Compile Include="Helpers\UserRole.cs" />
     <Compile Include="Models\Enrollment.cs" />
     <Compile Include="Models\EnrollmentDetailsModel.cs" />
     <Compile Include="Models\LoginViewModel.cs" />

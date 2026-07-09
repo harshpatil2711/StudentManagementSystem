@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -44,11 +44,18 @@
             
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav gap-1 mt-2 mt-md-0">
+@{
+    var __user = Session["UserSession"] as BusinessLayer1.Models.UserSession;
+    BusinessLayer.Helpers.UserRole __r;
+    var __role = (__user != null && Enum.TryParse<BusinessLayer.Helpers.UserRole>(__user.RoleName.Replace(" ", ""), out __r)) ? (BusinessLayer.Helpers.UserRole?)__r : null;
+}
                     <li class="nav-item">
                         <a class="nav-link nav-link-premium" href="/Home/Index">
                             <i class="bi bi-grid-1x2-fill me-2 opacity-75"></i>Dashboard
                         </a>
                     </li>
+                    @if (__role.HasValue && (__role.Value == BusinessLayer.Helpers.UserRole.Admin || __role.Value == BusinessLayer.Helpers.UserRole.AdmissionOfficer))
+                    {
                     <li class="nav-item">
                         <a class="nav-link nav-link-premium" href="/Student/StudentInsert">
                             <i class="bi bi-person-plus-fill me-2 opacity-75"></i>Add Student
@@ -59,16 +66,23 @@
                             <i class="bi bi-journal-plus me-2 opacity-75"></i>Add Enrollment
                         </a>
                     </li>
+                    }
+                    @if (__role.HasValue && (__role.Value == BusinessLayer.Helpers.UserRole.Admin || __role.Value == BusinessLayer.Helpers.UserRole.Clerk))
+                    {
                     <li class="nav-item">
                         <a class="nav-link nav-link-premium" href="/Home/FeesEdit">
                             <i class="bi bi-currency-rupee me-2 opacity-75"></i>Edit Fees
                         </a>
                     </li>
+                    }
+                    @if (__role == BusinessLayer.Helpers.UserRole.Admin)
+                    {
                     <li class="nav-item">
                         <a class="nav-link nav-link-premium" href="/Home/GetList">
                             <i class="bi bi-list-columns-reverse me-2 opacity-75"></i>Dynamic List
                         </a>
                     </li>
+                    }
                     @if (User.Identity.IsAuthenticated)
                     {
                         <li class="nav-item dropdown">

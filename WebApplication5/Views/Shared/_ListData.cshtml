@@ -1,8 +1,12 @@
+@using BusinessLayer.Helpers
 @model BusinessLayer.ViewModels.EnrollmentViewModel
 <input type="hidden" id="enrollcount"     value="@Model.Enrollmentcount" />
 <input type="hidden" id="sortColumn"      value="@Model.SortColumn" />
 <input type="hidden" id="sortDirection"   value="@Model.SortDirection" />
-
+@{
+    var user = Session["UserSession"] as BusinessLayer1.Models.UserSession;
+    var userRole = user != null && Enum.TryParse<UserRole>(user.RoleName.Replace(" ", ""), out var r) ? r : (UserRole?)null;
+}
 @if (Model != null)
 {
     <!-- 1. TABLE VIEW: Visible only on large screens (Desktops & Large Tablets) -->
@@ -99,13 +103,15 @@
                                                 title="Edit">
                                             <i class="bi bi-pencil-square"></i>
                                         </button>
-
-                                        <button type="button"
-                                                class="btn btn-sm btn-danger-outline fw-bold delete-btn"
-                                                data-id="@item.EnrollmentID"
-                                                title="Delete">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
+                                        @if (userRole == UserRole.Admin)
+                                        {
+                                            <button type="button"
+                                                    class="btn btn-sm btn-danger-outline fw-bold delete-btn"
+                                                    data-id="@item.EnrollmentID"
+                                                    title="Delete">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        }
                                     </div>
                                 
 </td>
@@ -180,9 +186,12 @@
                                     <button type="button" class="btn btn-sm btn-premium-outline fw-bold py-2 edit-btn" data-id="@first.EnrollmentID" title="Edit" style="flex:1;">
                                         <i class="bi bi-pencil-square"></i>
                                     </button>
+                                    @if (userRole == UserRole.Admin)
+                                    {
                                     <button type="button" class="btn btn-sm btn-danger-outline fw-bold py-2 delete-btn" data-id="@first.EnrollmentID" title="Delete" style="flex:1;">
                                         <i class="bi bi-trash"></i>
                                     </button>
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -255,9 +264,13 @@
                                             <button type="button" class="btn btn-sm btn-premium-outline fw-bold py-2 edit-btn" data-id="@item.EnrollmentID" title="Edit" style="flex:1;">
                                                 <i class="bi bi-pencil-square"></i>
                                             </button>
-                                            <button type="button" class="btn btn-sm btn-danger-outline fw-bold py-2 delete-btn" data-id="@item.EnrollmentID" title="Delete" style="flex:1;">
-                                                <i class="bi bi-trash"></i>
-                                            </button>
+                                            @if (userRole == UserRole.Admin)
+                                            {
+                                                <button type="button" class="btn btn-sm btn-danger-outline fw-bold py-2 delete-btn" data-id="@item.EnrollmentID" title="Delete" style="flex:1;">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            }
+                                            
                                         </div>
                                     </div>
                                 </div>
