@@ -1,14 +1,16 @@
 using BusinessLayer.ViewModels;
 using BusinessLayer1.DAL;
+using BusinessLayer1.Models;
 using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using WebApplication5.Filters;
 
 namespace WebApplication5.Controllers
 {
-    [Authorize]
+    [RoleAuthorize]
     public class HomeController : Controller
     {
         // GET: /Home/Index
@@ -58,6 +60,7 @@ namespace WebApplication5.Controllers
         }
 
         // GET: /Home/InsertEnrollment or /Home/InsertEnrollment/5
+        [RoleAuthorize(UserRole.Admin, UserRole.AdmissionOfficer)]
         public ActionResult InsertEnrollment(int? id)
         {
             EnrollmentInsertViewModel vm;
@@ -160,6 +163,7 @@ namespace WebApplication5.Controllers
 
         // POST: /Home/InsertEnrollment
         [HttpPost]
+        [RoleAuthorize( UserRole.AdmissionOfficer)]
         public ActionResult InsertEnrollment(EnrollmentInsertViewModel vm)
         {
             try
@@ -212,6 +216,7 @@ namespace WebApplication5.Controllers
         }
 
         // GET: /Home/ManageFees/5
+        [RoleAuthorize(UserRole.Admin, UserRole.Clerk)]
         public ActionResult ManageFees(int id)
         {
             try
@@ -239,6 +244,7 @@ namespace WebApplication5.Controllers
 
         // POST: /Home/SaveFee
         [HttpPost]
+        [RoleAuthorize(UserRole.Admin, UserRole.Clerk)]
         public ActionResult SaveFee(int enrollmentId, decimal totalFees, decimal? feesPaid)
         {
             try
@@ -255,6 +261,7 @@ namespace WebApplication5.Controllers
         }
 
         // GET: /Home/FeesEdit
+        [RoleAuthorize(UserRole.Admin, UserRole.Clerk)]
         public ActionResult FeesEdit()
         {
             try
@@ -270,6 +277,7 @@ namespace WebApplication5.Controllers
         }
 
         // GET: /Home/GetStudentEnrollmentsWithFees?studentId=5
+        [RoleAuthorize(UserRole.Admin, UserRole.Clerk)]
         public JsonResult GetStudentEnrollmentsWithFees(int studentId)
         {
             try
@@ -285,17 +293,19 @@ namespace WebApplication5.Controllers
             }
         }
 
+        [AllowAnonymous]
         public ActionResult About()
         {
             return View();
         }
 
+        [AllowAnonymous]
         public ActionResult Contact()
         {
             return View();
         }
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [RoleAuthorize(UserRole.Admin)]
         public JsonResult DeleteEnrollment(int id)
         {
             try

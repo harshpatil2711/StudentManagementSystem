@@ -1,3 +1,4 @@
+@using BusinessLayer1.Models
 @model BusinessLayer.ViewModels.EnrollmentViewModel
 <input type="hidden" id="enrollcount"     value="@Model.Enrollmentcount" />
 <input type="hidden" id="sortColumn"      value="@Model.SortColumn" />
@@ -96,12 +97,15 @@
          <i class="bi bi-pencil-square me-1"></i>Edit
      </a>*@
                                         
+                                        @if (user?.RoleId == (int)UserRole.Admin || user?.RoleId == (int)UserRole.AdmissionOfficer)
+                                        {
                                         <button class="btn btn-sm btn-premium-outline fw-bold edit-btn"
                                                 data-id="@item.EnrollmentID"
                                                 title="Edit">
                                             <i class="bi bi-pencil-square"></i>
                                         </button>
-@if (user?.RoleName == "Admin"){
+                                        }
+@if (user?.RoleId == (int)UserRole.Admin){
                                         <button type="button"
                                                 class="btn btn-sm btn-danger-outline fw-bold delete-btn"
                                                 data-id="@item.EnrollmentID"
@@ -180,10 +184,13 @@
                             
                             <div class="mt-2 pt-2 border-top">
                                 <div class="d-flex flex-row gap-2 w-100">
+                                    @if (user?.RoleId == (int)UserRole.Admin || user?.RoleId == (int)UserRole.AdmissionOfficer)
+                                    {
                                     <button type="button" class="btn btn-sm btn-premium-outline fw-bold py-2 edit-btn" data-id="@first.EnrollmentID" title="Edit" style="flex:1;">
                                         <i class="bi bi-pencil-square"></i>
                                     </button>
-                                    @if (user?.RoleName == "Admin")
+                                    }
+                                    @if (user?.RoleId == (int)UserRole.Admin)
                                     {
                                     <button type="button" class="btn btn-sm btn-danger-outline fw-bold py-2 delete-btn" data-id="@first.EnrollmentID" title="Delete" style="flex:1;">
                                         <i class="bi bi-trash"></i>
@@ -258,10 +265,13 @@
                                     
                                     <div class="mt-2 pt-2 border-top">
                                         <div class="d-flex flex-row gap-2 w-100">
+                                            @if (user?.RoleId == (int)UserRole.Admin || user?.RoleId == (int)UserRole.AdmissionOfficer)
+                                            {
                                             <button type="button" class="btn btn-sm btn-premium-outline fw-bold py-2 edit-btn" data-id="@item.EnrollmentID" title="Edit" style="flex:1;">
                                                 <i class="bi bi-pencil-square"></i>
                                             </button>
-                                            @if (user?.RoleName == "Admin")
+                                            }
+                                            @if (user?.RoleId == (int)UserRole.Admin)
                                             {
                                                 <button type="button" class="btn btn-sm btn-danger-outline fw-bold py-2 delete-btn" data-id="@item.EnrollmentID" title="Delete" style="flex:1;">
                                                     <i class="bi bi-trash"></i>

@@ -8,8 +8,6 @@ D:\C#Practice\WebApplication5\BusinessLayer\obj\Debug\BusinessLayer.dll
 D:\C#Practice\WebApplication5\BusinessLayer\obj\Debug\BusinessLayer.pdb
 D:\C#Practice\WebApplication5\BusinessLayer\obj\Debug\BusinessLayer1.csprojResolveAssemblyReference.cache
 D:\C#Practice\StudentManagementSystem\BusinessLayer\obj\Debug\BusinessLayer.dll
-D:\C#Practice\StudentManagementSystem\BusinessLayer\obj\Debug\BusinessLayer1.csproj.AssemblyReference.cache
-D:\C#Practice\StudentManagementSystem\BusinessLayer\obj\Debug\BusinessLayer1.csproj.CoreCompileInputs.cache
 D:\C#Practice\StudentManagementSystem\BusinessLayer\bin\Debug\BusinessLayer.dll
 D:\C#Practice\StudentManagementSystem\BusinessLayer\bin\Debug\BusinessLayer.pdb
 D:\C#Practice\StudentManagementSystem\BusinessLayer\bin\Debug\BCrypt.Net-Next.dll
@@ -27,5 +25,7 @@ D:\C#Practice\StudentManagementSystem\BusinessLayer\bin\Debug\Serilog.Sinks.Asyn
 D:\C#Practice\StudentManagementSystem\BusinessLayer\bin\Debug\Serilog.Sinks.File.pdb
 D:\C#Practice\StudentManagementSystem\BusinessLayer\bin\Debug\Serilog.Sinks.File.xml
 D:\C#Practice\StudentManagementSystem\BusinessLayer\bin\Debug\Serilog.Sinks.MSSqlServer.xml
-D:\C#Practice\StudentManagementSystem\BusinessLayer\obj\Debug\Business.72A82929.Up2Date
 D:\C#Practice\StudentManagementSystem\BusinessLayer\obj\Debug\BusinessLayer.pdb
+D:\C#Practice\StudentManagementSystem\BusinessLayer\obj\Debug\BusinessLayer1.csproj.AssemblyReference.cache
+D:\C#Practice\StudentManagementSystem\BusinessLayer\obj\Debug\BusinessLayer1.csproj.CoreCompileInputs.cache
+D:\C#Practice\StudentManagementSystem\BusinessLayer\obj\Debug\Business.72A82929.Up2Date

@@ -1,5 +1,12 @@
 namespace BusinessLayer1.Models
 {
+    public enum UserRole
+    {
+        Admin = 1,
+        AdmissionOfficer = 2,
+        Clerk = 3
+    }
+
     public class UserSession
     {
         public int UserId { get; set; }
