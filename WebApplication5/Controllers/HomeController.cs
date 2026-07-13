@@ -163,7 +163,7 @@ namespace WebApplication5.Controllers
 
         // POST: /Home/InsertEnrollment
         [HttpPost]
-        [RoleAuthorize( UserRole.AdmissionOfficer)]
+        [RoleAuthorize(UserRole.Admin,UserRole.AdmissionOfficer)]
         public ActionResult InsertEnrollment(EnrollmentInsertViewModel vm)
         {
             try
