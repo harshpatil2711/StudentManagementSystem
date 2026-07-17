@@ -1,3 +1,4 @@
+using Serilog;
 using System;
 
 namespace BusinessLayer.Helpers
@@ -20,8 +21,9 @@ namespace BusinessLayer.Helpers
             {
                 return BCrypt.Net.BCrypt.Verify(password, storedHash);
             }
-            catch
+            catch (Exception ex)
             {
+                Log.Error(ex, "BCrypt verification failed");
                 return false;
             }
         }

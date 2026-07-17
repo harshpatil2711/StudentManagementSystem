@@ -77,10 +77,7 @@
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end">
                                 <li><span class="dropdown-item-text text-muted small">
-                                    @{
-                                        var user = Session["UserSession"] as BusinessLayer1.Models.UserSession;
-                                    }
-                                    @(user?.FullName ?? User.Identity.Name)
+                                    @(((System.Security.Claims.ClaimsPrincipal)User).FindFirst("FullName")?.Value ?? User.Identity.Name)
                                 </span></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li>@Html.ActionLink("Logout", "Logout", "Auth", null, new { @class = "dropdown-item" })</li>

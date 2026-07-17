@@ -1,4 +1,5 @@
-﻿using Serilog;
+﻿using BusinessLayer1.Helpers;
+using Serilog;
 using Serilog.Sinks.MSSqlServer;
 using System;
 using System.Web;
@@ -36,6 +37,20 @@ namespace WebApplication5
         protected void Application_End()
         {
             Log.CloseAndFlush();
+        }
+
+        protected void Application_PostAuthenticateRequest(object sender, EventArgs e)
+        {
+            var cookie = Context.Request.Cookies["jwt_token"];
+            if (cookie != null)
+            {
+                try
+                {
+                    var principal = JwtHelper.ValidateToken(cookie.Value);
+                    Context.User = principal;
+                }
+                catch { }
+            }
         }
 
         protected void Application_Error()

@@ -1,10 +1,13 @@
 using BusinessLayer.Helpers;
 using BusinessLayer1.DAL;
+using BusinessLayer1.Helpers;
 using BusinessLayer1.Models;
 using Serilog;
 using System;
+using System.Linq;
+using System.Security.Claims;
+using System.Web;
 using System.Web.Mvc;
-using System.Web.Security;
 
 namespace WebApplication5.Controllers
 {
@@ -37,8 +40,22 @@ namespace WebApplication5.Controllers
                     return View(model);
                 }
 
-                FormsAuthentication.SetAuthCookie(model.Username, model.RememberMe);
-                Session["UserSession"] = user;
+                string accessToken = JwtHelper.GenerateAccessToken(user);
+                string refreshToken = JwtHelper.GenerateRefreshToken();
+
+                dal.SaveRefreshToken(user.UserId, JwtHelper.HashRefreshToken(refreshToken),
+                    Request.UserAgent, Request.UserHostAddress);
+
+                Response.Cookies.Add(new HttpCookie("jwt_token", accessToken)
+                {
+                    HttpOnly = true,
+                    Expires = DateTime.Now.AddMinutes(15)
+                });
+                Response.Cookies.Add(new HttpCookie("refresh_token", refreshToken)
+                {
+                    HttpOnly = true,
+                    Expires = DateTime.Now.AddDays(7)
+                });
 
                 dal.UpdateLastLogin(user.UserId);
 
@@ -98,9 +115,32 @@ namespace WebApplication5.Controllers
 
         public ActionResult Logout()
         {
+            AuthDAL dal = new AuthDAL();
+
+            var claimsPrincipal = User as ClaimsPrincipal;
+            var userIdClaim = claimsPrincipal?.Identity?.IsAuthenticated == true
+                ? claimsPrincipal.FindFirst(ClaimTypes.NameIdentifier)?.Value
+                : null;
+
+            if (userIdClaim != null)
+            {
+                dal.RevokeAllUserTokens(Convert.ToInt32(userIdClaim));
+            }
+            else if (Request.Cookies["refresh_token"] != null)
+            {
+                string tokenHash = JwtHelper.HashRefreshToken(Request.Cookies["refresh_token"].Value);
+                var stored = dal.GetRefreshToken(tokenHash);
+                if (stored != null)
+                    dal.RevokeAllUserTokens(stored.UserId);
+            }
+
+            if (Request.Cookies["jwt_token"] != null)
+                Response.Cookies["jwt_token"].Expires = DateTime.Now.AddDays(-1);
+            if (Request.Cookies["refresh_token"] != null)
+                Response.Cookies["refresh_token"].Expires = DateTime.Now.AddDays(-1);
+
             Session.Clear();
             Session.Abandon();
-            FormsAuthentication.SignOut();
             return RedirectToAction("Login");
         }
 
