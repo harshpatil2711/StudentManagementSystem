@@ -4,7 +4,6 @@ using BusinessLayer1.Helpers;
 using BusinessLayer1.Models;
 using Serilog;
 using System;
-using System.Linq;
 using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
@@ -139,8 +138,6 @@ namespace WebApplication5.Controllers
             if (Request.Cookies["refresh_token"] != null)
                 Response.Cookies["refresh_token"].Expires = DateTime.Now.AddDays(-1);
 
-            Session.Clear();
-            Session.Abandon();
             return RedirectToAction("Login");
         }
 

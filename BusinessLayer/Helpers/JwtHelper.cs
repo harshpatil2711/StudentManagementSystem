@@ -43,6 +43,7 @@ namespace BusinessLayer1.Helpers
         {
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Secret));
             var handler = new JwtSecurityTokenHandler();
+            SecurityToken validatedToken;
 
             return handler.ValidateToken(token, new TokenValidationParameters
             {
@@ -54,7 +55,7 @@ namespace BusinessLayer1.Helpers
                 ValidAudience = Issuer,
                 ValidateLifetime = true,
                 ClockSkew = TimeSpan.Zero
-            }, out SecurityToken validatedToken);
+            }, out validatedToken);
         }
 
         public static string GenerateRefreshToken()

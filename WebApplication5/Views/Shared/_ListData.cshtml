@@ -4,284 +4,113 @@
 <input type="hidden" id="sortDirection"   value="@Model.SortDirection" />
 @if (Model != null)
 {
-    <!-- 1. TABLE VIEW: Visible only on large screens (Desktops & Large Tablets) -->
-    <div class="d-none d-lg-block">
-        <div class="table-responsive">
-            <table class="table table-custom align-middle">
-                <thead>
-                    <tr>
-                        <th scope="col" class="sortable-th" data-sort="EnrollmentId">
-                            Enrollment ID <span class="sort-icon ms-1">&#8597;</span>
-                        </th>
-                        <th scope="col" class="sortable-th" data-sort="StudentName">
-                            Student Name <span class="sort-icon ms-1">&#8597;</span>
-                        </th>
-                        <th scope="col" class="sortable-th" data-sort="CourseName">
-                            Course Offered <span class="sort-icon ms-1">&#8597;</span>
-                        </th>
-                        <th scope="col" class="sortable-th" data-sort="EnrollmentDate">
-                            Enrollment Date <span class="sort-icon ms-1">&#8597;</span>
-                        </th>
-                        <th scope="col" class="sortable-th" data-sort="EnrollmentStatus">
-                            Status <span class="sort-icon ms-1">&#8597;</span>
-                        </th>
-                        <th scope="col" style="width:110px;">
-                            Fees
-                        </th>
-                        <th scope="col" class="text-dark fw-bold text-center"
-                            style="color:#0f172a !important;font-weight:800 !important;font-size:0.82rem;letter-spacing:0.5px;width:130px;">
-                            Actions
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model.Enrollments)
+    <div class="table-responsive">
+        <table class="table table-custom align-middle">
+            <thead>
+                <tr>
+                    <th scope="col" class="sortable-th" data-sort="EnrollmentId">
+                        Enrollment ID <span class="sort-icon ms-1">&#8597;</span>
+                    </th>
+                    <th scope="col" class="sortable-th" data-sort="StudentName">
+                        Student Name <span class="sort-icon ms-1">&#8597;</span>
+                    </th>
+                    <th scope="col" class="sortable-th" data-sort="CourseName">
+                        Course Offered <span class="sort-icon ms-1">&#8597;</span>
+                    </th>
+                    <th scope="col" class="sortable-th" data-sort="EnrollmentDate">
+                        Enrollment Date <span class="sort-icon ms-1">&#8597;</span>
+                    </th>
+                    <th scope="col" class="sortable-th" data-sort="EnrollmentStatus">
+                        Status <span class="sort-icon ms-1">&#8597;</span>
+                    </th>
+                    <th scope="col" style="width:110px;">
+                        Fees
+                    </th>
+                    <th scope="col" class="text-dark fw-bold text-center"
+                        style="color:#0f172a !important;font-weight:800 !important;font-size:0.82rem;letter-spacing:0.5px;width:130px;">
+                        Actions
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Enrollments)
+                {
+                    var statusClass = "badge-status-pending";
+                    var statusLower = item.EnrollmentStatus?.ToLower() ?? "";
+                    if (statusLower.Contains("active") || statusLower.Contains("approved"))
                     {
-                        var statusClass = "badge-status-pending";
-                        var statusLower = item.EnrollmentStatus?.ToLower() ?? "";
-                        if (statusLower.Contains("active") || statusLower.Contains("approved"))
-                        {
-                            statusClass = "badge-status-active";
-                        }
-                        else if (statusLower.Contains("complete") || statusLower.Contains("success"))
-                        {
-                            statusClass = "badge-status-completed";
-                        }
-                        else if (statusLower.Contains("cancel") || statusLower.Contains("drop") || statusLower.Contains("reject"))
-                        {
-                            statusClass = "badge-status-cancelled";
-                        }
-
-                        <tr class="table-row-hover">
-                            <td class="fw-bold text-dark" style="color: #0f172a !important;">#@item.EnrollmentID</td>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <div class="avatar-circle me-2">
-                                        @(string.IsNullOrEmpty(item.StudentName) ? "S" : item.StudentName.Substring(0, 1).ToUpper())
-                                    </div>
-                                    <span class="fw-bold text-dark" style="color: #0f172a !important;">@item.StudentName</span>
-                                </div>
-                            </td>
-                            <td>
-                                <span class="badge bg-secondary-subtle text-dark border border-secondary-subtle px-2 py-1 fw-bold" style="color: #0f172a !important;">@item.CourseName</span>
-                            </td>
-                            <td class="text-dark fw-bold" style="color: #1e293b !important; white-space:nowrap;">
-                                <i class="bi bi-calendar3 me-1 text-primary"></i>
-                                @item.EnrollmentDate.ToString("yyyy-MM-dd")
-                            </td>
-                            <td>
-                                <span class="badge-status @statusClass">
-                                    @item.EnrollmentStatus
-                                </span>
-                            </td>
-                            <td class="text-center align-middle" style="white-space:nowrap;">
-                                @if (item.TotalFees.HasValue)
-                                {
-                                    <span class="fw-bold text-dark" style="font-size:0.9rem;">Rs. @item.TotalFees.Value.ToString("N2")</span>
-                                }
-                                else
-                                {
-                                    <span class="text-muted fw-semibold" style="font-size:0.82rem;">Not Set</span>
-                                }
-                            </td>
-                            <td class="text-center">
-                                
-                                    <div class="d-flex flex-row gap-1 justify-content-center">
-                                      @*  <a href="/Home/InsertEnrollment/@item.EnrollmentID"
-        class="btn btn-sm btn-premium-outline fw-bold py-2"
-        style="flex:1;">
-         <i class="bi bi-pencil-square me-1"></i>Edit
-     </a>*@
-                                        
-                                        @if (User.IsInRole("Admin") || User.IsInRole("Admission Officer"))
-                                        {
-                                        <button class="btn btn-sm btn-premium-outline fw-bold edit-btn"
-                                                data-id="@item.EnrollmentID"
-                                                title="Edit">
-                                            <i class="bi bi-pencil-square"></i>
-                                        </button>
-                                        }
-@if (User.IsInRole("Admin")){
-                                        <button type="button"
-                                                class="btn btn-sm btn-danger-outline fw-bold delete-btn"
-                                                data-id="@item.EnrollmentID"
-                                                title="Delete">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
-                                        }
-                                    </div>
-                                
-</td>
-                        </tr>
+                        statusClass = "badge-status-active";
                     }
-                </tbody>
-            </table>
-        </div>
-    </div>
+                    else if (statusLower.Contains("complete") || statusLower.Contains("success"))
+                    {
+                        statusClass = "badge-status-completed";
+                    }
+                    else if (statusLower.Contains("cancel") || statusLower.Contains("drop") || statusLower.Contains("reject"))
+                    {
+                        statusClass = "badge-status-cancelled";
+                    }
 
-    <!-- 2. CARD VIEW: Visible on small & medium screens (Mobile & Tablets) -->
-    <div class="d-block d-lg-none">
-        <div class="row g-3">
-            @{
-                var enrollmentsList = Model.Enrollments.ToList();
-                var first = enrollmentsList.FirstOrDefault();
-                var remaining = enrollmentsList.Skip(1).ToList();
-            }
-            @if (first != null)
-            {
-                var statusClass = "badge-status-pending";
-                var statusLower = first.EnrollmentStatus?.ToLower() ?? "";
-                if (statusLower.Contains("active") || statusLower.Contains("approved")) { statusClass = "badge-status-active"; }
-                else if (statusLower.Contains("complete") || statusLower.Contains("success")) { statusClass = "badge-status-completed"; }
-                else if (statusLower.Contains("cancel") || statusLower.Contains("drop") || statusLower.Contains("reject")) { statusClass = "badge-status-cancelled"; }
-
-                <div class="col-12">
-                    <div class="mobile-enrollment-card">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <span class="fw-bold text-primary" style="font-size: 1.05rem; opacity: 0.9;">#@first.EnrollmentID</span>
-                            <span class="badge-status @statusClass" style="font-size: 0.92rem; font-weight: 700; padding: 0.5rem 1rem;">
-                                @first.EnrollmentStatus
+                    <tr class="table-row-hover">
+                        <td data-label="Enrollment ID" class="fw-bold text-dark" style="color: #0f172a !important;">#@item.EnrollmentID</td>
+                        <td data-label="Student">
+                            <div class="d-flex align-items-center">
+                                <div class="avatar-circle me-2">
+                                    @(string.IsNullOrEmpty(item.StudentName) ? "S" : item.StudentName.Substring(0, 1).ToUpper())
+                                </div>
+                                <span class="fw-bold text-dark" style="color: #0f172a !important;">@item.StudentName</span>
+                            </div>
+                        </td>
+                        <td data-label="Course">
+                            <span class="badge bg-secondary-subtle text-dark border border-secondary-subtle px-2 py-1 fw-bold" style="color: #0f172a !important;">@item.CourseName</span>
+                        </td>
+                        <td data-label="Enrolled" class="text-dark fw-bold" style="color: #1e293b !important; white-space:nowrap;">
+                            <i class="bi bi-calendar3 me-1 text-primary"></i>
+                            @item.EnrollmentDate.ToString("yyyy-MM-dd")
+                        </td>
+                        <td data-label="Status">
+                            <span class="badge-status @statusClass">
+                                @item.EnrollmentStatus
                             </span>
-                        </div>
-                        
-                        <div class="d-flex align-items-center mb-3">
-                            <div class="avatar-circle me-3" style="width: 44px; height: 44px; font-size: 1.2rem; border-radius: 12px; background: linear-gradient(135deg, #6366f1, #4f46e5);">
-                                @(string.IsNullOrEmpty(first.StudentName) ? "S" : first.StudentName.Substring(0, 1).ToUpper())
-                            </div>
-                            <div>
-                                <h6 class="fw-bold text-dark m-0" style="font-size: 1.1rem; letter-spacing: -0.2px; color: #0f172a !important;">@first.StudentName</h6>
-                                <small class="text-secondary fw-semibold">Student</small>
-                            </div>
-                        </div>
-
-                        <div class="border-top pt-3 d-flex flex-column gap-2">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <span class="text-dark fw-bold" style="font-size: 0.92rem; color: #1e293b !important;">Course:</span>
-                                <span class="badge bg-secondary-subtle text-dark border border-secondary-subtle px-3 py-2 fw-bold" style="font-size: 0.9rem; color: #0f172a !important;">@first.CourseName</span>
-                            </div>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <span class="text-dark fw-bold" style="font-size: 0.92rem; color: #1e293b !important;">Enrolled:</span>
-                                <span class="text-dark fw-bold" style="font-size: 0.95rem; color: #1e293b !important;">
-                                    <i class="bi bi-calendar3 me-2 text-primary"></i>
-                                    @first.EnrollmentDate.ToString("yyyy-MM-dd")
-                                </span>
-                            </div>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <span class="text-dark fw-bold" style="font-size: 0.92rem; color: #1e293b !important;">Fees:</span>
-                                @if (first.TotalFees.HasValue)
+                        </td>
+                        <td data-label="Fees" class="text-center align-middle" style="white-space:nowrap;">
+                            @if (item.TotalFees.HasValue)
+                            {
+                                <span class="fw-bold text-dark" style="font-size:0.9rem;">Rs. @item.TotalFees.Value.ToString("N2")</span>
+                            }
+                            else
+                            {
+                                <span class="text-muted fw-semibold" style="font-size:0.82rem;">Not Set</span>
+                            }
+                        </td>
+                        <td data-label="" class="text-center">
+                            <div class="d-flex flex-row gap-1 justify-content-center">
+                                <a href="@Url.Action("DownloadReceipt", "Report", new { id = item.EnrollmentID })"
+                                   class="btn btn-sm btn-success-outline fw-bold"
+                                   title="Download Receipt" target="_blank">
+                                    <i class="bi bi-download"></i>
+                                </a>
+                                @if (User.IsInRole("Admin") || User.IsInRole("Admission Officer"))
                                 {
-                                    <span class="fw-bold text-dark" style="font-size:0.95rem;">Rs. @first.TotalFees.Value.ToString("N2")</span>
-                                }
-                                else
-                                {
-                                    <span class="text-muted fw-semibold" style="font-size:0.85rem;">Not Set</span>
-                                }
-                            </div>
-                            
-                            <div class="mt-2 pt-2 border-top">
-                                <div class="d-flex flex-row gap-2 w-100">
-                                    @if (User.IsInRole("Admin") || User.IsInRole("Admission Officer"))
-                                    {
-                                    <button type="button" class="btn btn-sm btn-premium-outline fw-bold py-2 edit-btn" data-id="@first.EnrollmentID" title="Edit" style="flex:1;">
+                                    <button class="btn btn-sm btn-premium-outline fw-bold edit-btn"
+                                            data-id="@item.EnrollmentID"
+                                            title="Edit">
                                         <i class="bi bi-pencil-square"></i>
                                     </button>
-                                    }
-                                    @if (User.IsInRole("Admin"))
-                                    {
-                                    <button type="button" class="btn btn-sm btn-danger-outline fw-bold py-2 delete-btn" data-id="@first.EnrollmentID" title="Delete" style="flex:1;">
+                                }
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <button type="button"
+                                            class="btn btn-sm btn-danger-outline fw-bold delete-btn"
+                                            data-id="@item.EnrollmentID"
+                                            title="Delete">
                                         <i class="bi bi-trash"></i>
                                     </button>
-                                    }
-                                </div>
+                                }
                             </div>
-                        </div>
-                    </div>
-                </div>
-
-                if (remaining.Any())
-                {
-                    <div class="col-12">
-                        <div class="mobile-more-tile" id="mobileMoreToggle" role="button" tabindex="0">
-                            <i class="bi bi-grid-3x3-gap-fill me-2"></i>
-                            <span>+@remaining.Count() more enrollment@(remaining.Count() > 1 ? "s" : "")</span>
-                            <i class="bi bi-chevron-down ms-auto mobile-more-arrow"></i>
-                        </div>
-                    </div>
-
-                    <div class="col-12 d-none" id="mobileMoreCards">
-                        @foreach (var item in remaining)
-                        {
-                            var sc = "badge-status-pending";
-                            var sl = item.EnrollmentStatus?.ToLower() ?? "";
-                            if (sl.Contains("active") || sl.Contains("approved")) { sc = "badge-status-active"; }
-                            else if (sl.Contains("complete") || sl.Contains("success")) { sc = "badge-status-completed"; }
-                            else if (sl.Contains("cancel") || sl.Contains("drop") || sl.Contains("reject")) { sc = "badge-status-cancelled"; }
-
-                            <div class="mobile-enrollment-card mb-3">
-                                <div class="d-flex justify-content-between align-items-center mb-3">
-                                    <span class="fw-bold text-primary" style="font-size: 1.05rem; opacity: 0.9;">#@item.EnrollmentID</span>
-                                    <span class="badge-status @sc" style="font-size: 0.92rem; font-weight: 700; padding: 0.5rem 1rem;">
-                                        @item.EnrollmentStatus
-                                    </span>
-                                </div>
-                                
-                                <div class="d-flex align-items-center mb-3">
-                                    <div class="avatar-circle me-3" style="width: 44px; height: 44px; font-size: 1.2rem; border-radius: 12px; background: linear-gradient(135deg, #6366f1, #4f46e5);">
-                                        @(string.IsNullOrEmpty(item.StudentName) ? "S" : item.StudentName.Substring(0, 1).ToUpper())
-                                    </div>
-                                    <div>
-                                        <h6 class="fw-bold text-dark m-0" style="font-size: 1.1rem; letter-spacing: -0.2px; color: #0f172a !important;">@item.StudentName</h6>
-                                        <small class="text-secondary fw-semibold">Student</small>
-                                    </div>
-                                </div>
-
-                                <div class="border-top pt-3 d-flex flex-column gap-2">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <span class="text-dark fw-bold" style="font-size: 0.92rem; color: #1e293b !important;">Course:</span>
-                                        <span class="badge bg-secondary-subtle text-dark border border-secondary-subtle px-3 py-2 fw-bold" style="font-size: 0.9rem; color: #0f172a !important;">@item.CourseName</span>
-                                    </div>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <span class="text-dark fw-bold" style="font-size: 0.92rem; color: #1e293b !important;">Enrolled:</span>
-                                        <span class="text-dark fw-bold" style="font-size: 0.95rem; color: #1e293b !important;">
-                                            <i class="bi bi-calendar3 me-2 text-primary"></i>
-                                            @item.EnrollmentDate.ToString("yyyy-MM-dd")
-                                        </span>
-                                    </div>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <span class="text-dark fw-bold" style="font-size: 0.92rem; color: #1e293b !important;">Fees:</span>
-                                        @if (item.TotalFees.HasValue)
-                                        {
-                                            <span class="fw-bold text-dark" style="font-size:0.95rem;">Rs. @item.TotalFees.Value.ToString("N2")</span>
-                                        }
-                                        else
-                                        {
-                                            <span class="text-muted fw-semibold" style="font-size:0.85rem;">Not Set</span>
-                                        }
-                                    </div>
-                                    
-                                    <div class="mt-2 pt-2 border-top">
-                                        <div class="d-flex flex-row gap-2 w-100">
-                                            @if (User.IsInRole("Admin") || User.IsInRole("Admission Officer"))
-                                            {
-                                            <button type="button" class="btn btn-sm btn-premium-outline fw-bold py-2 edit-btn" data-id="@item.EnrollmentID" title="Edit" style="flex:1;">
-                                                <i class="bi bi-pencil-square"></i>
-                                            </button>
-                                            }
-                                            @if (User.IsInRole("Admin"))
-                                            {
-                                                <button type="button" class="btn btn-sm btn-danger-outline fw-bold py-2 delete-btn" data-id="@item.EnrollmentID" title="Delete" style="flex:1;">
-                                                    <i class="bi bi-trash"></i>
-                                                </button>
-                                            }
-                                            
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        }
-                    </div>
+                        </td>
+                    </tr>
                 }
-            }
-        </div>
+            </tbody>
+        </table>
     </div>
 }

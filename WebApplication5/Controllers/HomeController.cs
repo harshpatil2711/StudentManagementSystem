@@ -1,5 +1,6 @@
 using BusinessLayer.ViewModels;
 using BusinessLayer1.DAL;
+using BusinessLayer1.Helpers;
 using BusinessLayer1.Models;
 using Serilog;
 using System;
@@ -171,10 +172,17 @@ namespace WebApplication5.Controllers
                 EnrollmentDAL da = new EnrollmentDAL();
                 string courseType = da.GetCourseTypeByOfferingId(vm.CourseOfferingID);
                 string result;
+                int enrollmentId = 0;
 
                 if (courseType == "Skill")
                 {
                     result = da.SaveEnrollmentWithSkills(vm);
+
+                    if (result.ToLower().Contains("success"))
+                    {
+                        if (vm.EnrollmentID.HasValue && vm.EnrollmentID.Value > 0)
+                            enrollmentId = vm.EnrollmentID.Value;
+                    }
                 }
                 else
                 {
@@ -182,10 +190,15 @@ namespace WebApplication5.Controllers
                     result = da.SaveEnrollment(vm, out newId);
                     if (result.ToLower().Contains("success"))
                     {
-                        int eid = newId > 0 ? newId : (vm.EnrollmentID ?? 0);
+                        enrollmentId = newId > 0 ? newId : (vm.EnrollmentID ?? 0);
                         decimal courseFee = da.GetCourseOfferingFee(vm.CourseOfferingID);
-                        da.SaveStudentFee(eid, courseFee, null, "admin");
+                        da.SaveStudentFee(enrollmentId, courseFee, null, "admin");
                     }
+                }
+
+                if (result.ToLower().Contains("success"))
+                {
+                    SendAdmissionEmail(da, enrollmentId, vm.StudentID, vm.CourseOfferingID);
                 }
 
                 return Content(result);
@@ -194,6 +207,27 @@ namespace WebApplication5.Controllers
             {
                 Log.Error(ex, "Error in InsertEnrollment POST for StudentID {StudentId}", vm.StudentID);
                 return Content("Error: " + ex.Message);
+            }
+        }
+
+        private void SendAdmissionEmail(EnrollmentDAL da, int enrollmentId, int studentId, int courseOfferingId)
+        {
+            try
+            {
+                AdmissionEmailData emailData = da.GetAdmissionEmailData(enrollmentId, studentId, courseOfferingId);
+
+                if (emailData != null)
+                {
+                    EmailHelper.SendAdmissionConfirmation(emailData);
+                }
+                else
+                {
+                    Log.Warning("No admission data found for email — enrollment {Id}", enrollmentId);
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Failed to send admission email — enrollment {Id}", enrollmentId);
             }
         }
   

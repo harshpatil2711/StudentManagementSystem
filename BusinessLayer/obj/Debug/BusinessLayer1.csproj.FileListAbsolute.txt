@@ -1,6 +1,8 @@
 D:\C#Practice\StudentManagementSystem\BusinessLayer\bin\Debug\BusinessLayer.dll
 D:\C#Practice\StudentManagementSystem\BusinessLayer\bin\Debug\BusinessLayer.pdb
 D:\C#Practice\StudentManagementSystem\BusinessLayer\bin\Debug\BCrypt.Net-Next.dll
+D:\C#Practice\StudentManagementSystem\BusinessLayer\bin\Debug\itextsharp.dll
+D:\C#Practice\StudentManagementSystem\BusinessLayer\bin\Debug\Microsoft.IdentityModel.JsonWebTokens.dll
 D:\C#Practice\StudentManagementSystem\BusinessLayer\bin\Debug\Microsoft.IdentityModel.Logging.dll
 D:\C#Practice\StudentManagementSystem\BusinessLayer\bin\Debug\Microsoft.IdentityModel.Tokens.dll
 D:\C#Practice\StudentManagementSystem\BusinessLayer\bin\Debug\Microsoft.Practices.EnterpriseLibrary.Common.dll
@@ -16,6 +18,7 @@ D:\C#Practice\StudentManagementSystem\BusinessLayer\bin\Debug\System.IdentityMod
 D:\C#Practice\StudentManagementSystem\BusinessLayer\bin\Debug\BCrypt.Net-Next.xml
 D:\C#Practice\StudentManagementSystem\BusinessLayer\bin\Debug\Microsoft.IdentityModel.Logging.xml
 D:\C#Practice\StudentManagementSystem\BusinessLayer\bin\Debug\Microsoft.IdentityModel.Tokens.xml
+D:\C#Practice\StudentManagementSystem\BusinessLayer\bin\Debug\Microsoft.IdentityModel.JsonWebTokens.xml
 D:\C#Practice\StudentManagementSystem\BusinessLayer\bin\Debug\Newtonsoft.Json.xml
 D:\C#Practice\StudentManagementSystem\BusinessLayer\bin\Debug\Serilog.xml
 D:\C#Practice\StudentManagementSystem\BusinessLayer\bin\Debug\Serilog.Sinks.Async.xml
@@ -23,10 +26,8 @@ D:\C#Practice\StudentManagementSystem\BusinessLayer\bin\Debug\Serilog.Sinks.File
 D:\C#Practice\StudentManagementSystem\BusinessLayer\bin\Debug\Serilog.Sinks.File.xml
 D:\C#Practice\StudentManagementSystem\BusinessLayer\bin\Debug\Serilog.Sinks.MSSqlServer.xml
 D:\C#Practice\StudentManagementSystem\BusinessLayer\bin\Debug\System.IdentityModel.Tokens.Jwt.xml
-D:\C#Practice\StudentManagementSystem\BusinessLayer\obj\Debug\BusinessLayer1.csproj.AssemblyReference.cache
-D:\C#Practice\StudentManagementSystem\BusinessLayer\obj\Debug\BusinessLayer1.csproj.CoreCompileInputs.cache
-D:\C#Practice\StudentManagementSystem\BusinessLayer\obj\Debug\Business.72A82929.Up2Date
+D:\C#Practice\StudentManagementSystem\BusinessLayer\bin\Debug\itextsharp.xml
 D:\C#Practice\StudentManagementSystem\BusinessLayer\obj\Debug\BusinessLayer.dll
 D:\C#Practice\StudentManagementSystem\BusinessLayer\obj\Debug\BusinessLayer.pdb
-D:\C#Practice\StudentManagementSystem\BusinessLayer\bin\Debug\Microsoft.IdentityModel.JsonWebTokens.dll
-D:\C#Practice\StudentManagementSystem\BusinessLayer\bin\Debug\Microsoft.IdentityModel.JsonWebTokens.xml
+D:\C#Practice\StudentManagementSystem\BusinessLayer\obj\Debug\BusinessLayer1.csprojResolveAssemblyReference.cache
+D:\C#Practice\StudentManagementSystem\BusinessLayer\bin\Debug\BouncyCastle.Crypto.dll

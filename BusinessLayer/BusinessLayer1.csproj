@@ -76,6 +76,14 @@
     <Reference Include="System.IdentityModel.Tokens.Jwt, Version=5.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\System.IdentityModel.Tokens.Jwt.5.7.0\lib\net45\System.IdentityModel.Tokens.Jwt.dll</HintPath>
     </Reference>
+    <Reference Include="itextsharp, Version=5.5.13.3, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.13.3\lib\itextsharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.9.0, Culture=neutral, PublicKeyToken=0e99375e54769942, processorArchitecture=MSIL">
+      <HintPath>..\packages\BouncyCastle.1.8.9\lib\BouncyCastle.Crypto.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
@@ -90,11 +98,16 @@
   <ItemGroup>
     <Compile Include="DAL\AuthDAL.cs" />
     <Compile Include="DAL\EnrollmentDAL.cs" />
+    <Compile Include="DAL\EnrollmentReceiptDAL.cs" />
     <Compile Include="DAL\StudentDAL.cs" />
     <Compile Include="Helpers\PasswordHelper.cs" />
     <Compile Include="Helpers\JwtHelper.cs" />
+    <Compile Include="Helpers\PdfHelper.cs" />
+    <Compile Include="Helpers\EmailHelper.cs" />
     <Compile Include="Models\Enrollment.cs" />
     <Compile Include="Models\EnrollmentDetailsModel.cs" />
+    <Compile Include="Models\EnrollmentReceipt.cs" />
+    <Compile Include="Models\AdmissionEmailData.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\SignUpViewModel.cs" />
     <Compile Include="Models\RefreshToken.cs" />

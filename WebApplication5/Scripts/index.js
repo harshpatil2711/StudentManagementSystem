@@ -100,12 +100,6 @@ $(document).ready(function () {
         setTimeout(updateSelectionDisplay, 0);
     });
 
-    // ── Mobile +N Card Toggle ─────────────────────────────────────────
-    $('#resultContainer').on('click', '#mobileMoreToggle', function () {
-        $(this).toggleClass('active');
-        $('#mobileMoreCards').toggleClass('d-none');
-    });
-
     // ── Initial Load ──────────────────────────────────────────────────
     FetchData();
 

@@ -7,6 +7,7 @@ using System.Data.Common;
 using System.Data.SqlClient;
 using BusinessLayer1.Models;
 using BusinessLayer.ViewModels;
+using System.Linq;
 
 namespace BusinessLayer1.DAL
 {
@@ -564,5 +565,41 @@ namespace BusinessLayer1.DAL
             return list;
         }
 
+        public AdmissionEmailData GetAdmissionEmailData(int enrollmentId, int? studentId = null, int? courseOfferingId = null)
+        {
+            AdmissionEmailData data = null;
+            try
+            {
+                DbCommand cmd = db.GetStoredProcCommand("sp_GetAdmissionEmailData");
+                db.AddInParameter(cmd, "@EnrollmentID", DbType.Int32, enrollmentId > 0 ? (object)enrollmentId : DBNull.Value);
+                db.AddInParameter(cmd, "@StudentID", DbType.Int32, studentId ?? (object)DBNull.Value);
+                db.AddInParameter(cmd, "@CourseOfferingID", DbType.Int32, courseOfferingId ?? (object)DBNull.Value);
+
+                using (IDataReader reader = db.ExecuteReader(cmd))
+                {
+                    if (reader.Read())
+                    {
+                        data = new AdmissionEmailData
+                        {
+                            EnrollmentID = Convert.ToInt32(reader["EnrollmentID"]),
+                            StudentID = Convert.ToInt32(reader["StudentID"]),
+                            StudentName = reader["StudentName"].ToString(),
+                            Email = reader["Email"].ToString(),
+                            CourseName = reader["CourseName"].ToString(),
+                            Department = reader["Department"].ToString(),
+                            AcademicYear = reader["AcademicYear"].ToString(),
+                            Semester = reader["Semester"].ToString(),
+                            EnrollmentDate = Convert.ToDateTime(reader["EnrollmentDate"])
+                        };
+                    }
+                    reader.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Error loading admission email data for enrollment {Id}", enrollmentId);
+            }
+            return data;
+        }
     }
 }
