@@ -71,17 +71,17 @@ namespace BusinessLayer1.DAL
 
             if (number >= 10000000)
             {
-                words += ones[number / 10000000] + " Crore ";
+                words += ConvertLessThanThousand(number / 10000000, ones, tens) + " Crore ";
                 number %= 10000000;
             }
             if (number >= 100000)
             {
-                words += ones[number / 100000] + " Lakh ";
+                words += ConvertLessThanThousand(number / 100000, ones, tens) + " Lakh ";
                 number %= 100000;
             }
             if (number >= 1000)
             {
-                words += ones[number / 1000] + " Thousand ";
+                words += ConvertLessThanThousand(number / 1000, ones, tens) + " Thousand ";
                 number %= 1000;
             }
             if (number >= 100)
@@ -102,6 +102,28 @@ namespace BusinessLayer1.DAL
             }
 
             return words.Trim() + " Rupees Only";
+        }
+
+        private string ConvertLessThanThousand(long number, string[] ones, string[] tens)
+        {
+            string result = "";
+            if (number >= 100)
+            {
+                result += ones[number / 100] + " Hundred ";
+                number %= 100;
+            }
+            if (number > 0)
+            {
+                if (number < 20)
+                    result += ones[number];
+                else
+                {
+                    result += tens[number / 10];
+                    if ((number % 10) > 0)
+                        result += " " + ones[number % 10];
+                }
+            }
+            return result.Trim();
         }
     }
 }

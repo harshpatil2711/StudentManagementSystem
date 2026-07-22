@@ -198,7 +198,10 @@ namespace WebApplication5.Controllers
 
                 if (result.ToLower().Contains("success"))
                 {
-                    SendAdmissionEmail(da, enrollmentId, vm.StudentID, vm.CourseOfferingID);
+                    int eid = enrollmentId;
+                    int sid = vm.StudentID;
+                    int coid = vm.CourseOfferingID;
+                    System.Threading.Tasks.Task.Run(() => SendAdmissionEmail(eid, sid, coid));
                 }
 
                 return Content(result);
@@ -210,10 +213,11 @@ namespace WebApplication5.Controllers
             }
         }
 
-        private void SendAdmissionEmail(EnrollmentDAL da, int enrollmentId, int studentId, int courseOfferingId)
+        private void SendAdmissionEmail(int enrollmentId, int studentId, int courseOfferingId)
         {
             try
             {
+                EnrollmentDAL da = new EnrollmentDAL();
                 AdmissionEmailData emailData = da.GetAdmissionEmailData(enrollmentId, studentId, courseOfferingId);
 
                 if (emailData != null)
