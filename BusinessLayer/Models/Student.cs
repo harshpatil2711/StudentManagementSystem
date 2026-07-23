@@ -31,5 +31,7 @@ namespace BusinessLayer.Models
         public DateTime DateLastModified { get; set; }
 
         public string LastModifiedBy { get; set; }
+
+        public string PhotoPath { get; set; }
     }
 }

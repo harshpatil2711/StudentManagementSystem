@@ -1,0 +1,125 @@
+@model BusinessLayer.Models.Student
+@{
+    ViewBag.Title = "Student Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-8 col-md-10 col-12">
+        <div class="form-card">
+            <!-- Header -->
+            <div class="text-center mb-4">
+                <i class="bi bi-person-badge-fill text-primary" style="font-size: 3rem; background: linear-gradient(135deg, #6366f1, #4f46e5); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i>
+                <h2 class="form-title mt-2">Student Details</h2>
+                <p class="text-muted">View student profile information</p>
+            </div>
+
+            <!-- Photo -->
+            <div class="text-center mb-4">
+                @if (!string.IsNullOrEmpty(Model.PhotoPath))
+                {
+                    <img src="@Model.PhotoPath" class="img-thumbnail details-photo" alt="@Model.StudentName" />
+                }
+                else
+                {
+                    <div class="details-photo-placeholder mx-auto">
+                        <i class="bi bi-person-fill" style="font-size: 4rem; color: #818cf8;"></i>
+                    </div>
+                }
+            </div>
+
+            <!-- Info -->
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label-custom">Student ID</label>
+                    <div class="detail-field">@Model.StudentID</div>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label-custom">Student Name</label>
+                    <div class="detail-field">@Model.StudentName</div>
+                </div>
+                <div class="col-md-6 mt-3">
+                    <label class="form-label-custom">Date of Birth</label>
+                    <div class="detail-field">@(Model.DateOfBirth != DateTime.MinValue ? Model.DateOfBirth.ToString("dd-MMM-yyyy") : "N/A")</div>
+                </div>
+                <div class="col-md-6 mt-3">
+                    <label class="form-label-custom">Email Address</label>
+                    <div class="detail-field">@(string.IsNullOrEmpty(Model.Email) ? "N/A" : Model.Email)</div>
+                </div>
+                <div class="col-md-6 mt-3">
+                    <label class="form-label-custom">Phone Number</label>
+                    <div class="detail-field">@(string.IsNullOrEmpty(Model.Phone) ? "N/A" : Model.Phone)</div>
+                </div>
+                <div class="col-md-6 mt-3">
+                    <label class="form-label-custom">Gender</label>
+                    <div class="detail-field">@(string.IsNullOrEmpty(Model.Gender) ? "N/A" : Model.Gender)</div>
+                </div>
+                <div class="col-md-6 mt-3">
+                    <label class="form-label-custom">Admission Year</label>
+                    <div class="detail-field">@(Model.AdmissionYear > 0 ? Model.AdmissionYear.ToString() : "N/A")</div>
+                </div>
+                <div class="col-md-6 mt-3">
+                    <label class="form-label-custom">Status</label>
+                    <div class="detail-field">
+                        @if (Model.IsActive)
+                        {
+                            <span class="badge bg-success">Active</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">Inactive</span>
+                        }
+                    </div>
+                </div>
+                <div class="col-md-6 mt-3">
+                    <label class="form-label-custom">Created On</label>
+                    <div class="detail-field">@(Model.DateCreated != DateTime.MinValue ? Model.DateCreated.ToString("dd-MMM-yyyy HH:mm") : "N/A")</div>
+                </div>
+                <div class="col-md-6 mt-3">
+                    <label class="form-label-custom">Last Modified</label>
+                    <div class="detail-field">@(Model.DateLastModified != DateTime.MinValue ? Model.DateLastModified.ToString("dd-MMM-yyyy HH:mm") : "N/A")</div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="d-flex flex-wrap gap-2.5 mt-4 pt-2 justify-content-end">
+                <a href="@Url.Action("Index", "Student")" class="btn btn-premium-secondary px-4">
+                    <i class="bi bi-arrow-left me-1.5"></i>Back to List
+                </a>
+                <a href="@Url.Action("Edit", "Student", new { id = Model.StudentID })" class="btn btn-premium-primary px-4">
+                    <i class="bi bi-pencil-square me-1.5"></i>Edit
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .details-photo {
+        width: 180px;
+        height: 180px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 4px solid #e2e8f0;
+        box-shadow: 0 4px 15px rgba(79, 70, 229, 0.15);
+    }
+    .details-photo-placeholder {
+        width: 180px;
+        height: 180px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #e0e7ff, #c7d2fe);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 4px solid #e2e8f0;
+    }
+    .detail-field {
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 10px;
+        padding: 0.65rem 1rem;
+        font-size: 1rem;
+        color: #1e293b;
+        font-weight: 500;
+    }
+</style>

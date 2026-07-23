@@ -1,17 +1,25 @@
-// StudentInsert page - Student registration form with photo upload
+// StudentEdit page - Edit form with photo upload
 $(document).ready(function () {
     var selectedFile = null;
 
-    // Dynamic admission year generation
+    // Populate admission year dropdown
     var startYear = 2000;
     var currentYear = new Date().getFullYear();
     for (var year = currentYear; year >= startYear; year--) {
-        $("#AdmissionYear").append('<option value="' + year + '">' + year + '</option>');
+        var opt = '<option value="' + year + '">' + year + '</option>';
+        if (initialAdmissionYear && year.toString() === initialAdmissionYear.toString()) {
+            opt = '<option value="' + year + '" selected>' + year + '</option>';
+        }
+        $("#AdmissionYear").append(opt);
+    }
+
+    // If photo exists, show remove button
+    if ($("#photoPreview").hasClass("d-none") === false && $("#photoPreview").attr("src")) {
+        $("#btnRemovePhoto").removeClass("d-none");
     }
 
     // Photo upload zone - file input overlays the zone, no JS click needed
 
-    // Drag and drop
     $("#photoDropZone").on("dragover", function (e) {
         e.preventDefault();
         $(this).addClass("photo-upload-zone-hover");
@@ -30,21 +38,18 @@ $(document).ready(function () {
         }
     });
 
-    // File input change
     $("#photoInput").change(function () {
         if (this.files && this.files[0]) {
             handlePhotoSelect(this.files[0]);
         }
     });
 
-    // Remove photo
     $("#btnRemovePhoto").click(function (e) {
         e.stopPropagation();
         clearPhoto();
     });
 
     function handlePhotoSelect(file) {
-        var allowedTypes = ["image/jpeg", "image/png", "image/webp"];
         var allowedExts = [".jpg", ".jpeg", ".png", ".webp"];
         var ext = file.name.substring(file.name.lastIndexOf(".")).toLowerCase();
 
@@ -76,57 +81,46 @@ $(document).ready(function () {
         $("#btnRemovePhoto").addClass("d-none");
     }
 
-    // Save button
-    $("#btnSave").click(function () {
+    // Update button
+    $("#btnUpdate").click(function () {
         var studentName = $("#StudentName").val().trim();
         if (!studentName) {
             showMsg("Please enter a student name.", "danger");
             return;
         }
 
-        var admissionYear = $("#AdmissionYear").val();
-        if (!admissionYear) {
-            showMsg("Please select an admission year.", "danger");
-            return;
-        }
-
-        $("#btnSave").prop("disabled", true).html('<span class="spinner-border spinner-border-sm me-1.5" role="status"></span>Saving...');
+        $("#btnUpdate").prop("disabled", true).html('<span class="spinner-border spinner-border-sm me-1.5" role="status"></span>Updating...');
 
         var formData = new FormData();
+        formData.append("StudentID", $("#StudentID").val());
         formData.append("StudentName", studentName);
         formData.append("DateOfBirth", $("#DateOfBirth").val());
         formData.append("Email", $("#Email").val());
         formData.append("Phone", $("#Phone").val());
         formData.append("Gender", $("#Gender").val());
-        formData.append("AdmissionYear", admissionYear);
+        formData.append("AdmissionYear", $("#AdmissionYear").val());
 
         if (selectedFile) {
             formData.append("photo", selectedFile);
         }
 
         $.ajax({
-            url: insertStudentUrl,
+            url: editStudentUrl,
             type: "POST",
             data: formData,
             processData: false,
             contentType: false,
             success: function (response) {
-                $("#btnSave").prop("disabled", false).html('<i class="bi bi-check-lg me-1.5"></i>Save Student');
+                $("#btnUpdate").prop("disabled", false).html('<i class="bi bi-check-lg me-1.5"></i>Update Student');
                 if (response.toLowerCase().indexOf("success") !== -1) {
                     showMsg(response, "success");
-                    clearPhoto();
-                    $("#StudentName").val("");
-                    $("#DateOfBirth").val("");
-                    $("#Email").val("");
-                    $("#Phone").val("");
-                    $("#Gender").val("");
-                    $("#AdmissionYear").val("");
+                    setTimeout(function () { window.location.href = studentListUrl; }, 1200);
                 } else {
                     showMsg(response, "danger");
                 }
             },
             error: function () {
-                $("#btnSave").prop("disabled", false).html('<i class="bi bi-check-lg me-1.5"></i>Save Student');
+                $("#btnUpdate").prop("disabled", false).html('<i class="bi bi-check-lg me-1.5"></i>Update Student');
                 showMsg("An error occurred. Please try again.", "danger");
             }
         });

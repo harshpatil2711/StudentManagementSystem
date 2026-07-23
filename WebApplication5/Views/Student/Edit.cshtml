@@ -1,6 +1,6 @@
 @model BusinessLayer.Models.Student
 @{
-    ViewBag.Title = "Add New Student";
+    ViewBag.Title = "Edit Student";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -11,8 +11,8 @@
             <!-- Header -->
             <div class="text-center mb-4">
                 <i class="bi bi-person-badge-fill text-primary" style="font-size: 3rem; background: linear-gradient(135deg, #6366f1, #4f46e5); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i>
-                <h2 class="form-title mt-2">Register Student</h2>
-                <p class="text-muted">Enter student personal and academic details</p>
+                <h2 class="form-title mt-2">Edit Student</h2>
+                <p class="text-muted">Update student information and photo</p>
             </div>
 
             <!-- Photo Upload -->
@@ -20,12 +20,24 @@
                 <div class="col-12 text-center">
                     <div class="photo-upload-zone" id="photoDropZone">
                         <div class="photo-preview-container" id="previewContainer">
-                            <div class="photo-placeholder">
-                                <i class="bi bi-person-fill" style="font-size: 3rem; color: #c7d2fe;"></i>
-                                <p class="text-muted mt-2 mb-0 small">Click or drag to upload photo</p>
-                                <p class="text-muted small">JPG, PNG, WebP &middot; Max 2 MB</p>
-                            </div>
-                            <img id="photoPreview" class="photo-preview-img d-none" alt="Preview" />
+                            @if (!string.IsNullOrEmpty(Model.PhotoPath))
+                            {
+                                <img id="photoPreview" class="photo-preview-img" src="@Model.PhotoPath" alt="Current Photo" />
+                                <div class="photo-placeholder d-none">
+                                    <i class="bi bi-person-fill" style="font-size: 3rem; color: #c7d2fe;"></i>
+                                    <p class="text-muted mt-2 mb-0 small">Click or drag to upload photo</p>
+                                    <p class="text-muted small">JPG, PNG, WebP &middot; Max 2 MB</p>
+                                </div>
+                            }
+                            else
+                            {
+                                <img id="photoPreview" class="photo-preview-img d-none" alt="Preview" />
+                                <div class="photo-placeholder">
+                                    <i class="bi bi-person-fill" style="font-size: 3rem; color: #c7d2fe;"></i>
+                                    <p class="text-muted mt-2 mb-0 small">Click or drag to upload photo</p>
+                                    <p class="text-muted small">JPG, PNG, WebP &middot; Max 2 MB</p>
+                                </div>
+                            }
                         </div>
                         <input type="file" id="photoInput" accept=".jpg,.jpeg,.png,.webp" class="photo-input-hidden" />
                     </div>
@@ -36,29 +48,31 @@
             </div>
 
             <!-- Form Fields -->
+            <input type="hidden" id="StudentID" value="@Model.StudentID" />
+
             <div class="row">
                 <!-- Student Name -->
                 <div class="col-md-6 mb-3.5">
                     <label class="form-label-custom">Student Name</label>
-                    <input type="text" id="StudentName" class="form-control form-control-custom" placeholder="e.g. John Doe" />
+                    <input type="text" id="StudentName" class="form-control form-control-custom" value="@Model.StudentName" placeholder="e.g. John Doe" />
                 </div>
 
                 <!-- Date Of Birth -->
                 <div class="col-md-6 mb-3.5">
                     <label class="form-label-custom">Date Of Birth</label>
-                    <input type="date" id="DateOfBirth" class="form-control form-control-custom" />
+                    <input type="date" id="DateOfBirth" class="form-control form-control-custom" value="@(Model.DateOfBirth != DateTime.MinValue ? Model.DateOfBirth.ToString("yyyy-MM-dd") : "")" />
                 </div>
 
                 <!-- Email -->
                 <div class="col-md-6 mb-3.5 mt-3">
                     <label class="form-label-custom">Email Address</label>
-                    <input type="email" id="Email" class="form-control form-control-custom" placeholder="e.g. john@example.com" />
+                    <input type="email" id="Email" class="form-control form-control-custom" value="@Model.Email" placeholder="e.g. john@example.com" />
                 </div>
 
                 <!-- Phone -->
                 <div class="col-md-6 mb-3.5 mt-3">
                     <label class="form-label-custom">Phone Number</label>
-                    <input type="tel" id="Phone" class="form-control form-control-custom" placeholder="e.g. +1 555-0199" />
+                    <input type="tel" id="Phone" class="form-control form-control-custom" value="@Model.Phone" placeholder="e.g. +1 555-0199" />
                 </div>
 
                 <!-- Gender -->
@@ -66,9 +80,9 @@
                     <label class="form-label-custom">Gender</label>
                     <select id="Gender" class="form-select form-control-custom">
                         <option value="">Select Gender</option>
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                        <option value="Other">Other</option>
+                        <option value="Male" @(Model.Gender == "Male" ? "selected" : "")>Male</option>
+                        <option value="Female" @(Model.Gender == "Female" ? "selected" : "")>Female</option>
+                        <option value="Other" @(Model.Gender == "Other" ? "selected" : "")>Other</option>
                     </select>
                 </div>
 
@@ -83,22 +97,23 @@
 
             <!-- Action Buttons -->
             <div class="d-flex flex-wrap gap-2.5 mt-4 pt-2 justify-content-end">
-                <a href="/Home/Index" class="btn btn-premium-secondary px-4">
+                <a href="@Url.Action("Index", "Student")" class="btn btn-premium-secondary px-4">
                     <i class="bi bi-arrow-left me-1.5"></i>Cancel
                 </a>
-                <button type="button" id="btnSave" class="btn btn-premium-primary px-5">
-                    <i class="bi bi-check-lg me-1.5"></i>Save Student
+                <button type="button" id="btnUpdate" class="btn btn-premium-primary px-5">
+                    <i class="bi bi-check-lg me-1.5"></i>Update Student
                 </button>
             </div>
 
-            <!-- Message Notification -->
+            <!-- Message -->
             <div id="message" class="mt-4"></div>
         </div>
     </div>
 </div>
 
 <script>
-    var insertStudentUrl = '@Url.Action("InsertStudent", "Student")';
+    var editStudentUrl = '@Url.Action("Edit", "Student")';
     var studentListUrl = '@Url.Action("Index", "Student")';
+    var initialAdmissionYear = '@Model.AdmissionYear';
 </script>
-<script src="~/Scripts/studentInsert.js"></script>
+<script src="~/Scripts/studentEdit.js"></script>

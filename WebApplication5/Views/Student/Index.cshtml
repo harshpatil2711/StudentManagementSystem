@@ -1,0 +1,127 @@
+@{
+    ViewBag.Title = "Student List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid py-4">
+    <div class="main-dashboard-card">
+        <!-- Header -->
+        <div class="row align-items-center mb-4 g-3">
+            <div class="col-md-6 text-center text-md-start">
+                <h1 class="dashboard-title m-0">Student Directory</h1>
+                <p class="text-muted m-0 mt-1">View and manage all registered students</p>
+            </div>
+            <div class="col-md-6 text-center text-md-end">
+                <a href="@Url.Action("StudentInsert", "Student")" class="btn btn-premium-primary">
+                    <i class="bi bi-person-plus-fill me-2"></i>Add Student
+                </a>
+            </div>
+        </div>
+
+        <!-- Search -->
+        <div class="mb-4">
+            <div class="row g-3 align-items-end">
+                <div class="col-md-5">
+                    <label class="form-label-premium">Search by Name</label>
+                    <input type="text" id="searchName" class="form-control form-control-premium" placeholder="Type student name..." />
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label-premium">Filter by Year</label>
+                    <select id="filterYear" class="form-select form-control-premium">
+                        <option value="">All Years</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <button type="button" id="btnSearch" class="btn btn-premium-primary w-100">
+                        <i class="bi bi-search me-1"></i>Search
+                    </button>
+                </div>
+                <div class="col-md-2">
+                    <button type="button" id="btnReset" class="btn btn-premium-secondary w-100">
+                        <i class="bi bi-arrow-counterclockwise me-1"></i>Reset
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading -->
+        <div id="tableLoader" class="text-center py-5">
+            <div class="spinner-border text-primary" role="status"></div>
+            <div class="mt-2 text-muted fw-semibold">Loading students...</div>
+        </div>
+
+        <!-- Results -->
+        <div id="studentTableContainer" class="d-none">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle student-table">
+                    <thead>
+                        <tr>
+                            <th style="width:80px;">Photo</th>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Gender</th>
+                            <th>Year</th>
+                            <th style="width:180px;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="studentTableBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Empty State -->
+        <div id="emptyState" class="d-none text-center py-5">
+            <i class="bi bi-people text-muted" style="font-size: 3rem;"></i>
+            <p class="text-muted mt-3 fw-semibold">No students found.</p>
+        </div>
+    </div>
+</div>
+
+<style>
+    .student-table th {
+        font-weight: 700;
+        color: #475569;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        letter-spacing: 0.5px;
+        border-bottom: 2px solid #e2e8f0;
+    }
+    .student-table td {
+        vertical-align: middle;
+        padding: 0.75rem;
+    }
+    .student-table tbody tr:hover {
+        background-color: rgba(99, 102, 241, 0.04);
+    }
+    .student-thumb {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid #e2e8f0;
+    }
+    .student-thumb-default {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #c7d2fe, #a5b4fc);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #4f46e5;
+        font-weight: 800;
+        font-size: 1.1rem;
+        border: 2px solid #e2e8f0;
+    }
+</style>
+
+<script>
+    var getStudentsUrl = '@Url.Action("GetStudents", "Student")';
+    var studentDetailsUrl = '@Url.Action("Details", "Student")';
+    var studentEditUrl = '@Url.Action("Edit", "Student")';
+    var studentDeleteUrl = '@Url.Action("Delete", "Student")';
+</script>
+<script src="~/Scripts/studentList.js"></script>
