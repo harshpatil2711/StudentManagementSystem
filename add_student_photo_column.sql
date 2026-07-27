@@ -23,16 +23,17 @@ IF EXISTS (SELECT 1 FROM sys.procedures WHERE name = 'sp_InsertStudent')
 GO
 
 CREATE PROCEDURE sp_InsertStudent
-    @StudentName   NVARCHAR(100),
-    @DateOfBirth   DATE,
-    @Email         NVARCHAR(150),
-    @Phone         NVARCHAR(20),
-    @Gender        NVARCHAR(10),
-    @AdmissionYear INT,
-    @PhotoPath     NVARCHAR(255) = NULL,
-    @CreatedBy     NVARCHAR(100),
+    @StudentName    NVARCHAR(100),
+    @DateOfBirth    DATE,
+    @Email          NVARCHAR(150),
+    @Phone          NVARCHAR(20),
+    @Gender         NVARCHAR(10),
+    @AdmissionYear  INT,
+    @PhotoPath      NVARCHAR(255) = NULL,
+    @CreatedBy      NVARCHAR(100),
     @LastModifiedBy NVARCHAR(100),
-    @Message       NVARCHAR(200) OUTPUT
+    @Message        NVARCHAR(200) OUTPUT,
+    @NewStudentID   INT OUTPUT
 AS
 BEGIN
     SET NOCOUNT ON;
@@ -46,9 +47,11 @@ BEGIN
              @AdmissionYear, 1, GETDATE(), @CreatedBy,
              GETDATE(), @LastModifiedBy, @PhotoPath);
 
-        SET @Message = 'Student saved successfully. ID=' + CAST(SCOPE_IDENTITY() AS NVARCHAR(20));
+        SET @NewStudentID = CAST(SCOPE_IDENTITY() AS INT);
+        SET @Message = 'Student saved successfully. ID=' + CAST(@NewStudentID AS NVARCHAR(20));
     END TRY
     BEGIN CATCH
+        SET @NewStudentID = -1;
         SET @Message = 'Error: ' + ERROR_MESSAGE();
     END CATCH
 END

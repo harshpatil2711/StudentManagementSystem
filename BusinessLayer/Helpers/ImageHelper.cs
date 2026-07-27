@@ -11,8 +11,6 @@ namespace BusinessLayer1.Helpers
         public const int MaxFileSizeBytes = 2 * 1024 * 1024;
         public const int TargetSize = 300;
         public const int JpegQuality = 80;
-        public const string UploadFolder = "Uploads";
-        public const string StudentSubfolder = "Students";
 
         private static readonly HashSet<string> AllowedExtensions =
             new HashSet<string>(StringComparer.OrdinalIgnoreCase) { ".jpg", ".jpeg", ".png", ".webp" };
@@ -32,43 +30,43 @@ namespace BusinessLayer1.Helpers
             return true;
         }
 
-        public static string SaveUploadedPhoto(Stream inputStream, string originalFileName, int studentId, string serverMapRoot)
+        public static string SaveUploadedPhoto(Stream inputStream, string originalFileName, int studentId, string uploadDir, string uploadUrlPrefix)
         {
-            if (inputStream == null || inputStream.Length == 0)
+            if (inputStream == null)
                 return null;
 
             IsValidExtensionOrThrow(originalFileName);
 
-            string uploadDir = Path.Combine(serverMapRoot, UploadFolder, StudentSubfolder);
             Directory.CreateDirectory(uploadDir);
 
             string destFileName = studentId + ".jpg";
             string destPath = Path.Combine(uploadDir, destFileName);
+
+            if (inputStream.CanSeek)
+                inputStream.Position = 0;
 
             using (var original = SKBitmap.Decode(inputStream))
             {
                 if (original == null)
                     throw new InvalidOperationException("Unable to decode the uploaded image.");
 
-                SKBitmap resized = ResizeKeepAspect(original, TargetSize);
-
+                using (var resized = ResizeKeepAspect(original, TargetSize))
                 using (var image = SKImage.FromBitmap(resized))
                 using (var data = image.Encode(SKEncodedImageFormat.Jpeg, JpegQuality))
                 using (var stream = File.Create(destPath))
                 {
                     data.SaveTo(stream);
                 }
-
-                resized.Dispose();
             }
 
-            return "/" + UploadFolder + "/" + StudentSubfolder + "/" + destFileName;
+            string urlPath = uploadUrlPrefix.TrimEnd('/') + "/" + destFileName;
+            return urlPath;
         }
 
-        public static string ReplaceUploadedPhoto(Stream inputStream, string originalFileName, int studentId, string oldPhotoPath, string serverMapRoot)
+        public static string ReplaceUploadedPhoto(Stream inputStream, string originalFileName, int studentId, string oldPhotoPath, string uploadDir, string uploadUrlPrefix, string serverMapRoot)
         {
             DeleteStudentPhoto(oldPhotoPath, serverMapRoot);
-            return SaveUploadedPhoto(inputStream, originalFileName, studentId, serverMapRoot);
+            return SaveUploadedPhoto(inputStream, originalFileName, studentId, uploadDir, uploadUrlPrefix);
         }
 
         public static void DeleteStudentPhoto(string relativePath, string serverMapRoot)
@@ -101,7 +99,7 @@ namespace BusinessLayer1.Helpers
             int srcH = original.Height;
 
             if (srcW <= maxSize && srcH <= maxSize)
-                return original;
+                return original.Copy();
 
             float ratio = Math.Min((float)maxSize / srcW, (float)maxSize / srcH);
             int newW = (int)(srcW * ratio);

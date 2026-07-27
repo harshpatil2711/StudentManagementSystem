@@ -19,9 +19,10 @@ namespace BusinessLayer1.DAL
             this.db = DatabaseFactory.CreateDatabase();
         }
 
-        public string InsertStudent(Student student)
+        public string InsertStudent(Student student, out int newStudentId)
         {
             string message = "";
+            newStudentId = -1;
             try
             {
                 DbCommand cmd = db.GetStoredProcCommand("sp_InsertStudent");
@@ -37,10 +38,16 @@ namespace BusinessLayer1.DAL
                 db.AddInParameter(cmd, "@LastModifiedBy", DbType.String, student.LastModifiedBy);
 
                 db.AddOutParameter(cmd, "@Message", DbType.String, 200);
+                db.AddOutParameter(cmd, "@NewStudentID", DbType.Int32, sizeof(int));
 
                 db.ExecuteNonQuery(cmd);
 
                 message = db.GetParameterValue(cmd, "@Message").ToString();
+                object idVal = db.GetParameterValue(cmd, "@NewStudentID");
+                if (idVal != null && idVal != DBNull.Value)
+                {
+                    newStudentId = Convert.ToInt32(idVal);
+                }
             }
             catch (SqlException ex)
             {
@@ -53,17 +60,6 @@ namespace BusinessLayer1.DAL
                 message = "Error: " + ex.Message;
             }
             return message;
-        }
-
-        public string GetStudentIdFromInsertMessage(string message)
-        {
-            if (message != null && message.Contains("ID="))
-            {
-                int idx = message.LastIndexOf("ID=");
-                string idStr = message.Substring(idx + 3);
-                return idStr;
-            }
-            return null;
         }
 
         public Student GetStudentById(int studentId)

@@ -27,7 +27,6 @@ D:\C#Practice\StudentManagementSystem\BusinessLayer\bin\Debug\Serilog.Sinks.MSSq
 D:\C#Practice\StudentManagementSystem\BusinessLayer\bin\Debug\System.IdentityModel.Tokens.Jwt.xml
 D:\C#Practice\StudentManagementSystem\BusinessLayer\obj\Debug\BusinessLayer.dll
 D:\C#Practice\StudentManagementSystem\BusinessLayer\obj\Debug\BusinessLayer.pdb
-D:\C#Practice\StudentManagementSystem\BusinessLayer\obj\Debug\BusinessLayer1.csprojResolveAssemblyReference.cache
 D:\C#Practice\StudentManagementSystem\BusinessLayer\bin\Debug\netstandard.dll
 D:\C#Practice\StudentManagementSystem\BusinessLayer\bin\Debug\QuestPDF.dll
 D:\C#Practice\StudentManagementSystem\BusinessLayer\bin\Debug\SkiaSharp.dll
@@ -45,3 +44,4 @@ D:\C#Practice\StudentManagementSystem\BusinessLayer\bin\Debug\System.Memory.dll
 D:\C#Practice\StudentManagementSystem\BusinessLayer\bin\Debug\System.Memory.xml
 D:\C#Practice\StudentManagementSystem\BusinessLayer\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
 D:\C#Practice\StudentManagementSystem\BusinessLayer\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
+D:\C#Practice\StudentManagementSystem\BusinessLayer\obj\Debug\BusinessLayer1.csprojResolveAssemblyReference.cache

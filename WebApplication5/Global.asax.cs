@@ -1,5 +1,6 @@
 ﻿using BusinessLayer1.Helpers;
 using Serilog;
+using Serilog.Events;
 using Serilog.Sinks.MSSqlServer;
 using System;
 using System.Web;
@@ -21,6 +22,7 @@ namespace WebApplication5
                     retainedFileCountLimit: 30))
                 .WriteTo.MSSqlServer(
                     connectionString: "Data Source=VPNSERVER1\\SQLEXPRESS;Initial Catalog=Training_DB_Harsh_Patil;User ID=Training_DB_Harsh_Patil;Password=Training_DB_Harsh_Patil",
+                    restrictedToMinimumLevel: LogEventLevel.Error,
                     sinkOptions: new MSSqlServerSinkOptions
                     {
                         TableName = "Logs",

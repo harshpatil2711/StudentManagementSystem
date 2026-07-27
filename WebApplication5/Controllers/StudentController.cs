@@ -5,6 +5,7 @@ using BusinessLayer1.Models;
 using Serilog;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Web;
 using System.Web.Mvc;
@@ -19,6 +20,24 @@ namespace WebApplication5.Controllers
         private string ServerMapRoot
         {
             get { return AppDomain.CurrentDomain.BaseDirectory; }
+        }
+
+        private string StudentPhotoUploadDir
+        {
+            get
+            {
+                string relative = ConfigurationManager.AppSettings["StudentPhotoUploadPath"] ?? @"Uploads\Students";
+                return Path.Combine(ServerMapRoot, relative);
+            }
+        }
+
+        private string StudentPhotoUrlPrefix
+        {
+            get
+            {
+                string relative = ConfigurationManager.AppSettings["StudentPhotoUploadPath"] ?? @"Uploads\Students";
+                return "/" + relative.Replace('\\', '/').Trim('/');
+            }
         }
 
         // GET: /Student
@@ -66,37 +85,38 @@ namespace WebApplication5.Controllers
                 student.CreatedBy = "admin";
                 student.LastModifiedBy = "admin";
 
-                string msg = dal.InsertStudent(student);
+                int newId;
+                string msg = dal.InsertStudent(student, out newId);
 
-                if (msg != null && msg.Contains("success"))
+                if (msg != null && msg.Contains("success") && newId > 0)
                 {
-                    string idStr = dal.GetStudentIdFromInsertMessage(msg);
-                    if (idStr != null)
+                    if (photo != null && photo.ContentLength > 0)
                     {
-                        int newId;
-                        if (int.TryParse(idStr, out newId) && photo != null && photo.ContentLength > 0)
+                        try
                         {
-                            try
-                            {
-                                string photoPath = ImageHelper.SaveUploadedPhoto(
-                                    photo.InputStream, photo.FileName, newId, ServerMapRoot);
+                            if (photo.InputStream.CanSeek)
+                                photo.InputStream.Position = 0;
 
-                                if (!string.IsNullOrEmpty(photoPath))
-                                {
-                                    student.StudentID = newId;
-                                    student.PhotoPath = photoPath;
-                                    student.LastModifiedBy = "admin";
-                                    dal.UpdateStudent(student);
-                                }
-                            }
-                            catch (InvalidOperationException ex)
+                            string photoPath = ImageHelper.SaveUploadedPhoto(
+                                photo.InputStream, photo.FileName, newId, StudentPhotoUploadDir, StudentPhotoUrlPrefix);
+
+                            if (!string.IsNullOrEmpty(photoPath))
                             {
-                                Log.Warning(ex, "Photo upload validation failed for student {Id}", newId);
+                                student.StudentID = newId;
+                                student.PhotoPath = photoPath;
+                                student.LastModifiedBy = "admin";
+                                dal.UpdateStudent(student);
                             }
-                            catch (Exception ex)
-                            {
-                                Log.Error(ex, "Photo save failed for student {Id}", newId);
-                            }
+                        }
+                        catch (InvalidOperationException ex)
+                        {
+                            Log.Warning(ex, "Photo upload validation failed for student {Id}", newId);
+                            msg += " (Warning: Photo upload failed - " + ex.Message + ")";
+                        }
+                        catch (Exception ex)
+                        {
+                            Log.Error(ex, "Photo save failed for student {Id}", newId);
+                            msg += " (Warning: Photo save failed - " + ex.Message + ")";
                         }
                     }
                 }
@@ -136,7 +156,8 @@ namespace WebApplication5.Controllers
                     try
                     {
                         string photoPath = ImageHelper.ReplaceUploadedPhoto(
-                            photo.InputStream, photo.FileName, student.StudentID, existing.PhotoPath, ServerMapRoot);
+                            photo.InputStream, photo.FileName, student.StudentID, existing.PhotoPath,
+                            StudentPhotoUploadDir, StudentPhotoUrlPrefix, ServerMapRoot);
                         student.PhotoPath = photoPath;
                     }
                     catch (InvalidOperationException ex)
