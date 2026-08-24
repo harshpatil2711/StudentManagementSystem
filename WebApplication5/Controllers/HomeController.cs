@@ -178,7 +178,7 @@ namespace WebApplication5.Controllers
                 {
                     result = da.SaveEnrollmentWithSkills(vm);
 
-                    if (result.ToLower().Contains("success"))
+                    if (IsSuccess(result))
                     {
                         if (vm.EnrollmentID.HasValue && vm.EnrollmentID.Value > 0)
                             enrollmentId = vm.EnrollmentID.Value;
@@ -188,7 +188,7 @@ namespace WebApplication5.Controllers
                 {
                     int newId;
                     result = da.SaveEnrollment(vm, out newId);
-                    if (result.ToLower().Contains("success"))
+                    if (IsSuccess(result))
                     {
                         enrollmentId = newId > 0 ? newId : (vm.EnrollmentID ?? 0);
                         decimal courseFee = da.GetCourseOfferingFee(vm.CourseOfferingID);
@@ -196,12 +196,9 @@ namespace WebApplication5.Controllers
                     }
                 }
 
-                if (result.ToLower().Contains("success"))
+                if (IsSuccess(result))
                 {
-                    int eid = enrollmentId;
-                    int sid = vm.StudentID;
-                    int coid = vm.CourseOfferingID;
-                    System.Threading.Tasks.Task.Run(() => SendAdmissionEmail(eid, sid, coid));
+                    System.Threading.Tasks.Task.Run(() => SendAdmissionEmail(enrollmentId, vm.StudentID, vm.CourseOfferingID));
                 }
 
                 return Content(result);
@@ -211,6 +208,11 @@ namespace WebApplication5.Controllers
                 Log.Error(ex, "Error in InsertEnrollment POST for StudentID {StudentId}", vm.StudentID);
                 return Content("Error: " + ex.Message);
             }
+        }
+
+        private static bool IsSuccess(string result)
+        {
+            return result != null && result.IndexOf("success", StringComparison.OrdinalIgnoreCase) >= 0;
         }
 
         private void SendAdmissionEmail(int enrollmentId, int studentId, int courseOfferingId)
@@ -264,11 +266,12 @@ namespace WebApplication5.Controllers
                 if (fee == null)
                 {
                     var enroll = da.GetEnrollmentById(id);
+                    int offeringId = enroll?.CourseOfferingID ?? 0;
                     fee = new BusinessLayer1.Models.StudentFeeInfo
                     {
                         EnrollmentID = id,
-                        CourseType = da.GetCourseTypeByOfferingId(enroll?.CourseOfferingID ?? 0),
-                        CourseFees = da.GetCourseOfferingFee(enroll?.CourseOfferingID ?? 0)
+                        CourseType = da.GetCourseTypeByOfferingId(offeringId),
+                        CourseFees = da.GetCourseOfferingFee(offeringId)
                     };
                 }
                 return PartialView("_ManageFees", fee);
