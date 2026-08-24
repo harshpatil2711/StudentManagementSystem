@@ -8,7 +8,7 @@ namespace BusinessLayer1.Models
         public string Username { get; set; }
 
         [Required(ErrorMessage = "Password is required")]
-        [DataType(DataType.Password)]
+        [DataType(Dgit  ataType.Password)]
         public string Password { get; set; }
 
         public bool RememberMe { get; set; }
